@@ -7,9 +7,7 @@ class Account extends MY_Controller
 		parent::__construct();
 
 		// Check session
-		if ( sesscheck() ) {
-			redirect( base_url( 'login' ) );
-		}
+		sesscheck();
 
 		$this->load->model( 'Model_Payment' );
 		$this->load->model( 'booking/Model_Booking' );

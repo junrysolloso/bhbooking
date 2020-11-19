@@ -9,6 +9,7 @@ class Settings extends MY_Controller
     $this->load->model( 'Model_Room' );
     $this->load->model( 'Model_User_Meta' );
     $this->load->model( 'Model_User_Login' );
+    $this->load->model( 'booking/Model_Booking' );
   }
 
   /**
@@ -22,11 +23,12 @@ class Settings extends MY_Controller
 		}
 
     // Data to pass to view
-    $data['title'] = 'Settings';
-    $data['class'] = 'settings';
-    $data['rooms'] = $this->Model_Room->room_get();
-    $data['users'] = $this->Model_User_Login->user_get();
-    $data['logs']  = $this->Model_Log->get_logs();
+    $data['title']  = 'Settings';
+    $data['class']  = 'settings';
+    $data['rooms']  = $this->Model_Room->room_get();
+    $data['users']  = $this->Model_User_Login->user_get();
+    $data['logs']   = $this->Model_Log->get_logs();
+    $data['recent'] = $this->Model_Booking->get_bookings( NULL, 'active' );
   
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );

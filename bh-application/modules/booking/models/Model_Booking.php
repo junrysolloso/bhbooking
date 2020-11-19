@@ -88,6 +88,9 @@ class Model_Booking extends MY_Model
         case 'cancelled':
           $this->db->where( $this->book_status, 'cancelled' );
           break;
+        case 'active':
+          $this->db->where( $this->book_status, 'active' )->limit( 10 );
+          break;
         default:
           break;
       }
@@ -95,7 +98,7 @@ class Model_Booking extends MY_Model
       // Join related rable
       $this->join( $this->relate_rooms, '`tbl_bookings`.`room_id`=`tbl_rooms`.`room_id`' );
       $this->join( $this->relate_user_meta, '`tbl_bookings`.`user_id`=`tbl_user_meta`.`user_id`' );
-      $this->order_by( $this->book_date, 'ASC' );
+      $this->order_by( $this->book_date, 'DESC' );
       $query = $this->db->get( $this->table );
       
       // Check query

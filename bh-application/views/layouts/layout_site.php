@@ -25,6 +25,7 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/vendors/inputmask/jquery.inputmask.bundle.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/vendors/jquery-toast-plugin/jquery.toast.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/vendors/sweetalert/sweetalert.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/js/helper_toast.js"></script>
 
     <?php echo $_scripts; ?>

@@ -20,4 +20,9 @@ $(document).ready(function () {
   //Initialize Select2 Elements
   $('.select2').select2({width: 'calc(100% - 65px)'});
 
+  // Set same height
+  var mH = $('.content-aside-right').height();
+  $('.card.w-100.auth.theme-one').css('height', ( mH + 60 ) + 'px');
+  $('.sidebar-menu').css('height', ( mH + 155 ) + 'px');
+  
 });

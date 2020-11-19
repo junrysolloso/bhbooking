@@ -13,8 +13,8 @@
     <thead>
       <tr>
         <th>NO.</th>
-        <th>NAME</th>
-        <th>PHONE NUMBER</th>
+        <th>FULL NAME</th>
+        <th>PHONE</th>
         <th>DATE</th>
         <th>ARRIVAL</th>
         <th>ACTION</th>
@@ -28,8 +28,8 @@
           echo '<td>'. $count .'</td>';
           echo '<td><img class="rounded-circle img-sm mr-2" src="'. base_url() .'bh-uploads/'. $row->user_photo .'" />'. ucwords( $row->user_fname ) .'</td>';
           echo '<td>'. $row->user_phone .'</td>';
-          echo '<td><div class="d-flex flex-column"><span class="mb-2 font-weight-medium">'. date_format ( date_create ( $row->book_date ), 'j M, Y' ) .'</span><small class="text-muted">'. date_format ( date_create ( $row->book_date ), 'H:i:s A' ) .'</small></div></td>';
-          echo '<td>'. date_format ( date_create ( $row->book_arrival ), 'j M, Y' ) .'</td>';
+          echo '<td class="text-success"><div class="d-flex flex-column"><span class="mb-2 font-weight-medium">'. date_format ( date_create ( $row->book_date ), 'j M, Y' ) .'</span><small class="text-muted">'. date_format ( date_create ( $row->book_date ), 'H:i:s A' ) .'</small></div></td>';
+          echo '<td class="text-warning">'. date_format ( date_create ( $row->book_arrival ), 'j M, Y' ) .'</td>';
           echo '<td><i class="mdi mdi-plus-box-outline mdi-24px text-primary confirm-booking" r-id="'. $row->room_id .'" b-id="'. $row->book_id .'" u-id="'. $row->user_id .'"></i>&nbsp;<i class="mdi mdi-minus-box-outline mdi-24px text-danger cancel-booking" r-id="'. $row->room_id .'" b-id="'. $row->book_id .'" u-id="'. $row->user_id .'"></i></td>';
           echo '</tr>';
           $count++;

@@ -23,7 +23,7 @@
         [5, 10, 15, -1],
         [5, 10, 15, "All"]
       ],
-      paging: true,
+      paging: false,
       bFilter: true,
       bInfo: false,
       "iDisplayLength": 14,
@@ -42,7 +42,7 @@
       bSort: true,
       bFilter: false,
       bInfo: false,
-      "iDisplayLength": 14,
+      "iDisplayLength": 12,
       "bLengthChange": false,
     });
   });

@@ -43,6 +43,7 @@ class Booking extends MY_Controller
     $data['title']    = 'Pending Bookings';
     $data['class']    = 'pending';
     $data['pendings'] = $this->Model_Booking->get_bookings( NULL, 'pending' );
+    $data['recent']   = $this->Model_Booking->get_bookings( NULL, 'active' );
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );
@@ -70,9 +71,10 @@ class Booking extends MY_Controller
       redirect( base_url( 'login' ) );
     }
 
-    $data['title']  = 'Cancelled Bookings';
-    $data['class']  = 'cancelled';
+    $data['title']     = 'Cancelled Bookings';
+    $data['class']     = 'cancelled';
     $data['cancelled'] = $this->Model_Booking->get_bookings( NULL, 'cancelled' );
+    $data['recent']    = $this->Model_Booking->get_bookings( NULL, 'active' );
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );
@@ -129,7 +131,11 @@ class Booking extends MY_Controller
         // Peroform updates
         if ( $this->Model_Booking->update_status( $book_id, 'pending' ) ) {
           if ( $this->Model_User_Meta->update_status( $user_id, 'pending' ) ) {
+
+            // Log
             $this->Model_Log->add_log( log_lang( 'booking' )['confirm'] );
+
+            // response
             $this->_response( $this->Model_Booking->get_bookings( NULL, 'pending' ) );
           }
         }
@@ -151,8 +157,12 @@ class Booking extends MY_Controller
             if ( $this->Model_Room->room_update_available( $room_id, 'cancelled' ) ) {
 
               // Update room status
-              if ( $this->Model_Room->room_update_status( 'empty' ) ) {
+              if ( $this->Model_Room->room_update_status( $room_id ) ) {
+
+                // Log
                 $this->Model_Log->add_log( log_lang( 'booking' )['cancel'] );
+
+                // Response
                 $this->_response( $this->Model_Booking->get_bookings( NULL, 'pending' ) );
               }
             }
@@ -238,7 +248,7 @@ class Booking extends MY_Controller
                 if ( $this->Model_Room->room_update_available( $room_id, 'minus' ) ) {
 
                   // Update room status
-                  if ( $this->Model_Room->room_update_status( 'full' ) ) {
+                  if ( $this->Model_Room->room_update_status( $room_id ) ) {
                     $flag = true;
                   }
                 }
@@ -252,6 +262,45 @@ class Booking extends MY_Controller
           $this->_response( array( 'msg' => 'Booking successful.' ) );
         }
       } 
+    }
+  }
+
+  /**
+   * INDIVIDUAL BOOKING
+   */
+  public function book_me() {
+
+     // Check Server Request
+     if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+      if ( $this->input->post( 'user_id' ) ) {
+
+        // Get room id
+        $room_id = $this->Model_Room->room_id_get();
+
+        // Get post values
+        $data = array(
+          'book_date'     => date( 'Y-m-d H:i:s' ),
+          'book_arrival'  => $this->input->post( 'arrival' ),
+          'book_status'   => 'pending',
+          'room_id'       => $room_id,
+          'user_id'       => $this->input->post( 'user_id' ),
+        );
+
+        // Insert booking
+        if ( $this->Model_Booking->booking_add( $data ) ) {
+
+          // Update room available
+          if ( $this->Model_Room->room_update_available( $room_id, 'minus' ) ) {
+
+            // Update room status
+            if ( $this->Model_Room->room_update_status( $room_id ) ) {
+
+              // Send response
+              $this->_response( array( 'msg' => 'Booking successful.' ) );
+            }
+          }
+        }
+      }
     }
   }
 

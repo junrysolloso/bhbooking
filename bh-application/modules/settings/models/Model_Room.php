@@ -165,26 +165,33 @@ class Model_Room extends MY_Model
   /**
    * UPDATE ROOM STATUS
    */
-  public function room_update_status( $arg ) {
+  public function room_update_status( $room_id ) {
 
-    if ( $arg == 'full' ) {
+    if ( ! empty( $room_id ) ) {
+
+      // Get available beds
+      $equiv = $this->db->select( '`room_equiv` AS `equiv`' )->where( $this->room_id, $room_id )->get( $this->table )->row()->equiv;
+      $avail = $this->db->select( '`room_available` AS `avail`' )->where( $this->room_id, $room_id )->get( $this->table )->row()->avail;
+
+      // Data to update
+      if ( $avail == 0 ) {
+        $data = array(
+          $this->room_status => 'full',
+        );
+      } elseif ( $avail == $equiv ) {
+        $data = array(
+          $this->room_status => 'empty',
+        );
+      } else {
+        $data = array(
+          $this->room_status => 'occupied',
+        );
+      }
       
-      // Data to update
-      $data = array(
-        $this->room_status => 'full',
-      );
-      $this->db->where( $this->room_available, 0 );
-    } else {
-
-      // Data to update
-      $data = array(
-        $this->room_status => 'empty',
-      );
-      $this->db->where( '`room_available` >', 0 );
-    }
-
-    if ( $this->db->update( $this->table, $data ) ) {
-      return true;
+      $this->db->where( $this->room_id, $room_id );
+      if ( $this->db->update( $this->table, $data ) ) {
+        return true;
+      }
     }
   }
 

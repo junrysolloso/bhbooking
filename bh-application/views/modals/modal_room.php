@@ -43,6 +43,7 @@
                     <div class="input-group">
                       <select type="text" name="edit_room_status" class="form-control select2" id="edit_room_status" data-room-select-id="0" tabindex="-1" aria-hidden="true">
                         <option value="Empty" data-room-select-id="0">Empty</option>
+                        <option value="Occupied" data-room-select-id="1">Occupied</option>
                         <option value="Full" data-room-select-id="1">Full</option>
                         <option value="Reserved" data-room-select-id="2">Reserved</option>
                       </select>

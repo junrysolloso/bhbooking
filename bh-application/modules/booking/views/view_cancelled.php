@@ -13,8 +13,8 @@
     <thead>
       <tr>
         <th>NO.</th>
-        <th>NAME</th>
-        <th>PHONE NUMBER</th>
+        <th>FULL NAME</th>
+        <th>PHONE</th>
         <th>BOOKED DATE</th>
         <th>DATE CANCELLED</th>
       </tr>
@@ -27,8 +27,8 @@
           echo '<td>'. $count .'</td>';
           echo '<td><img class="rounded-circle img-sm mr-2" src="'. base_url() .'bh-uploads/'. $row->user_photo .'" />'. ucwords( $row->user_fname ) .'</td>';
           echo '<td>'. $row->user_phone .'</td>';
-          echo '<td><div class="d-flex flex-column"><span class="mb-2 font-weight-medium">'. date_format ( date_create ( $row->book_date ), 'j M, Y' ) .'</span><small class="text-muted">'. date_format ( date_create ( $row->book_date ), 'H:i:s A' ) .'</small></div></td>';
-          echo '<td><div class="d-flex flex-column"><span class="mb-2 font-weight-medium">'. date_format ( date_create ( $row->book_cancel ), 'j M, Y' ) .'</span><small class="text-muted">'. date_format ( date_create ( $row->book_cancel ), 'H:i:s A' ) .'</small></div></td>';
+          echo '<td class="text-success"><div class="d-flex flex-column"><span class="mb-2 font-weight-medium">'. date_format ( date_create ( $row->book_date ), 'j M, Y' ) .'</span><small class="text-muted">'. date_format ( date_create ( $row->book_date ), 'H:i:s A' ) .'</small></div></td>';
+          echo '<td class="text-danger"><div class="d-flex flex-column"><span class="mb-2 font-weight-medium">'. date_format ( date_create ( $row->book_cancel ), 'j M, Y' ) .'</span><small class="text-muted">'. date_format ( date_create ( $row->book_cancel ), 'H:i:s A' ) .'</small></div></td>';
           echo '</tr>';
           $count++;
         }

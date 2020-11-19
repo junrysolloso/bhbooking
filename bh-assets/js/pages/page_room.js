@@ -223,11 +223,18 @@
         $('select[name="edit_room_status"]:first').val('Full');
         $('select[name="edit_room_status"]').attr('disabled', 'true');
 
+      } else if ( obj.attr('r-status') == 'Occupied'  ) {
+
+        // Disabled and set select default value
+        $('select[name="edit_room_status"]:first').val('Occupied');
+        $('select[name="edit_room_status"]').attr('disabled', 'true');
+
       } else {
         
         // Disabled and set select default value
         $('select[name="edit_room_status"]').removeAttr('disabled', 'false');
         $('select[name="edit_room_status"]:first').val( obj.attr('r-status') );
+        
       }
 
       // Show modal

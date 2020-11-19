@@ -10,6 +10,8 @@ class Dashboard extends MY_Controller
     if ( ! sesscheck() ) {
       redirect( base_url( 'login' ) );
     }
+
+    $this->load->model( 'booking/Model_Booking' );
   }
 
 	/**
@@ -19,6 +21,7 @@ class Dashboard extends MY_Controller
 
     $data['title']  = 'Dashboard';
     $data['class']  = 'dashboard';
+    $data['recent'] = $this->Model_Booking->get_bookings( NULL, 'active' );
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );

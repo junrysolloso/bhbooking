@@ -107,3 +107,40 @@
   </div>
 </div>
 <!-- end of booker profile modal -->
+
+<!-- start of add new booking modal -->
+<div id="add_new_booking" class="modal fade auth theme-one" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <span><i class="mdi mdi-close-circle icon-lg modal-close-btn" data-dismiss="modal"></i><span>
+        <div class="card auto-form-wrapper rounded">
+          <div class="card-body">
+            <h4 class="card-title">ADD NEW BOOKING</h4>
+            <form action="#" method="post" id="form-add-booking">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="add_booking">Arrival Date</label>
+                    <div class="input-group">
+                      <input type="text" name="add_booking" value="" class="form-control" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="yyyy-mm-dd" placeholder="Arrival Date" required im-insert="false">
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="mdi mdi-check-circle-outline mdi-18px"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 pt-2">
+                  <input type="submit" name="add_booking_submit" value="Add Booking" class="btn btn-danger submit-btn float-left">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end of add new booking modal -->

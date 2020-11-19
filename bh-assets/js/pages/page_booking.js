@@ -78,7 +78,7 @@
       // Confirmation
       swal({
         title: "Are you sure?",
-        text: "This action cannot be reverted.",
+        text: "Booking cancellation message.",
         icon: "warning",
         buttons: true,
         dangerMode: true,
