@@ -9,7 +9,7 @@
 
         <!-- start of right sidebar -->
         <div class="content-aside-right" style="max-height: calc(100vh - 95px);">
-          <h4 class="card-title">Current Boarders</h4>
+          <h4 class="card-title text-muted">Current Boarders</h4>
           <ul class="activity-lists">
             <li class="activity-list">
               <img class="profile-image rounded-circle img-sm" src="<?php echo base_url(); ?>bh-uploads/avatar.jpg"

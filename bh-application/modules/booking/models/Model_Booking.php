@@ -11,6 +11,7 @@ class Model_Booking extends MY_Model
   protected $book_date             = 'book_date';
   protected $book_arrival          = 'book_arrival';
   protected $book_status           = 'book_status';
+  protected $book_cancel           = 'book_cancel';
 
   protected $relate_rooms          = 'tbl_rooms';
   protected $relate_room_id        = 'room_id';
@@ -33,6 +34,35 @@ class Model_Booking extends MY_Model
   public function booking_add( $data = [] ) {
     if ( is_array( $data ) && count( $data ) > 0 ) {
       if ( $this->db->insert( $this->table, $data ) ) {
+        return true;
+      }
+    }
+  }
+
+  /**
+   * UPDATE BOOKING STATUS
+   */
+  public function update_status( $id, $arg ) {
+    if ( ! empty( $id ) && ! empty( $arg ) ) {
+      
+      if ( $arg == 'pending' ) {
+        
+        // Data to update
+        $data = array(
+          $this->book_status => 'active',
+        );
+      } else {
+        
+        // Data to update
+        $data = array(
+          $this->book_status => 'cancelled',
+          $this->book_cancel => date( 'Y-m-d H:i:s' ),
+        );
+      }
+
+      // Query
+      $this->db->where( $this->book_id, $id );
+      if ( $this->db->update( $this->table, $data ) ) {
         return true;
       }
     }

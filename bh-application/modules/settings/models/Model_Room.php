@@ -139,12 +139,25 @@ class Model_Room extends MY_Model
   /**
    * UPDATE ROOM AVAILABLE
    */
-  public function room_update_available( $room_id )  {
-    if ( ! empty( $room_id ) ) {
+  public function room_update_available( $room_id, $arg )  {
+    if ( ! empty( $room_id )  && ! empty( $arg ) ) {
 
-      // Minus available room
-      if ( $this->db->simple_query( 'UPDATE `tbl_rooms` SET `room_available`=(SELECT `room_available` FROM `tbl_rooms` WHERE `room_id`='.$room_id.')-1 WHERE `room_id`='.$room_id.'' ) ) {
-        return true;
+      // Especific query
+      if ( $arg == 'cancelled' ) {
+
+        // Get the number of bedrooms
+        $beds = $this->db->select( '`room_equiv` AS `equiv`' )->where( $this->room_id, $room_id )->get( $this->table )->row()->equiv;
+        
+        // Add available room
+        if ( $this->db->simple_query( 'UPDATE `tbl_rooms` SET `room_available`=(SELECT `room_available` FROM `tbl_rooms` WHERE `room_id`='.$room_id.')+1 WHERE `room_id`='.$room_id.' && `room_available` < '.$beds.'' ) ) {
+          return true;
+        }
+      } else {
+        
+        // Minus available room
+        if ( $this->db->simple_query( 'UPDATE `tbl_rooms` SET `room_available`=(SELECT `room_available` FROM `tbl_rooms` WHERE `room_id`='.$room_id.')-1 WHERE `room_id`='.$room_id.'' ) ) {
+          return true;
+        }
       }
     }
   }
@@ -152,14 +165,24 @@ class Model_Room extends MY_Model
   /**
    * UPDATE ROOM STATUS
    */
-  public function room_update_status() {
+  public function room_update_status( $arg ) {
 
-    // Data to update
-    $data = array(
-      $this->room_status => 'full',
-    );
+    if ( $arg == 'full' ) {
+      
+      // Data to update
+      $data = array(
+        $this->room_status => 'full',
+      );
+      $this->db->where( $this->room_available, 0 );
+    } else {
 
-    $this->db->where( $this->room_available, 0 );
+      // Data to update
+      $data = array(
+        $this->room_status => 'empty',
+      );
+      $this->db->where( '`room_available` >', 0 );
+    }
+
     if ( $this->db->update( $this->table, $data ) ) {
       return true;
     }

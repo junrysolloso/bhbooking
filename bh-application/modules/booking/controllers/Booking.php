@@ -72,6 +72,7 @@ class Booking extends MY_Controller
 
     $data['title']  = 'Cancelled Bookings';
     $data['class']  = 'cancelled';
+    $data['cancelled'] = $this->Model_Booking->get_bookings( NULL, 'cancelled' );
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );
@@ -109,7 +110,58 @@ class Booking extends MY_Controller
 
   }
 
+  /**
+   * CONFIRM BOOKING
+   */
+  public function update_status() {
+
+    // Check server request method
+    if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
   
+      // Check which request
+      if ( $this->input->post( 'p_book_id' ) ) {
+        
+        // Get values from post
+        $room_id = $this->input->post( 'p_room_id' );
+        $book_id = $this->input->post( 'p_book_id' );
+        $user_id = $this->input->post( 'p_user_id' );
+
+        // Peroform updates
+        if ( $this->Model_Booking->update_status( $book_id, 'pending' ) ) {
+          if ( $this->Model_User_Meta->update_status( $user_id, 'pending' ) ) {
+            $this->Model_Log->add_log( log_lang( 'booking' )['confirm'] );
+            $this->_response( $this->Model_Booking->get_bookings( NULL, 'pending' ) );
+          }
+        }
+      }
+
+      // Check which request
+      if ( $this->input->post( 'c_book_id' ) ) {
+  
+        // Get values from post
+        $room_id = $this->input->post( 'c_room_id' );
+        $book_id = $this->input->post( 'c_book_id' );
+        $user_id = $this->input->post( 'c_user_id' );
+
+        // Peroform updates
+        if ( $this->Model_Booking->update_status( $book_id, 'cancelled' ) ) {
+          if ( $this->Model_User_Meta->update_status( $user_id, 'cancelled' ) ) {
+
+            // Add back the bedroom in room available
+            if ( $this->Model_Room->room_update_available( $room_id, 'cancelled' ) ) {
+
+              // Update room status
+              if ( $this->Model_Room->room_update_status( 'empty' ) ) {
+                $this->Model_Log->add_log( log_lang( 'booking' )['cancel'] );
+                $this->_response( $this->Model_Booking->get_bookings( NULL, 'pending' ) );
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   /**
    * ADD BOOKING
    */
@@ -172,7 +224,7 @@ class Booking extends MY_Controller
 
               // Booking data
               $booking = array(
-                'book_date'     => date( 'Y-m-d' ),
+                'book_date'     => date( 'Y-m-d H:i:s' ),
                 'book_arrival'  => $user_arrival,
                 'book_status'   => 'pending',
                 'room_id'       => $room_id,
@@ -182,9 +234,11 @@ class Booking extends MY_Controller
               // Insert booking
               if ( $this->Model_Booking->booking_add( $booking ) ) {
 
-                // Update available room
-                if ( $this->Model_Room->room_update_available( $room_id ) ) {
-                  if ( $this->Model_Room->room_update_status() ) {
+                // Update room available
+                if ( $this->Model_Room->room_update_available( $room_id, 'minus' ) ) {
+
+                  // Update room status
+                  if ( $this->Model_Room->room_update_status( 'full' ) ) {
                     $flag = true;
                   }
                 }

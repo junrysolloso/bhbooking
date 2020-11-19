@@ -30,9 +30,10 @@ class Migration_Install_Setup extends CI_Migration
 
 			'bookings' => array(
 				"`book_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT",
-				"`book_date` date NOT NULL",
+				"`book_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP",
 				"`book_arrival` date NOT NULL DEFAULT CURRENT_TIMESTAMP",
 				"`book_status` varchar(15) NOT NULL",
+				"`book_cancel` datetime NOT NULL",
 				"`room_id` int(11) NOT NULL",
 				"`user_id` int(11) NOT NULL",
 			),

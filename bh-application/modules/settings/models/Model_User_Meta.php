@@ -73,6 +73,34 @@ class Model_User_Meta extends MY_Model
   } 
 
   /**
+   * UPDATE USER STATUS
+   */
+  public function update_status( $id = 0, $arg ) {
+    if ( ! empty( $id ) && ! empty( $arg ) ) {
+      
+      if ( $arg == 'pending' ) {
+      
+        // Data to update
+        $data = array(
+          $this->user_status => 'active',
+        );
+      } else {
+
+        // Data to update
+        $data = array(
+          $this->user_status => 'cancelled',
+        );
+      }
+
+      // Query
+      $this->db->where( $this->user_id, $id );
+      if ( $this->db->update( $this->table, $data ) ) {
+        return true;
+      }
+    }
+  }
+
+  /**
    * DELETE USER META
    * @param array $data
    */

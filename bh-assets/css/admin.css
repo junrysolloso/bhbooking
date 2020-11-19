@@ -90,9 +90,9 @@ div.dataTables_wrapper div.dataTables_filter {
 
 /* Table */
 
-.table td {
+/* .table td {
   padding: 7px 10px;
-}
+} */
 
 /* table td {
   white-space: normal !important;
@@ -116,9 +116,11 @@ div.dataTables_wrapper div.dataTables_filter {
 }
 
 .user-details:hover,
-.room-details:hover {
+.room-details:hover,
+.confirm-booking:hover,
+.cancel-booking:hover {
   cursor: pointer;
-  color: #17D1BF;
+  color: #17D1BF !important;
 }
 
 /* Modal*/
