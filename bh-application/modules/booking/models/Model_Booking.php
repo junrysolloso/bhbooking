@@ -91,6 +91,9 @@ class Model_Booking extends MY_Model
         case 'active':
           $this->db->where( $this->book_status, 'active' )->limit( 10 );
           break;
+        case 'list':
+          $this->db->where( $this->book_status, 'active' );
+          break;
         default:
           break;
       }

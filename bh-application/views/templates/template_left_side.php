@@ -21,7 +21,7 @@
           </div>
           <div class="nav-item nav-category">BOARDERS</div>
           <div class="nav-item">
-            <a href="<?php echo base_url(); ?>boarders/list" class="nav-link">
+            <a href="<?php echo base_url(); ?>boarder/list" class="nav-link">
               <i class="menu-icons mdi mdi-view-list"></i><span class="menu-title">List</span>
             </a>
           </div>
@@ -70,6 +70,11 @@
               <i class="menu-icons mdi mdi-settings-outline"></i><span class="menu-title">Settings</span>
             </a>
           </div>
+          <div class="nav-item">
+            <a href="#" id="db-backup" class="nav-link">
+              <i class="menu-icons mdi mdi-database-export"></i><span class="menu-title">Backup</span>
+            </a>
+          </div>
         </nav>
 
         <div class="sidebar-footer">
@@ -82,7 +87,7 @@
       <!-- start of content area -->
       <div class="content-area">
         <div class="page-header">
-          <h4 class="page-title"><?php echo ucwords( $title ); ?></h4>
+          <h4 class="page-title"><?php echo ucfirst( strtolower( $title ) ); ?></h4>
         </div>
         <!-- start of content inner -->
         <div class="content-area-inner">
@@ -95,7 +100,7 @@
                   <li class="breadcrumb-item text-muted">
                     <a class="text-muted" href="#"><i class="mdi mdi-home mr-2"></i>Home</a>
                   </li>
-                  <li class="breadcrumb-item active text-muted" aria-current="page"><?php echo ucwords( $title ); ?>
+                  <li class="breadcrumb-item active text-muted" aria-current="page"><?php echo ucfirst( strtolower( $title ) ); ?>
                   </li>
                 </ol>
               </nav>

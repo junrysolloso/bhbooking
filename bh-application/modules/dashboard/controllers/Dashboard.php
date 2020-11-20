@@ -7,9 +7,9 @@ class Dashboard extends MY_Controller
     parent:: __construct(); 
 
     // Check session
-    if ( ! sesscheck() ) {
-      redirect( base_url( 'login' ) );
-    }
+    // if ( ! sesscheck() ) {
+    //   redirect( base_url( 'login' ) );
+    // }
 
     $this->load->model( 'booking/Model_Booking' );
   }

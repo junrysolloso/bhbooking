@@ -207,8 +207,8 @@
         // Push data to the array
         tdata.push( '<img class="profile-image rounded-circle img-sm" src="'+ $('input#base_url').val() +'bh-uploads/'+ val.user_photo +'"> '+ capitalize( val.user_fname ) );
         tdata.push( val.user_phone );
-        tdata.push( capitalize( val.login_level ) );
-        tdata.push( capitalize( val.login_name ) );
+        tdata.push( '<span class="text-warning">' + capitalize( val.login_level ) + '</span>' );
+        tdata.push( '<span class="text-info">' + capitalize( val.login_name ) + '</span>' );
         tdata.push( '<span class="user-details" u-id="'+ val.user_id +'" u-fname="'+ capitalize( val.user_fname ) +'" u-phone="'+ val.user_phone +'" u-email="'+ val.user_email +'" u-name="'+ capitalize( val.login_name ) +'" u-status="'+ capitalize( val.user_status ) +'" u-level="'+ capitalize( val.login_level ) +'"  ><i class="mdi mdi-eye mdi-18px"></i> View</span>' );
         
         return tdata;

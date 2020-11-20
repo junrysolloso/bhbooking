@@ -50,7 +50,7 @@
                     <div class="form-group">
                       <label for="edit_user_name">User Name</label>
                       <div class="input-group">
-                        <input type="text" name="edit_user_name" value="<?php echo ucwords( $row->login_name ); ?>" class="form-control" id="edit_user_name" readonly required />
+                        <input type="text" name="edit_user_name" value="<?php echo ucwords( $row->login_name ); ?>" class="form-control" id="edit_user_name" disabled required />
                         <div class="input-group-append">
                           <span class="input-group-text">
                             <i class="mdi mdi-check-circle-outline mdi-18px"></i>

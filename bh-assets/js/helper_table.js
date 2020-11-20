@@ -40,16 +40,16 @@
       ],
       paging: true,
       bSort: true,
-      bFilter: false,
+      bFilter: true,
       bInfo: false,
-      "iDisplayLength": 12,
+      "iDisplayLength": 13,
       "bLengthChange": false,
     });
   });
 
-  // Room and user table
+  // Room table
   $(function () {
-    $('#room-table, #user-table').DataTable({
+    $('#room-table').DataTable({
       "aLengthMenu": [
         [5, 10, 15, -1],
         [5, 10, 15, "All"]
@@ -59,6 +59,38 @@
       bFilter: false,
       bInfo: false,
       "iDisplayLength": 8,
+      "bLengthChange": false,
+    });
+  });
+
+  // User table
+  $(function () {
+    $('#user-table').DataTable({
+      "aLengthMenu": [
+        [5, 10, 15, -1],
+        [5, 10, 15, "All"]
+      ],
+      paging: false,
+      bSort: true,
+      bFilter: false,
+      bInfo: false,
+      "iDisplayLength": 8,
+      "bLengthChange": false,
+    });
+  });
+
+  // User table
+  $(function () {
+    $('#list-table').DataTable({
+      "aLengthMenu": [
+        [5, 10, 15, -1],
+        [5, 10, 15, "All"]
+      ],
+      paging: true,
+      bSort: true,
+      bFilter: true,
+      bInfo: false,
+      "iDisplayLength": 14,
       "bLengthChange": false,
     });
   });
@@ -74,6 +106,12 @@
         break;
       case 'cancelled':
         $('#cancelled-table').DataTable().search($(this).val()).draw();
+        break;
+      case 'list':
+        $('#list-table').DataTable().search($(this).val()).draw();
+        break;
+      case 'logs':
+        $('#logs-table').DataTable().search($(this).val()).draw();
         break;
       default:
         break;

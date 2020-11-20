@@ -22,6 +22,7 @@ class Migration_Install_Setup extends CI_Migration
 				"`room_id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT",
 				"`room_name` varchar(30) NOT NULL",
 				"`room_equiv` tinyint(2) NOT NULL",
+				"`room_rate` decimal(9,2) NOT NULL DEFAULT 0",
 				"`room_photo` varchar(200) NOT NULL",
 				"`room_desc` text NOT NULL",
 				"`room_status` char(10) NOT NULL",

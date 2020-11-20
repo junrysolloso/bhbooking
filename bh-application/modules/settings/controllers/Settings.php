@@ -18,9 +18,9 @@ class Settings extends MY_Controller
   public function index() {
     
     // Check session
-		if ( ! sesscheck() ) {
-			redirect( base_url( 'login' ) );
-		}
+		// if ( ! sesscheck() ) {
+		// 	redirect( base_url( 'login' ) );
+		// }
 
     // Data to pass to view
     $data['title']  = 'Settings';
@@ -66,6 +66,7 @@ class Settings extends MY_Controller
           'room_equiv'      => $this->input->post( 'room_equiv' ),
           'room_name'       => strtolower( $this->input->post( 'room_name' ) ),
           'room_desc'       => strtolower( $this->input->post( 'room_desc' ) ),
+          'room_rate'       => $this->input->post( 'room_rate' ),
           'room_photo'      => 'room.jpg',
           'room_status'     => strtolower( 'empty' ),
           'room_available'  => $this->input->post( 'room_equiv' ),
@@ -91,6 +92,7 @@ class Settings extends MY_Controller
           'room_equiv'  => $this->input->post( 'room_equiv' ),
           'room_status' => $this->input->post( 'room_status' ),
           'room_desc'   => $this->input->post( 'room_desc' ),
+          'room_rate'   => $this->input->post( 'room_rate' ),
         );
 
         // Clean empty array  

@@ -30,6 +30,7 @@ class Model_Login extends MY_Model
       $this->db->select( '*' );
       $this->db->where( $this->login_name, $data['username'] );
       $this->db->where( $this->login_pass, md5( $data['user_pass'] ) );
+      $this->db->where( '`user_status`', 'active' );
       $this->db->join( $this->table_join, '`tbl_user_login`.`user_id`=`tbl_user_meta`.`user_id`' );
       $query = $this->db->get( $this->table );
 

@@ -36,9 +36,9 @@ class Booking extends MY_Controller
   public function pendings() {
 
     // Check session
-    if ( ! sesscheck() ) {
-      redirect( base_url( 'login' ) );
-    }
+    // if ( ! sesscheck() ) {
+    //   redirect( base_url( 'login' ) );
+    // }
 
     $data['title']    = 'Pending Bookings';
     $data['class']    = 'pending';
@@ -67,9 +67,9 @@ class Booking extends MY_Controller
   public function cancelled() {
 
     // Check session
-    if ( ! sesscheck() ) {
-      redirect( base_url( 'login' ) );
-    }
+    // if ( ! sesscheck() ) {
+    //   redirect( base_url( 'login' ) );
+    // }
 
     $data['title']     = 'Cancelled Bookings';
     $data['class']     = 'cancelled';

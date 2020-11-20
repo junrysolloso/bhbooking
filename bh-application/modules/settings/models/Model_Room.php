@@ -68,6 +68,7 @@ class Model_Room extends MY_Model
       $updates = array (
         'room_name'       => strtolower( $data['room_name'] ),
         'room_desc'       => strtolower( $data['room_desc'] ),
+        'room_rate'       => strtolower( $data['room_rate'] ),
         'room_status'     => strtolower( $data['room_status'] ),
         'room_equiv'      => $data['room_equiv'],
         'room_available'  => $avail,
@@ -128,7 +129,7 @@ class Model_Room extends MY_Model
   public function room_id_get() {
 
     // Get room id
-    $this->db->select( '`room_id` AS `id`' )->where( '`room_available` != ', 0 )->limit( 1 )->order_by( $this->room_available, 'ASC' );
+    $this->db->select( '`room_id` AS `id`' )->where( '`room_available` != ', 0 )->limit( 1 )->order_by( $this->room_id, 'ASC' );
     $this->db->where( '`room_status` !=', 'reserved' );
     $query = $this->db->get( $this->table );
     if ( $query->num_rows() > 0 ) {

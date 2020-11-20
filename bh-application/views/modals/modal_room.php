@@ -22,22 +22,6 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-6">
-                  <div class="form-group">
-                    <label for="edit_room_equiv">Bedrooms</label>
-                    <div class="input-group">
-                      <input type="number" name="edit_room_equiv" class="form-control" id="edit_room_equiv" required="" disabled >
-                      <div class="input-group-append">
-                        <span class="input-group-text text-success">
-                          <i class="mdi mdi-check-circle-outline mdi-18px"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-12">
                   <div class="form-group" id="room-status">
                     <label for="edit_room_status">Room Status</label>
                     <div class="input-group">
@@ -54,6 +38,33 @@
                       </div>
                     </div>
                   </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="edit_room_equiv">Bedrooms</label>
+                    <div class="input-group">
+                      <input type="number" name="edit_room_equiv" class="form-control" id="edit_room_equiv" required="" disabled >
+                      <div class="input-group-append">
+                        <span class="input-group-text text-success">
+                          <i class="mdi mdi-check-circle-outline mdi-18px"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="edit_room_rate">Room Monthly Rate</label>
+                    <div class="input-group">
+                      <input type="number" step="0.01" name="edit_room_rate" class="form-control" id="edit_room_rate" required />
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="mdi mdi-check-circle-outline mdi-18px"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
                   <div class="form-group" id="select_ref_width">
                     <label for="edit_room_desc">Room Description</label>
                     <div class="input-group">

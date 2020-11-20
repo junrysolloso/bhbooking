@@ -61,14 +61,11 @@
 .cancelled .card,
 .settings .card,
 .dashboard .card,
-.backup .card {
+.backup .card,
+.boarder .card {
   border-radius: 10px;
   -webkit-box-shadow: 0 10px 30px 0 rgba(0,0,0,.1);
   box-shadow: 0 10px 30px 0 rgba(0,0,0,.1);
-}
-
-.card.w-100.auth.theme-one {
-  min-height: calc(100vh - 95px);
 }
 
 /* Data Tables */
@@ -84,6 +81,18 @@ div.dataTables_wrapper div.dataTables_filter {
 .pagination .paginate_button.page-item.previous a {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
+}
+
+.table.table-striped tbody tr:nth-child(odd):hover,
+.table.table-striped tbody tr:nth-child(even):hover {
+  /* background-image: linear-gradient(to bottom, #FDDBE2, #f8ced7); */
+  background-image: linear-gradient(to bottom, #eee, #ddd);
+}
+
+.select2-container--default.select2-container--disabled .select2-selection--single,
+.form-control:disabled {
+  background-color: #ffffff;
+  cursor: not-allowed;
 }
 
 /* Settings */

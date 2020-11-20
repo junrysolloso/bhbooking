@@ -123,7 +123,7 @@
                             <label for="user_fname">Full Name</label>
                             <div class="input-group">
                               <input type="hidden" name="userinfo_id">
-                              <input type="text" name="user_fname" value="<?php echo ucwords( $row->user_fname ); ?>" class="form-control" id="user_fname" readonly />
+                              <input type="text" name="user_fname" value="<?php echo ucwords( $row->user_fname ); ?>" class="form-control" id="user_fname" disabled />
                               <div class="input-group-append">
                                 <span class="input-group-text">
                                   <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -134,7 +134,7 @@
                           <div class="form-group">
                             <label for="user_email">Email Address</label>
                             <div class="input-group">
-                              <input type="text" name="user_email" value="<?php echo $row->user_email; ?>" class="form-control" id="user_email" readonly />
+                              <input type="text" name="user_email" value="<?php echo $row->user_email; ?>" class="form-control" id="user_email" disabled />
                               <div class="input-group-append">
                                 <span class="input-group-text">
                                   <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -147,7 +147,7 @@
                           <div class="form-group">
                             <label for="user_name">User Name</label>
                             <div class="input-group">
-                              <input type="text" name="user_name" value="<?php echo ucwords( $row->login_name ); ?>" class="form-control" id="user_name" readonly />
+                              <input type="text" name="user_name" value="<?php echo ucwords( $row->login_name ); ?>" class="form-control" id="user_name" disabled />
                               <div class="input-group-append">
                                 <span class="input-group-text">
                                   <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -158,7 +158,7 @@
                           <div class="form-group">
                             <label for="user_pass">Password</label>
                             <div class="input-group">
-                              <input type="password" name="user_pass" value="<?php echo $row->login_pass; ?>" class="form-control" id="user_pass" readonly />
+                              <input type="password" name="user_pass" value="<?php echo $row->login_pass; ?>" class="form-control" id="user_pass" disabled />
                               <div class="input-group-append">
                                 <span class="input-group-text">
                                   <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -171,7 +171,7 @@
                           <div class="form-group">
                             <label for="user_phone">Phone Number</label>
                             <div class="input-group">
-                              <input type="text" name="user_phone" value="<?php echo $row->user_phone; ?>" class="form-control" id="user_phone" readonly />
+                              <input type="text" name="user_phone" value="<?php echo $row->user_phone; ?>" class="form-control" id="user_phone" disabled />
                               <div class="input-group-append">
                                 <span class="input-group-text">
                                   <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -182,7 +182,7 @@
                           <div class="form-group">
                             <label for="user_add">Permanent Address</label>
                             <div class="input-group">
-                              <input type="text" name="user_add" value="<?php echo ucwords( $row->user_add ); ?>" class="form-control" id="user_add" readonly />
+                              <input type="text" name="user_add" value="<?php echo ucwords( $row->user_add ); ?>" class="form-control" id="user_add" disabled />
                               <div class="input-group-append">
                                 <span class="input-group-text">
                                   <i class="mdi mdi-check-circle-outline mdi-18px"></i>
