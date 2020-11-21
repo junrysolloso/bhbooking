@@ -22,6 +22,7 @@ class Dashboard extends MY_Controller
     $data['title']  = 'Dashboard';
     $data['class']  = 'dashboard';
     $data['recent'] = $this->Model_Booking->get_bookings( NULL, 'active' );
+    $data['list']   = $this->Model_Booking->get_bookings( NULL, 'list' );
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );
@@ -34,9 +35,10 @@ class Dashboard extends MY_Controller
     $this->template->write_view( 'content', 'templates/template_right_side' );
     $this->template->write_view( 'content', 'templates/template_footer' );
 
-    /**
-     * Add additional assests for this page
-     */
+    // Modals
+    $this->template->write_view( 'content', 'modals/modal_payment' );
+
+    // Add additional assests for this page
     $this->template->add_css( 'bh-assets/vendors/nouislider/nouislider.min.css' );
     $this->template->add_js( 'bh-assets/vendors/chart.js/Chart.min.js' );
     $this->template->add_js( 'bh-assets/vendors/nouislider/nouislider.min.js' );

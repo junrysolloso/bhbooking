@@ -26,13 +26,8 @@
             </a>
           </div>
           <div class="nav-item">
-            <a href="<?php echo base_url(); ?>boarders/payments" class="nav-link">
-              <i class="menu-icons mdi mdi-subtitles-outline"></i><span class="menu-title">Payments</span>
-            </a>
-          </div>
-          <div class="nav-item">
-            <a href="<?php echo base_url(); ?>boarders/manage" class="nav-link">
-              <i class="menu-icons mdi mdi-clipboard-text-outline"></i><span class="menu-title">Management</span>
+            <a href="#" id="payment" class="nav-link">
+              <i class="menu-icons mdi mdi-subtitles-outline"></i><span class="menu-title">Pay</span>
             </a>
           </div>
           <div class="nav-item nav-category">REPORTS</div>

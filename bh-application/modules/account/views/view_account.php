@@ -24,9 +24,11 @@
                 <li class="nav-item">
                   <a class="nav-link" data-toggle="tab" href="#profile" aria-selected="false">Profile Details</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link text-success" href="#" id="add-booking"><i class="mdi mdi-plus-circle-outline mdi-24px"></i></a>
-                </li>
+                <?php if ( ! $status  ): ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-success" href="#" id="add-booking"><i class="mdi mdi-plus-circle-outline mdi-24px"></i></a>
+                  </li>
+                <?php endif; ?>
               </ul>
 
               <div class="tab-content tab-content-solid">
@@ -103,7 +105,7 @@
                             echo '<tr>';
                             echo '<td>'. $count .'</td>';
                             echo '<td>'. date_format(  date_create( $row->pay_date ), 'Y-m-d @ H:i:s A' ) .'</td>';
-                            echo '<td>'. number_format( $row->pay_amount, 2 ) .' Pesos</td>';
+                            echo '<td class="text-success">'. number_format( $row->pay_amount, 2 ) .' Pesos</td>';
                             echo '<td>'. ucwords( $row->user_fname ) .'</td>';
                             echo '</tr>';
                             $count++;
@@ -199,7 +201,6 @@
                   <?php endforeach; ?>
                 </div>
               </div>
-
               <!-- end content -->
             </div>
           </div>

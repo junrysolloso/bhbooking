@@ -25,7 +25,9 @@ $(document).ready(function () {
   $('.card.w-100.auth.theme-one').css('min-height', ( mH + 70 ) + 'px');
   $('.sidebar-menu').css('min-height', ( mH + 165 ) + 'px');
   
-  // Database backup
+  /**
+   * DATABASE BACKUP
+   */
   $('#db-backup').on('click', function() {
     $.post( $('input#base_url').val() + 'backup', { backup: 'Db Backup' } ).done( function( data ) {
 
@@ -56,6 +58,59 @@ $(document).ready(function () {
         });
       }
     });
+  });
+
+  /**
+   * PAYMENT
+   */
+  $('#payment').on('click', function(){
+    $('#payment_modal').modal('show');
+  });
+
+  /**
+   * SUBMIT PAYMENT
+   */
+  $('#form-payment').submit(function( event ) {
+    event.preventDefault();
+    
+    // Get Values
+    var data = {
+      user_id: $('select[name="pay_booker"]').val(),
+      book_id: $('select[name="pay_booker"]>option:selected').attr('b-id'),
+      room_id: $('select[name="pay_booker"]>option:selected').attr('r-id'),
+      amount : $('input[name="pay_amount"]').val(),
+    }
+
+    if ( data_checker(data) ) {
+      $.post( $('input#base_url').val() + 'settings/add-payment', data ).done(function(data) {
+
+        // Show message
+        switch (data.msg) {
+          case 'added':
+            swal("Payment successfully added.", {
+              icon: "success",
+            });
+            break;
+          case 'updated':
+            swal("Payment successfully updated.", {
+              icon: "success",
+            });
+            break;
+            case 'no-latest':
+            swal("Please check amount.", {
+              icon: "warning",
+            });
+            break;
+          case 'error':
+            swal("Payment cannot be process.", {
+              icon: "error",
+            });
+            break;
+          default:
+            break;
+        }
+      });
+    }
   });
 
 });

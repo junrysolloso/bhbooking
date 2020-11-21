@@ -9,8 +9,8 @@ class Account extends MY_Controller
 		// Check session
 		// sesscheck();
 
-		$this->load->model( 'Model_Payment' );
 		$this->load->model( 'booking/Model_Booking' );
+		$this->load->model( 'settings/Model_Payment' );
 		$this->load->model( 'settings/Model_User_Meta' );
 	}
 
@@ -21,6 +21,7 @@ class Account extends MY_Controller
 
 		$data['title']  		= 'Account Details';
 		$data['body_class']	= 'account';
+		$data['status'] 		= $this->Model_Booking->check_status( $this->session->userdata( 'user_id' ) );
 		$data['bookings'] 	= $this->Model_Booking->get_bookings( $this->session->userdata( 'user_id' ) ,'booker' );
 		$data['payments']		= $this->Model_Payment->get_payments( $this->session->userdata( 'user_id' ) );
 		$data['profile']		= $this->Model_User_Meta->get_user_details( $this->session->userdata( 'user_id' ) );

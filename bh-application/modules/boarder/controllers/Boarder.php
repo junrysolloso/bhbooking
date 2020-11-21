@@ -22,7 +22,7 @@ class Boarder extends MY_Controller
 
     $data['title']  = 'List of Boarders';
     $data['class']  = 'boarder';
-    $data['recent']   = $this->Model_Booking->get_bookings( NULL, 'active' );
+    $data['recent'] = $this->Model_Booking->get_bookings( NULL, 'active' );
     $data['list']   = $this->Model_Booking->get_bookings( NULL, 'list' );
 
     // Load template parts
@@ -38,6 +38,7 @@ class Boarder extends MY_Controller
     
     // Modal
     $this->template->write_view( 'content', 'modals/modal_boarder_details' );
+    $this->template->write_view( 'content', 'modals/modal_payment' );
 
     // Add JS 
     $this->template->add_js( 'bh-assets/js/pages/page_list.js' );
@@ -46,5 +47,5 @@ class Boarder extends MY_Controller
 
 }
 
-/* End of file Bookings.php */
-/* Location: ./application/modules/booking/controllers/Booking.php */
+/* End of file Boarder.php */
+/* Location: ./application/modules/boarder/controllers/Boarder.php */

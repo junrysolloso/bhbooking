@@ -111,6 +111,17 @@ class Model_Booking extends MY_Model
     }
   }
 
+  /**
+   * CHECK BOOKING STATUS
+   */
+  public function check_status( $user_id ) {
+    if ( ! empty( $user_id ) ) {
+      $query = $this->db->select( '*' )->where( $this->relate_user_id, $user_id )->where( $this->book_status, 'active' )->get( $this->table );
+      if ( $query->num_rows() > 0 ) {
+        return true;
+      }
+    }
+  }
 
 }
 

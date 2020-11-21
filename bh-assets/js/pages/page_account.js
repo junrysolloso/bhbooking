@@ -46,7 +46,9 @@
           $.post( url, data ).done( function( data ) {
 
             // Show success message
-            showSuccessToast( 'User successfully added.' );
+            swal("User successfully added.", {
+              icon: "success",
+            });
 
             // Reset form
             $('#form-account-update').trigger('reset');
@@ -211,7 +213,7 @@
       ],
       bFilter: true,
       bInfo: false,
-      "iDisplayLength": 20,
+      "iDisplayLength": 10,
       "bLengthChange": false,
     });
   });

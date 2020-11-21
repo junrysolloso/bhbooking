@@ -95,6 +95,22 @@
     });
   });
 
+  // User table
+  $(function () {
+    $('#booker-payments-table').DataTable({
+      "aLengthMenu": [
+        [5, 10, 15, -1],
+        [5, 10, 15, "All"]
+      ],
+      paging: true,
+      bSort: true,
+      bFilter: true,
+      bInfo: false,
+      "iDisplayLength": 5,
+      "bLengthChange": false,
+    });
+  });
+
   // Search table
   $('input[name="data_search"]').on('keyup', function () {
     var s_value = $(this).attr('id');

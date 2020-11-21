@@ -28,7 +28,7 @@
           echo '<td><img class="rounded-circle img-sm mr-2" src="'. base_url() .'bh-uploads/'. $row->user_photo .'" />'. ucwords( $row->user_fname ) .'</td>';
           echo '<td>'. $row->user_phone .'</td>';
           echo '<td class="text-success"><div class="d-flex flex-column"><span class="mb-2 font-weight-medium">'. date_format ( date_create ( $row->book_date ), 'j M, Y' ) .'</span><small class="text-muted">'. date_format ( date_create ( $row->book_date ), 'H:i:s A' ) .'</small></div></td>';
-          echo '<td><span class="user-details" b-fname="'. ucwords( $row->user_fname ) .'" b-phone="'. $row->user_phone .'" b-email="'. $row->user_email .'" b-photo="'. $row->user_photo .'" b-status="'. ucwords( $row->user_status ) .'" b-address="'. ucwords( $row->user_add ) .'" b-room="'. ucwords( $row->room_name ) .'" b-arrival="'. date_format ( date_create ( $row->book_arrival ), 'l F d, Y' ) .'" b-date="'. date_format ( date_create ( $row->book_date ), 'l F d, Y @ H:i:s A' ) .'"><i class="mdi mdi-eye mdi-18px"></i> View</span></td>';
+          echo '<td><span class="user-details" u-id="'. $row->user_id .'"  b-fname="'. ucwords( $row->user_fname ) .'" b-phone="'. $row->user_phone .'" b-email="'. $row->user_email .'" b-photo="'. $row->user_photo .'" b-status="'. ucwords( $row->user_status ) .'" b-address="'. ucwords( $row->user_add ) .'" b-room="'. ucwords( $row->room_name ) .'" b-arrival="'. date_format ( date_create ( $row->book_arrival ), 'l F d, Y' ) .'" b-date="'. date_format ( date_create ( $row->book_date ), 'l F d, Y @ H:i:s A' ) .'"><i class="mdi mdi-eye mdi-18px"></i> View</span></td>';
           echo '</tr>';
           $count++;
         }

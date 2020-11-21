@@ -8,7 +8,7 @@ class Booking extends MY_Controller
 
     // Load models
     $this->load->model( 'Model_Booking' );
-    $this->load->model( 'account/Model_Payment' );
+    $this->load->model( 'settings/Model_Payment' );
     $this->load->model( 'settings/Model_Room' );
     $this->load->model( 'settings/Model_User_Meta' );
     $this->load->model( 'settings/Model_User_Login' );
@@ -44,6 +44,7 @@ class Booking extends MY_Controller
     $data['class']    = 'pending';
     $data['pendings'] = $this->Model_Booking->get_bookings( NULL, 'pending' );
     $data['recent']   = $this->Model_Booking->get_bookings( NULL, 'active' );
+    $data['list']     = $this->Model_Booking->get_bookings( NULL, 'list' );
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );
@@ -55,6 +56,9 @@ class Booking extends MY_Controller
     $this->template->write_view( 'content', 'view_pendings' );
     $this->template->write_view( 'content', 'templates/template_right_side' );
     $this->template->write_view( 'content', 'templates/template_footer' );
+
+    // Modals
+    $this->template->write_view( 'content', 'modals/modal_payment' );
 
     // Add JS 
     $this->template->add_js( 'bh-assets/js/pages/page_booking.js' );
@@ -75,6 +79,7 @@ class Booking extends MY_Controller
     $data['class']     = 'cancelled';
     $data['cancelled'] = $this->Model_Booking->get_bookings( NULL, 'cancelled' );
     $data['recent']    = $this->Model_Booking->get_bookings( NULL, 'active' );
+    $data['list']      = $this->Model_Booking->get_bookings( NULL, 'list' );
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );
@@ -86,6 +91,10 @@ class Booking extends MY_Controller
     $this->template->write_view( 'content', 'view_cancelled' );
     $this->template->write_view( 'content', 'templates/template_right_side' );
     $this->template->write_view( 'content', 'templates/template_footer' );
+
+    // Modals
+    $this->template->write_view( 'content', 'modals/modal_payment' );
+
 		$this->template->render();
   }
 

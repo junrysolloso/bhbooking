@@ -38,7 +38,7 @@
             // Populate fields for the given number of persons
             persons = parseInt( $( 'input[name="persons"]' ).val() );
             for ( var i = 0; i < persons; i++) {
-              $( '.p-container').append('<h4 class="text-left">['+ ( i + 1 ) +'] Person Details</h4><div class="form-group"><div class="input-group"><input type="text" name="fname[]" class="form-control" placeholder="Full Name" required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-check-circle-outline mdi-18px"></i></span></div></div></div><div class="form-group"><div class="input-group"><input type="text" name="phone[]" class="form-control" placeholder="Phone Number" required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-check-circle-outline mdi-18px"></i></span></div></div></div><div class="form-group"><div class="input-group"><input type="text" name="email[]" class="form-control" placeholder="Email Address" required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-check-circle-outline mdi-18px"></i></span></div></div></div><div class="form-group"><div class="input-group"><input type="text" name="address[]" class="form-control" placeholder="Address" required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-check-circle-outline mdi-18px"></i></span></div></div></div><div class="form-group"><div class="input-group"><input type="text" name="arrival[]" value="" class="form-control" data-inputmask="\'alias\': \'datetime\'" data-inputmask-inputformat="yyyy-mm-dd" placeholder="Arrival Date" required im-insert="false"><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-check-circle-outline mdi-18px"></i></span></div></div></div>' );
+              $( '.p-container').append('<h4 class="text-left">['+ ( i + 1 ) +'] Person Details</h4><div class="form-group"><div class="input-group"><input type="text" name="fname[]" class="form-control" placeholder="Full Name" required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-check-circle-outline mdi-18px"></i></span></div></div></div><div class="form-group"><div class="input-group"><input type="text" name="phone[]" class="form-control" placeholder="Phone Number" required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-check-circle-outline mdi-18px"></i></span></div></div></div><div class="form-group"><div class="input-group"><input type="email" name="email[]" class="form-control email" placeholder="Email Address" required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-check-circle-outline mdi-18px"></i></span></div></div></div><div class="form-group"><div class="input-group"><input type="text" name="address[]" class="form-control" placeholder="Address" required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-check-circle-outline mdi-18px"></i></span></div></div></div><div class="form-group"><div class="input-group"><input type="text" name="arrival[]" value="" class="form-control" data-inputmask="\'alias\': \'datetime\'" data-inputmask-inputformat="yyyy-mm-dd" placeholder="Arrival Date" required im-insert="false"><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-check-circle-outline mdi-18px"></i></span></div></div></div>' );
               
               // Initialize input mask
               $( ":input" ).inputmask();
@@ -46,6 +46,10 @@
               // Delegate input events
               $('body').delegate('input', 'keyup', function() { 
                 input_icon($(this));
+              });
+
+              $('body').delegate('.email', 'mouseleave', function() { 
+                exist_checker( $(this), $('input#base_url').val() + 'settings/user', 'email' );
               });
             }
           } 
@@ -125,7 +129,7 @@
           });
 
           $('body').delegate('.username', 'mouseleave', function() { 
-            user_checker($(this));
+            exist_checker( $(this), $('input#base_url').val() + 'settings/user', 'user' );
           });
         }
       }
@@ -134,19 +138,18 @@
     /**
      * CHECK USERNAME
      */
-    function user_checker( obj ) {
+    function exist_checker( obj, url, arg ) {
 
       // Parameter to check
       var check = {
         value      : obj.val(),
-        user_check : 'Check',
+        user_check : arg,
       }
 
       // Send post request to the server for checking username
-      $.post( $('input#base_url').val() + 'settings/user', check ).done( function( data ) {
+      $.post( url, check ).done( function( data ) {
 
         if ( data.msg == undefined ) {
-          console.log(data);
 
           // Clear fields with the existing username
           obj.val('');
@@ -155,7 +158,16 @@
           input_icon_reset();
 
           // Show warning message
-          showWarningToast( 'Username already exist.');
+          switch (arg) {
+            case 'user':
+              showWarningToast( 'Username already exist.');
+              break;
+            case 'email':
+              showWarningToast( 'Email already exist.');
+              break;
+            default:
+              break;
+          }
         }
       });
     }
@@ -208,8 +220,8 @@
             $('#finish').show();
             nav[3].classList.add('active');
 
-          }).fail( function(responseText) {
-            console.log(responseText);
+          }).fail( function() {
+
             // Show error message
             showErrorToast( 'Sorry! we\'re having trouble adding your booking.' );
           } );

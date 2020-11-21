@@ -123,7 +123,20 @@ class Model_Room extends MY_Model
     }
   } 
 
-    /**
+  /**
+   * GET RROM RATE
+   * @return id $room_rate
+   */
+  public function get_room_rate( $room_id ) {
+    if ( ! empty( $room_id ) && is_numeric( $room_id ) ) {
+      $room_rate = $this->db->select( '`room_rate`' )->where( $this->room_id, $room_id )->get( $this->table )->row()->room_rate;
+      if ( $room_rate >  0 ) {
+        return $room_rate;
+      }
+    }
+  } 
+
+  /**
    * GET ROOM ID
    */
   public function room_id_get() {

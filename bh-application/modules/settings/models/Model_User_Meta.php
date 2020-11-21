@@ -125,6 +125,20 @@ class Model_User_Meta extends MY_Model
   }
 
   /**
+   * EMAIL CHECK
+   * @param array $data
+   */
+  public function email_check( $data = [] ) {
+    if ( is_array( $data ) && count( $data ) > 0 ) {
+      $this->select( '*' )->where( $this->user_email, $data['value'] );
+      $query = $this->db->get( $this->table );
+      if ( $query->num_rows() > 0 ) {
+        return true;
+      }
+    }
+  }
+
+  /**
    * GET USER DETAILS
    */
   public function get_user_details( $id ) {
