@@ -8,7 +8,7 @@ class Nothing extends MY_Controller
 	}
 
 	/**
-	 * Page not found
+	 * PAGE NOT FOUND
 	 */
 	public function index() {
     $this->template->set_master_template( 'layouts/layout_site' );

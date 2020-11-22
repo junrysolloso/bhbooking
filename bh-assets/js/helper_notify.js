@@ -10,35 +10,35 @@
 
     // Pendings
     $.post( $('input#base_url').val() + 'settings/notifier', {n_status: 'pending'} ).done(function(data){
-      if ( parseInt( data.count ) > 0 ) {
-        
-        // Set booking count
-        b_count = data.count;
+      
+      // Set booking count
+      b_count = data.count;
 
-        $('.count-indicator').append('<span class="count bg-info"></span>');
-        if ( parseInt( data.time.d ) == 0 ) {
-          $('#book-count').text( data.count + ' New Booking(s)' );
-          $('#book-count-time').text( data.time.h + 'hr ' + data.time.m + 'min' );
-        } else {
-          $('#book-count').text( data.count + ' New Booking(s)' );
-          $('#book-count-time').text( data.time.d + ' day(s) ' + data.time.h + 'hr ' + data.time.m + 'min ' );
-        } 
-      }
+      $('.count-indicator').append('<span class="count bg-info"></span>');
+      if ( parseInt( data.time.d ) == 0 ) {
+        $('#book-count').text( ( data.count == 0 ? 0 : data.count ) + ' New Booking(s)' );
+        $('#book-count-time').text( data.time.h + 'hr ' + data.time.i + 'min' );
+      } else {
+        $('#book-count').text( ( data.count == 0 ? 0 : data.count ) + ' New Booking(s)' );
+        $('#book-count-time').text( data.time.d + ' day(s) ' + data.time.h + 'hr ' + data.time.i + 'min ' );
+      } 
     });
 
     // Cancelled
-    $.post( $('input#base_url').val() + 'settings/notifier', {n_status: 'cancelled'} ).done(function(data){
-      if ( parseInt( data.count ) > 0 ) {
+    setTimeout(function(){
+      $.post( $('input#base_url').val() + 'settings/notifier', {n_status: 'cancelled'} ).done(function(data){
+  
         $('.count-indicator').append('<span class="count bg-info"></span>');
         if ( parseInt( data.time.d ) == 0 ) {
-          $('#cancel-count').text( data.count + ' Cancelled Booking(s)' );
-          $('#cancel-count-time').text( data.time.h + 'hr ' + data.time.m + 'min' );
+          $('#cancel-count').text( ( data.count == 0 ? 0 : data.count ) + ' Cancelled Booking(s)' );
+          $('#cancel-count-time').text( data.time.h + 'hr ' + data.time.i + 'min' );
         } else {
-          $('#cancel-count').text( data.count + ' Cancelled Booking(s)' );
-          $('#cancel-count-time').text( data.time.d + ' day(s) ' + data.time.h + 'hr ' + data.time.m + 'min ' );
+          $('#cancel-count').text( ( data.count == 0 ? 0 : data.count ) + ' Cancelled Booking(s)' );
+          $('#cancel-count-time').text( data.time.d + ' day(s) ' + data.time.h + 'hr ' + data.time.i + 'min ' );
         } 
-      }
-    });
+        
+      });
+    }, 100);
   };
 
   /**

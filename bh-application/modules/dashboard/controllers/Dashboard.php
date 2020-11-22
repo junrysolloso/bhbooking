@@ -6,10 +6,7 @@ class Dashboard extends MY_Controller
   function __construct() {
     parent:: __construct(); 
 
-    // Check session
-    // if ( ! sesscheck() ) {
-    //   redirect( base_url( 'login' ) );
-    // }
+    Sess::admin();
 
     $this->load->model( 'booking/Model_Booking' );
     $this->load->model( 'settings/Model_Payment' );

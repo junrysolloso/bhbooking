@@ -5,10 +5,9 @@ class Backup extends MY_Controller
 
   function __construct() {
     parent:: __construct(); 
+    
+    Sess::admin();
 
-    // if ( $this->session->userdata( 'user_rule' ) != 'administrator' ) {
-    //   redirect( base_url( 'login' ) );
-    // }
   }
 
 	/**

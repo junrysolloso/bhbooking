@@ -8,9 +8,11 @@
 
     $('.mark-complete').on('click', function(){
       $.post( $('input#base_url').val() + 'settings/user', { mark_uid: $(this).attr('u-id'), mark_bid: $(this).attr('b-id') } ).done(function(){
-  
+        
+        // Hide modal
         $('#boarder_details').modal('hide');
-  
+        
+        // Show success message
         swal("Booker mark complete!", { icon: "success" });
       });
     });
@@ -53,8 +55,10 @@
     // Status color
     if ( obj.attr('b-status') == 'Active' ) {
       $('#boarder-status').addClass('text-success');
+      $('.mark-complete').show();
     } else {
       $('#boarder-status').addClass('text-warning');
+      $('.mark-complete').hide();
     }
 
     // Send request to the server

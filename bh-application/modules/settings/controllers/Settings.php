@@ -4,7 +4,7 @@ class Settings extends MY_Controller
 {
 
   function __construct() {
-    parent:: __construct(); 
+    parent:: __construct();
 
     $this->load->model( 'Model_Room' );
     $this->load->model( 'Model_User_Meta' );
@@ -17,11 +17,8 @@ class Settings extends MY_Controller
    * INDEX PAGE
    */
   public function index() {
-    
-    // Check session
-		// if ( ! sesscheck() ) {
-		// 	redirect( base_url( 'login' ) );
-		// }
+
+    Sess::admin();
 
     // Data to pass to view
     $data['title']  = 'Settings';
@@ -148,7 +145,7 @@ class Settings extends MY_Controller
         }
       }
     } else {
-      $this->_redirect_user();
+      $this->_response( array( 'message' => 'Unknown request.' ) );
     }
   }
 
@@ -314,7 +311,7 @@ class Settings extends MY_Controller
         }
       }
     } else {
-      $this->_redirect_user();
+      $this->_response( array( 'message' => 'Unknown request.' ) );
     }
   }
 
@@ -446,7 +443,7 @@ class Settings extends MY_Controller
         }
       }
     } else {
-      $this->_redirect_user();
+      $this->_response( array( 'message' => 'Unknown request.' ) );
     }
   }
 
@@ -467,7 +464,7 @@ class Settings extends MY_Controller
         }
       }
     } else {
-      $this->_redirect_user();
+      $this->_response( array( 'message' => 'Unknown request.' ) );
     }
   }
 
@@ -481,7 +478,7 @@ class Settings extends MY_Controller
         
         // Interval between today and the booking date
         $t_date = date_create( date( 'Y-m-d H:i:s' ) );
-        $b_date = date_create( $this->Model_Booking->last_booking_date( 'pending' ) );
+        $b_date = date_create( $this->Model_Booking->last_booking_date( $this->input->post( 'n_status' ) ) );
         $i_date = date_diff( $t_date, $b_date );
         
         // Return response
@@ -489,6 +486,8 @@ class Settings extends MY_Controller
           $this->_response( array( 'count' => $count, 'time' => $i_date ) );
         }
       }
+    } else {
+      $this->_response( array( 'message' => 'Unknown request.' ) );
     }
   }
 
@@ -496,55 +495,13 @@ class Settings extends MY_Controller
    * SERVER RESPONSE
    * @param array $data
    */
-  public function _response( $data ) {
+  private function _response( $data ) {
     
     // Response with JSON format data
     header( 'content-type: application/json' );
     exit( json_encode( $data ) );
   }
 
-  /**
-   * REDIRECT VISITOR
-   */
-  private function _redirect_user() {
-
-    // Redirect visitor if request is not specified
-    redirect( base_url( 'login' ) );
-  }
-
-  public function test() {
-    // $s = DateTime::createFromFormat('Y-m-d H:i:s', '2020-01-15 09:30:20');
-    // $e = DateTime::createFromFormat('Y-m-d H:i:s',  date('Y-m-d H:i:s') );
-
-    // $d1 = $s->getTimestamp();
-    // $d2 = $e->getTimestamp();
-    
-    // $dif = abs( $d2 - $d1 );
-    
-    // $y = floor( $dif / ( 365*60*60*24 ) );
-    // $m = floor( ($dif - $y * 365*60*60*24) / ( 30*60*60*24 ) );
-
-    // for ($i = 0; $i < 7; $i++) { 
-    //   echo 20 - $i;
-    // }
-
-    //$data = $this->Model_Payment->get_yearly_sum();
-
-    $today = date_create( date( 'Y-m-d H:i:s' ) );
-
-    $date  = date_create( $this->Model_Booking->last_booking_date( 'pending' ) );
-
-    $interval = date_diff( $today, $date );
-
-    // $date = date_format( date_create( $date ), 'H:i:s' );
-
-    // $date = explode( ':', $date );
-
-    // $date = intval( $date[2] );
-
-    var_dump( $interval->s );
-
-  }
 }
 
 /* End of file Settings.php */

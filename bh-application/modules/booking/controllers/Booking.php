@@ -35,10 +35,7 @@ class Booking extends MY_Controller
 	 */
   public function pendings() {
 
-    // Check session
-    // if ( ! sesscheck() ) {
-    //   redirect( base_url( 'login' ) );
-    // }
+    Sess::admin();
 
     $data['title']    = 'Pending Bookings';
     $data['class']    = 'pending';
@@ -70,10 +67,7 @@ class Booking extends MY_Controller
    */
   public function cancelled() {
 
-    // Check session
-    // if ( ! sesscheck() ) {
-    //   redirect( base_url( 'login' ) );
-    // }
+    Sess::admin();
 
     $data['title']     = 'Cancelled Bookings';
     $data['class']     = 'cancelled';
@@ -117,8 +111,9 @@ class Booking extends MY_Controller
           $this->_response( array( 'beds' => 0 ) );
         }
       }
+    } else {
+      $this->_response( array( 'message' => 'Unknown request.' ) );
     }
-
   }
 
   /**
@@ -178,6 +173,8 @@ class Booking extends MY_Controller
           }
         }
       }
+    } else {
+      $this->_response( array( 'message' => 'Unknown request.' ) );
     }
   }
 
@@ -271,6 +268,8 @@ class Booking extends MY_Controller
           $this->_response( array( 'msg' => 'Booking successful.' ) );
         }
       } 
+    } else {
+      $this->_response( array( 'message' => 'Unknown request.' ) );
     }
   }
 
@@ -310,6 +309,8 @@ class Booking extends MY_Controller
           }
         }
       }
+    } else {
+      $this->_response( array( 'message' => 'Unknown request.' ) );
     }
   }
 
@@ -317,20 +318,11 @@ class Booking extends MY_Controller
    * SERVER RESPONSE
    * @param array $data
    */
-  public function _response( $data ) {
+  private function _response( $data ) {
     
     // Response with JSON format data
     header( 'content-type: application/json' );
     exit( json_encode( $data ) );
-  }
-
-  /**
-   * TEST
-   */
-  public function test() {
-    $res = $this->Model_User_Meta->get_user_details( 8 );
-
-    var_dump($res);
   }
 
 }

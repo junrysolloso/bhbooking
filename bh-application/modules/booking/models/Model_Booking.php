@@ -93,7 +93,8 @@ class Model_Booking extends MY_Model
           $this->db->where( $this->book_status, 'active' )->limit( 10 );
           break;
         case 'list':
-          $this->db->where( $this->book_status, 'active' );
+          $this->db->where( '`book_status` !=', 'pending' );
+          $this->db->where( '`book_status` !=', 'cancelled' );
           break;
         default:
           break;

@@ -15,10 +15,7 @@ class Boarder extends MY_Controller
 	 */
   public function list() {
 
-    // Check session
-    // if ( ! sesscheck() ) {
-    //   redirect( base_url( 'login' ) );
-    // }
+    Sess::admin();
 
     $data['title']  = 'List of Boarders';
     $data['class']  = 'boarder';

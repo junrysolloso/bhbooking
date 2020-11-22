@@ -6,9 +6,6 @@ class Account extends MY_Controller
 	function __construct() {
 		parent::__construct();
 
-		// Check session
-		// sesscheck();
-
 		$this->load->model( 'booking/Model_Booking' );
 		$this->load->model( 'settings/Model_Payment' );
 		$this->load->model( 'settings/Model_User_Meta' );
@@ -18,6 +15,8 @@ class Account extends MY_Controller
 	 * INDEX PAGE
 	 */
 	public function index() {
+
+		Sess::booker();
 
 		$data['title']  		= 'Account Details';
 		$data['body_class']	= 'account';

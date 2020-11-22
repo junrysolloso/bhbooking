@@ -19,6 +19,16 @@ $(document).ready(function () {
 
   //Initialize Select2 Elements
   $('.select2').select2({width: 'calc(100% - 65px)'});
+
+  // No access
+  $('.no-access').on('click', function(){
+    swal({
+      title: 'Warning!',
+      text: "No user privilege for this account.",
+      icon: 'warning',
+      dangerMode: true,
+    })
+  });
   
   /**
    * DATABASE BACKUP
