@@ -78,15 +78,16 @@ class Model_User_Meta extends MY_Model
   public function update_status( $id = 0, $arg ) {
     if ( ! empty( $id ) && ! empty( $arg ) ) {
       
+      // Data to update
       if ( $arg == 'pending' ) {
-      
-        // Data to update
         $data = array(
           $this->user_status => 'active',
         );
+      } elseif ( $arg == 'complete' ) {
+        $data = array(
+          $this->user_status => 'complete',
+        );
       } else {
-
-        // Data to update
         $data = array(
           $this->user_status => 'cancelled',
         );

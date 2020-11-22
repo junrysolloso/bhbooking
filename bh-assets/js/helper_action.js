@@ -19,11 +19,6 @@ $(document).ready(function () {
 
   //Initialize Select2 Elements
   $('.select2').select2({width: 'calc(100% - 65px)'});
-
-  // Set same height
-  var mH = $('.content-aside-right').height();
-  $('.card.w-100.auth.theme-one').css('min-height', ( mH + 70 ) + 'px');
-  $('.sidebar-menu').css('min-height', ( mH + 165 ) + 'px');
   
   /**
    * DATABASE BACKUP
@@ -97,16 +92,14 @@ $(document).ready(function () {
             });
             break;
             case 'no-latest':
-            swal("Please check amount.", {
+            swal("Please check payment amount.", {
               icon: "warning",
             });
             break;
-          case 'error':
+          default:
             swal("Payment cannot be process.", {
               icon: "error",
             });
-            break;
-          default:
             break;
         }
       });

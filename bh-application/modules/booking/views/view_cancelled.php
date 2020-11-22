@@ -32,6 +32,7 @@
           echo '</tr>';
           $count++;
         }
+        echo '<input type="hidden" value="'. $count .'" class="cancelled-count">';
       ?>
     </tbody>
   </table>

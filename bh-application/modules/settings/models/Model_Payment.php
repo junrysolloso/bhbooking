@@ -36,17 +36,68 @@ class Model_Payment extends MY_Model
   /**
    * GET PAYMENT
    */
-  public function get_payments( $id ) {
-    if ( ! empty( $id ) ) {
-      $this->db->select( '`pay_amount`, `pay_date`, `pay_reciever`, `user_fname`' )->where( '`tbl_payments`.`user_id`', $id );
-      $this->db->join( $this->relate_user_meta, '`tbl_payments`.`pay_reciever`=`tbl_user_meta`.`user_id`' );
-      $this->db->order_by( $this->pay_id, 'DESC' );
+  public function get_payments( $id, $arg ) {
+    if ( ! empty( $arg ) ) {
+
+      switch ( $arg ) {
+        case 'booker':
+
+          // Booker
+          $this->db->select( '`pay_amount`, `pay_date`, `pay_reciever`, `user_fname`' )->where( '`tbl_payments`.`user_id`', $id );
+          $this->db->join( $this->relate_user_meta, '`tbl_payments`.`pay_reciever`=`tbl_user_meta`.`user_id`' );
+          break;
+        case 'all':
+
+          // All
+          $this->db->select( '*' )->limit( 40 );
+          $this->db->join( $this->relate_user_meta, '`tbl_payments`.`user_id`=`tbl_user_meta`.`user_id`' );
+          break;
+        default:
+          break;
+      }
+      
+      $this->db->order_by( $this->pay_date, 'DESC' );
       $query = $this->db->get( $this->table );
 
       if( $query ) {
         return $query->result();
       }
     }
+  }
+
+  /**
+   * GET YEARLY PAYMENT
+   */
+  public function get_yearly_total() {
+
+    $years  = array();
+    $totals = array();
+    $data   = array();
+
+    $t_year = intval( date('y') );
+    for ($i=0; $i < 7; $i++) { 
+      array_push( $years, ('20'. ( $t_year - $i ) ) );
+    }
+
+    $years = array_reverse( $years );
+
+    foreach ( $years as $year ) {
+      $this->select( 'SUM(`pay_amount`) as `total`' )->where( 'DATE_FORMAT(`pay_date`, "%Y") =', $year );
+      $query = $this->db->get( $this->table );
+      
+      if ( $query ) {
+        if ( intval( $query->row()->total ) == 0 ) {
+          array_push( $totals, '0.00' );
+        } else {
+          array_push( $totals, $query->row()->total );
+        }
+      }
+    }
+
+    array_push( $data, $years );
+    array_push( $data, $totals );
+
+    return $data;
   }
 
   /**

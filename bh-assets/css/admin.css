@@ -45,6 +45,10 @@
   color: #fff;
 }
 
+.content-aside-right {
+  height: 100% !important;
+}
+
 .submit-btn {
   cursor: pointer !important;
 }
@@ -96,18 +100,6 @@ div.dataTables_wrapper div.dataTables_filter {
 }
 
 /* Settings */
-
-/* Table */
-
-/* .table td {
-  padding: 7px 10px;
-} */
-
-/* table td {
-  white-space: normal !important;
-  letter-spacing: inherit !important;
-  line-height: inherit !important;
-} */
 
 .btn-edit,
 .item-edit {

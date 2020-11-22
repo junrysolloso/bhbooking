@@ -104,9 +104,7 @@
                         <th>RECIEVED BY</th>
                       </tr>
                     </thead>
-                    <tbody id="payments-content">
-                      
-                    </tbody>
+                    <tbody id="payments-content"></tbody>
                   </table>
                 </div>
               </div>

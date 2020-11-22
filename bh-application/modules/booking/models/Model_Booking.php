@@ -45,15 +45,16 @@ class Model_Booking extends MY_Model
   public function update_status( $id, $arg ) {
     if ( ! empty( $id ) && ! empty( $arg ) ) {
       
+      // Data to update
       if ( $arg == 'pending' ) {
-        
-        // Data to update
         $data = array(
           $this->book_status => 'active',
         );
+      } elseif ( $arg == 'complete' ) {
+        $data = array(
+          $this->book_status => 'complete',
+        );
       } else {
-        
-        // Data to update
         $data = array(
           $this->book_status => 'cancelled',
           $this->book_cancel => date( 'Y-m-d H:i:s' ),
@@ -107,6 +108,51 @@ class Model_Booking extends MY_Model
       // Check query
       if ( $query ) {
         return $query->result();
+      }
+    }
+  }
+
+  /**
+   * GET IF THEIR IS NEW BOOKING 
+   * OR CANCELLED BOOKING
+   */
+  public function notify( $arg ) {
+    if ( ! empty( $arg ) ) {
+
+      // Count id
+      $this->db->select('COUNT(`book_id`) AS `count`');
+
+      if ( $arg == 'pending' ) {
+        $this->db->where( $this->book_status, 'pending' );
+      } else {
+        $this->db->where( $this->book_status, 'cancelled' );
+      }
+
+      $count = $this->db->get( $this->table )->row()->count;
+
+      if ( isset( $count ) ) {
+        return $count;
+      }
+    }
+  }
+
+  /**
+   * GET LAST BOOK TIME
+   */
+  public function last_booking_date( $arg ) {
+    if ( ! empty( $arg ) ) {
+
+      $this->db->select('MAX(`book_date`) AS `date`');
+      if ( $arg == 'pending' ) {
+        $this->db->where( $this->book_status, 'pending' );
+      } else {
+        $this->db->where( $this->book_status, 'cancelled' );
+      }
+
+      $date = $this->db->get( $this->table )->row()->date;
+
+      if ( isset( $date ) ) {
+        return $date;
       }
     }
   }

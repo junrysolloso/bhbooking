@@ -30,7 +30,7 @@
               <i class="menu-icons mdi mdi-subtitles-outline"></i><span class="menu-title">Pay</span>
             </a>
           </div>
-          <div class="nav-item nav-category">REPORTS</div>
+          <!-- <div class="nav-item nav-category">REPORTS</div>
           <div class="nav-item">
             <a href="<?php echo base_url(); ?>reports/boarders" class="nav-link">
               <i class="menu-icons mdi mdi-account-circle-outline"></i><span class="menu-title">Boarders</span>
@@ -42,8 +42,7 @@
             </a>
           </div>
           <div class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#resources-dropdown" aria-expanded="false"
-              aria-controls="dashboard-dropdown">
+            <a class="nav-link" data-toggle="collapse" href="#resources-dropdown" aria-expanded="false" aria-controls="dashboard-dropdown">
               <i class="menu-icons mdi mdi-content-duplicate"></i>
               <span class="menu-title">Resources</span>
               <i class="menu-arrow"></i>
@@ -58,7 +57,7 @@
                 </li>
               </ul>
             </div>
-          </div>
+          </div> -->
           <div class="nav-item nav-category">GLOBAL</div>
           <div class="nav-item">
             <a href="<?php echo base_url(); ?>settings" class="nav-link">

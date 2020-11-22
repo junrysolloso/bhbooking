@@ -1,6 +1,21 @@
 (function($){
   'use strict';
 
+  $(document).ready(function(){
+
+    // Add button
+    $('#booker-payments-table_wrapper').closest('.row').find('.col-sm-12.col-md-5').prepend('<div id="btn-orders"><input type="button" name="mark_complete" value="Mark Complete" class="btn btn-danger submit-btn mark-complete" style="margin-bottom: -60px;" /></div>');
+
+    $('.mark-complete').on('click', function(){
+      $.post( $('input#base_url').val() + 'settings/user', { mark_uid: $(this).attr('u-id'), mark_bid: $(this).attr('b-id') } ).done(function(){
+  
+        $('#boarder_details').modal('hide');
+  
+        swal("Booker mark complete!", { icon: "success" });
+      });
+    });
+  });
+
   /**
    * USER DETAILS EVENT
    */
@@ -27,6 +42,10 @@
     $('input[name="booker_arrival"]').val( obj.attr('b-arrival') );
     $('input[name="booker_add"]').val( obj.attr('b-address') );
 
+    // Add ids
+    $('input[name="mark_complete"]').attr('u-id', obj.attr('u-id') );
+    $('input[name="mark_complete"]').attr('b-id', obj.attr('b-id') );
+
     $('#booker-photo').attr('src', $('input#base_url').val() + '/bh-uploads/' + obj.attr('b-photo') );
     $('#boarder-status').text( obj.attr('b-status') );
     $('#boarder-active').text( obj.attr('b-arrival') );
@@ -50,6 +69,7 @@
       } else {
         $('#booker-payments-table').DataTable().clear().draw();
       }
+
     });
 
     // Reset icon

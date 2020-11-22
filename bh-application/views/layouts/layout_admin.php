@@ -45,6 +45,7 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/vendors/jquery-toast-plugin/jquery.toast.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/js/helper_dateformat.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/js/helper_toast.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/js/helper_notify.js"></script>
 
     <!-- 
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/js/helper_form_validation.js"></script>

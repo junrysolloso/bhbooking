@@ -299,6 +299,20 @@ class Settings extends MY_Controller
           }
         }
       }
+
+      // Update user status
+      if ( $this->input->post( 'mark_uid' ) ) {
+        if ( ! empty( $this->input->post( 'mark_uid' ) ) ) {
+
+          // Update user status
+          $this->Model_User_Meta->update_status( $this->input->post( 'mark_uid' ), 'complete' );
+          if ( ! empty( $this->input->post( 'mark_bid' ) ) ) {
+
+            // Update booking status
+            $this->Model_Booking->update_status( $this->input->post( 'mark_bid' ), 'complete' );
+          }
+        }
+      }
     } else {
       $this->_redirect_user();
     }
@@ -309,8 +323,8 @@ class Settings extends MY_Controller
    */
   public function add_payment() {
 
-     // Check Server Request
-     if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+    // Check Server Request
+    if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
       // User Add
       if ( $this->input->post( 'amount' ) ) {
@@ -431,6 +445,8 @@ class Settings extends MY_Controller
           }
         }
       }
+    } else {
+      $this->_redirect_user();
     }
   }
 
@@ -445,9 +461,32 @@ class Settings extends MY_Controller
       // User Add
       if ( $this->input->post( 'user_id' ) ) {
 
-        $payments = $this->Model_Payment->get_payments( $this->input->post( 'user_id' ) );
+        $payments = $this->Model_Payment->get_payments( $this->input->post( 'user_id' ), 'booker' );
         if( ! empty( $payments ) ) {
           $this->_response( $payments );
+        }
+      }
+    } else {
+      $this->_redirect_user();
+    }
+  }
+
+  /**
+   * NOTIFIER
+   */
+  public function notifier() {
+    if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+      if ( $this->input->post( 'n_status' ) && ! empty( $this->input->post( 'n_status' ) ) ) {
+        $count = $this->Model_Booking->notify( $this->input->post( 'n_status' ) );
+        
+        // Interval between today and the booking date
+        $t_date = date_create( date( 'Y-m-d H:i:s' ) );
+        $b_date = date_create( $this->Model_Booking->last_booking_date( 'pending' ) );
+        $i_date = date_diff( $t_date, $b_date );
+        
+        // Return response
+        if ( isset( $count ) ) {
+          $this->_response( array( 'count' => $count, 'time' => $i_date ) );
         }
       }
     }
@@ -474,18 +513,36 @@ class Settings extends MY_Controller
   }
 
   public function test() {
-    $s = DateTime::createFromFormat('Y-m-d H:i:s', '2020-01-15 09:30:20');
-    $e = DateTime::createFromFormat('Y-m-d H:i:s',  date('Y-m-d H:i:s') );
+    // $s = DateTime::createFromFormat('Y-m-d H:i:s', '2020-01-15 09:30:20');
+    // $e = DateTime::createFromFormat('Y-m-d H:i:s',  date('Y-m-d H:i:s') );
 
-    $d1 = $s->getTimestamp();
-    $d2 = $e->getTimestamp();
+    // $d1 = $s->getTimestamp();
+    // $d2 = $e->getTimestamp();
     
-    $dif = abs( $d2 - $d1 );
+    // $dif = abs( $d2 - $d1 );
     
-    $y = floor( $dif / ( 365*60*60*24 ) );
-    $m = floor( ($dif - $y * 365*60*60*24) / ( 30*60*60*24 ) );
+    // $y = floor( $dif / ( 365*60*60*24 ) );
+    // $m = floor( ($dif - $y * 365*60*60*24) / ( 30*60*60*24 ) );
 
-    echo ceil(500/500);
+    // for ($i = 0; $i < 7; $i++) { 
+    //   echo 20 - $i;
+    // }
+
+    //$data = $this->Model_Payment->get_yearly_sum();
+
+    $today = date_create( date( 'Y-m-d H:i:s' ) );
+
+    $date  = date_create( $this->Model_Booking->last_booking_date( 'pending' ) );
+
+    $interval = date_diff( $today, $date );
+
+    // $date = date_format( date_create( $date ), 'H:i:s' );
+
+    // $date = explode( ':', $date );
+
+    // $date = intval( $date[2] );
+
+    var_dump( $interval->s );
 
   }
 }

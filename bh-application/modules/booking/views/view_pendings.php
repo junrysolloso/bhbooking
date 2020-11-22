@@ -34,6 +34,7 @@
           echo '</tr>';
           $count++;
         }
+        echo '<input type="hidden" value="'. $count .'" class="pending-count">';
       ?>
     </tbody>
   </table>

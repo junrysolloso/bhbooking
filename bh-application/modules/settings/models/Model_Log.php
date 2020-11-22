@@ -44,7 +44,7 @@ class Model_Log extends MY_Model
     // Data to view
     $this->db->select( '`log_id`, `login_name`, `log_date`, `log_task`' );
     $this->join( $this->relate_table, '`tbl_user_login`.`user_id`=`tbl_logs`.`user_id`' );
-    $this->order_by( '`log_id`', 'DESC' )->limit( 100 );
+    $this->order_by( '`log_id`', 'DESC' )->limit( 108 );
     $query = $this->db->get( $this->table );
 
     if ( $query ) {

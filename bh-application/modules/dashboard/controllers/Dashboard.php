@@ -12,6 +12,7 @@ class Dashboard extends MY_Controller
     // }
 
     $this->load->model( 'booking/Model_Booking' );
+    $this->load->model( 'settings/Model_Payment' );
   }
 
 	/**
@@ -19,10 +20,13 @@ class Dashboard extends MY_Controller
 	 */
   public function index() {
 
-    $data['title']  = 'Dashboard';
-    $data['class']  = 'dashboard';
-    $data['recent'] = $this->Model_Booking->get_bookings( NULL, 'active' );
-    $data['list']   = $this->Model_Booking->get_bookings( NULL, 'list' );
+    $data['title']    = 'Dashboard';
+    $data['class']    = 'dashboard';
+    $data['recent']   = $this->Model_Booking->get_bookings( NULL, 'active' );
+    $data['list']     = $this->Model_Booking->get_bookings( NULL, 'list' );
+    $data['payments'] = $this->Model_Payment->get_payments( NULL, 'all' );
+    $data['labels']   = $this->Model_Payment->get_yearly_total()[0];
+    $data['totals']   = $this->Model_Payment->get_yearly_total()[1];
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );

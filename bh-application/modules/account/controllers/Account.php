@@ -23,7 +23,7 @@ class Account extends MY_Controller
 		$data['body_class']	= 'account';
 		$data['status'] 		= $this->Model_Booking->check_status( $this->session->userdata( 'user_id' ) );
 		$data['bookings'] 	= $this->Model_Booking->get_bookings( $this->session->userdata( 'user_id' ) ,'booker' );
-		$data['payments']		= $this->Model_Payment->get_payments( $this->session->userdata( 'user_id' ) );
+		$data['payments']		= $this->Model_Payment->get_payments( $this->session->userdata( 'user_id' ), 'booker' );
 		$data['profile']		= $this->Model_User_Meta->get_user_details( $this->session->userdata( 'user_id' ) );
 
 		$this->template->set_master_template( 'layouts/layout_site' );
