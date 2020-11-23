@@ -69,7 +69,45 @@ $(document).ready(function () {
    * PAYMENT
    */
   $('#payment').on('click', function(){
+    $('input[name="pay_room_rate"]').val( $('select[name="pay_booker"]>option:selected').attr('r-rate') );
     $('#payment_modal').modal('show');
+    input_icon_reset();
+  });
+
+  $('select[name="pay_booker"]').change(function(){
+    $('input[name="pay_room_rate"]').val( $('select[name="pay_booker"]>option:selected').attr('r-rate') );
+  });
+
+  $('#add-pay-btn').on('click', function(){
+    $('#add-pay-container').append('<div class="row"><div class="col-6"><div class="form-group"><div class="input-group"><input type="number" step="0.01" name="pay_amount[]" class="form-control pay-amount-mark" required /><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-check-circle-outline mdi-18px"></i></span></div></div></div></div><div class="col-6"><div class="form-group"><div class="input-group"><input type="text" name="pay_date[]" class="form-control" data-inputmask="\'alias\': \'datetime\'" data-inputmask-inputformat="yyyy-mm-dd" required im-insert="false" /><div class="input-group-append"><span class="input-group-text text-danger remove-pay-btn"><i class="mdi mdi-minus-circle-outline mdi-18px"></i>&nbsp;Remove</span></div></div></div></div></div>');
+    
+    // Delegat remove button
+    $('body').delegate('.remove-pay-btn', 'click', function(){
+      $(this).closest('.row').remove();
+    });
+
+    $('body').delegate('input', 'keyup', function(){
+      input_icon($(this));
+    });
+
+    $('body').delegate('.pay-amount-mark', 'mouseleave', function(){
+      if ( $(this).val() != '' && parseInt( $(this).val() ) != parseInt( $('input[name="pay_room_rate"]').val() ) ) {
+        if ( $(this).val('') ) {
+          showWarningToast('Amount must be equal with the room cost.');
+        }
+      }
+    });
+    
+    // Inputmask
+    $(":input").inputmask();
+  });
+
+  $('input[name="pay_amount[]"]').on('mouseleave', function(){
+    if ( $(this).val() != '' && parseInt( $(this).val() ) != parseInt( $('input[name="pay_room_rate"]').val() ) ) {
+      if ( $(this).val('') ) {
+        showWarningToast('Amount must be equal with the room cost.');
+      }
+    }
   });
 
   /**
@@ -78,12 +116,24 @@ $(document).ready(function () {
   $('#form-payment').submit(function( event ) {
     event.preventDefault();
     
+    var p_amount = [];
+    var p_date   = [];
+
     // Get Values
+    $('input[name="pay_amount[]"]').each(function(i){
+      p_amount[i] = $(this).val();
+    });
+
+    $('input[name="pay_date[]"]').each(function(i){
+      p_date[i] = $(this).val();
+    });
+
     var data = {
       user_id: $('select[name="pay_booker"]').val(),
       book_id: $('select[name="pay_booker"]>option:selected').attr('b-id'),
       room_id: $('select[name="pay_booker"]>option:selected').attr('r-id'),
-      amount : $('input[name="pay_amount"]').val(),
+      amount : p_amount,
+      date   : p_date
     }
 
     if ( data_checker(data) ) {
@@ -95,16 +145,9 @@ $(document).ready(function () {
             swal("Payment successfully added.", {
               icon: "success",
             });
-            break;
-          case 'updated':
-            swal("Payment successfully updated.", {
-              icon: "success",
-            });
-            break;
-            case 'no-latest':
-            swal("Please check payment amount.", {
-              icon: "warning",
-            });
+
+            $('#form-payment').trigger('reset');
+            $('#payment_modal').modal('hide');
             break;
           default:
             swal("Payment cannot be process.", {

@@ -7,13 +7,14 @@
     $('#booker-payments-table_wrapper').closest('.row').find('.col-sm-12.col-md-5').prepend('<div id="btn-orders"><input type="button" name="mark_complete" value="Mark Complete" class="btn btn-danger submit-btn mark-complete" style="margin-bottom: -60px;" /></div>');
 
     $('.mark-complete').on('click', function(){
-      $.post( $('input#base_url').val() + 'settings/user', { mark_uid: $(this).attr('u-id'), mark_bid: $(this).attr('b-id') } ).done(function(){
-        
-        // Hide modal
-        $('#boarder_details').modal('hide');
-        
-        // Show success message
-        swal("Booker mark complete!", { icon: "success" });
+      $.post( $('input#base_url').val() + 'settings/user', { mark_uid: $(this).attr('u-id'), mark_bid: $(this).attr('b-id') } ).done(function(data){
+        if ( data.msg == 'success' ) {
+          // Hide modal
+          $('#boarder_details').modal('hide');
+          
+          // Show success message
+          swal("Booker mark complete!", { icon: "success" });
+        }
       });
     });
   });

@@ -45,20 +45,20 @@ class Model_Payment extends MY_Model
           // Booker
           $this->db->select( '`pay_amount`, `pay_date`, `pay_reciever`, `user_fname`' )->where( '`tbl_payments`.`user_id`', $id );
           $this->db->join( $this->relate_user_meta, '`tbl_payments`.`pay_reciever`=`tbl_user_meta`.`user_id`' );
+          $this->db->order_by( $this->pay_date, 'DESC' );
           break;
         case 'all':
 
           // All
           $this->db->select( '*' )->limit( 40 );
           $this->db->join( $this->relate_user_meta, '`tbl_payments`.`user_id`=`tbl_user_meta`.`user_id`' );
+          $this->db->order_by( $this->pay_id, 'DESC' );
           break;
         default:
           break;
       }
       
-      $this->db->order_by( $this->pay_date, 'DESC' );
       $query = $this->db->get( $this->table );
-
       if( $query ) {
         return $query->result();
       }

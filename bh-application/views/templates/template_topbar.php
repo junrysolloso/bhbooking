@@ -23,7 +23,7 @@
                 <ul class="nav navbar-nav-right ml-auto">
                   <li class="nav-item dropdown">
                     <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                      <i class="mdi mdi-bell-alert text-warning"></i>
+                      <i class="mdi mdi-bell-alert"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
                       <a href="<?php echo base_url(); ?>booking/pendings" class="dropdown-item preview-item py-3">
@@ -46,7 +46,11 @@
                       </a>
                     </div>
                   </li>
-
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="dropdown" aria-expanded="false">
+                      <i class="mdi mdi-chat-processing"></i>
+                    </a>
+                  </li>
                   <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
                     <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown"
                       aria-expanded="false">

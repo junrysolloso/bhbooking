@@ -22,7 +22,7 @@
           <tr>
             <th>NO.</th>
             <th>FULL NAME</th>
-            <th>DATE PAID</th>
+            <th>MONTH PAID</th>
             <th>AMOUNT</th>
           </tr>
         </thead>

@@ -1,7 +1,7 @@
 (function($){
   'use strict';
   
-  var b_count;
+  var b_count, c_count;
 
   /**
    * WEBSITE NOTIFICATION
@@ -38,18 +38,18 @@
         } 
         
       });
-    }, 100);
+    }, 500);
   };
 
   /**
    * DESKTOP NOTIFICATION
    */
-  const desktop_notify = function() {
+  const desktop_notify = function(text) {
     
     var options = {
       title: "Alex Boarding House",
       config: {
-        body: "You have " + b_count + " new booking(s).",
+        body: text,
         icon:  $('#base_url').val() + "bh-uploads/dinagat-coders-icon.png",
         lang: 'en-US',
         onClose: "",
@@ -89,7 +89,7 @@
     }
   }
 
-  // Open pendings url
+  // Open url on notification click
   const openURL = function() {
     open($('#base_url').val() + 'booking/pendings');
   }
@@ -100,7 +100,15 @@
   }, 10000);
 
   setInterval(() => {
-    desktop_notify();
-  }, 30000);
+    if ( c_count > 0 ) {
+      desktop_notify("You have " + c_count + " cancelled booking(s).");
+    }
+  }, 11000);
+
+  setInterval(() => {
+    if ( b_count > 0 ) {
+      desktop_notify("You have " + b_count + " new booking(s).");
+    }
+  }, 12000);
 
 })(jQuery);

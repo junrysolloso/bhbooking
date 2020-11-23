@@ -83,34 +83,29 @@
                 <i class="menu-icons mdi mdi-subtitles-outline"></i><span class="menu-title">Pay</span>
               </a>
             </div>
-            <!-- <div class="nav-item nav-category">REPORTS</div>
+            <div class="nav-item nav-category">REPORTS</div>
             <div class="nav-item">
               <a href="<?php echo base_url(); ?>reports/boarders" class="nav-link">
                 <i class="menu-icons mdi mdi-account-circle-outline"></i><span class="menu-title">Boarders</span>
               </a>
             </div>
             <div class="nav-item">
-              <a href="<?php echo base_url(); ?>reports/dues" class="nav-link">
-                <i class="menu-icons mdi mdi-briefcase-account-outline"></i><span class="menu-title">Dues</span>
-              </a>
-            </div>
-            <div class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#resources-dropdown" aria-expanded="false" aria-controls="dashboard-dropdown">
                 <i class="menu-icons mdi mdi-content-duplicate"></i>
-                <span class="menu-title">Resources</span>
+                <span class="menu-title">Payments</span>
                 <i class="menu-arrow"></i>
               </a>
               <div class="collapse" id="resources-dropdown">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>reports/revenue">Revenue Reports</a>
+                    <a class="nav-link" href="<?php echo base_url(); ?>reports/revenue">Monthly Reports</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>reports/annual">Annual Reports</a>
+                    <a class="nav-link" href="<?php echo base_url(); ?>reports/annual">Yearly Reports</a>
                   </li>
                 </ul>
               </div>
-            </div> -->
+            </div>
             <div class="nav-item nav-category">GLOBAL</div>
             <div class="nav-item">
               <a href="<?php echo base_url(); ?>settings" class="nav-link">
@@ -126,8 +121,8 @@
         </nav>
 
         <div class="sidebar-footer">
-          <p class="mb-0">© Alex Boarding House</p>
-          <small class="text-muted d-block mt-2">Created with ❤ by Dinagat Coders</small>
+          <p class="mb-0"><?php echo credits( 'co' ); ?></p>
+          <small class="text-muted d-block mt-2"><?php echo credits( 'cr' ); ?></small>
         </div>
       </div>
       <!-- end of left sidebar -->

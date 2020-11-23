@@ -306,7 +306,9 @@ class Settings extends MY_Controller
           if ( ! empty( $this->input->post( 'mark_bid' ) ) ) {
 
             // Update booking status
-            $this->Model_Booking->update_status( $this->input->post( 'mark_bid' ), 'complete' );
+            if ( $this->Model_Booking->update_status( $this->input->post( 'mark_bid' ), 'complete' ) ) {
+              $this->_response( array( 'msg' => 'success' ) );
+            }
           }
         }
       }
@@ -323,123 +325,44 @@ class Settings extends MY_Controller
     // Check Server Request
     if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
-      // User Add
       if ( $this->input->post( 'amount' ) ) {
         
-        $flag    = false;
-        $amounts = array();
+        $flag = 0;
 
         // Get post values
         $room_id = $this->input->post( 'room_id' );
         $user_id = $this->input->post( 'user_id' );
-        $amount  = intval( $this->input->post( 'amount' ) );
+        $amount  = $this->input->post( 'amount' );
+        $date    = $this->input->post( 'date' );
+        $count   = count( $amount );
 
-        // Get room rate
-        $room_rate = $this->Model_Room->get_room_rate( $room_id );
+        $amount = clean_array( $amount );
+        $date   = clean_array( $date );
 
-        if ( $amount < $room_rate ) {
-
-          // Get latest amount paid
-          $latest_amount = $this->Model_Payment->get_latest_amount( $user_id, $room_rate );
-
-          // Check if their is a latest payment that is less that the room rate
-          if ( ! empty( $latest_amount ) ) {
-            if ( intval( $latest_amount[0]->amount ) < $room_rate ) {
-
-              $amount  = ( $latest_amount[0]->amount + $amount );
-
-              if ( $this->Model_Payment->update_payment( $latest_amount[0]->pay_id, $amount ) ) {
-                $this->_response( array( 'msg' => 'updated' ) );
-              }
-            } 
-          } else {
-            $this->_response( array( 'msg' => 'no-latest' ) );
-          }
-        } elseif ( $amount == $room_rate ) {
-
-          // Values to insert
-          $data = array(
-            'pay_amount'   => $amount,
-            'pay_date'     => date( 'Y-m-d H:i:s' ),
-            'pay_reciever' => $this->session->userdata( 'user_id' ),
-            'user_id'      => $this->input->post( 'user_id' ),
-            'book_id'      => $this->input->post( 'book_id' ),
-          );
-
-          if ( $this->Model_Payment->add_payment( $data ) ) {
-            $this->_response( array( 'msg' => 'added' ) );
-          } else {
-            $this->_response( array( 'msg' => 'error' ) );
-          }
-        } else {
-          
-          // Get latest amount paid
-          $latest_amount = $this->Model_Payment->get_latest_amount( $user_id, $room_rate );
-
-          // Check if their is a latest payment that is less that the room rate
-          if ( ! empty( $latest_amount ) ) {
-            if ( intval( $latest_amount[0]->amount ) < $room_rate ) {
-
-              if ( $this->Model_Payment->update_payment( $latest_amount[0]->pay_id, $room_rate ) ) {
-
-                // Minus the latest amount if the booker has a latest payment
-                // which is not equal to room rate
-                $l_diff = $room_rate - intval( $latest_amount[0]->amount );
-
-                // Set the new amount
-                $amount = ( $amount - $l_diff );
-                
-              }
-            } 
-          }
-
-          // Number of months to pay
-          $months = ceil( $amount / $room_rate );
-          
-          if ( $months > 1 ) {
+        if ( ! empty( $amount ) && ! empty( $date ) ) {
+          for ( $i=0; $i < $count; $i++ ) { 
             
-            // More that 1 month
-            for ( $i=1; $i < $months; $i++ ) { 
-              array_push( $amounts, $room_rate );
-            }
-
-            if ( ( $amount % $room_rate ) == 0 ) {
-              for ($i=0; $i < $months; $i++) { 
-                array_push( $amounts, $room_rate );
-              }
-            } else {
-
-              // Remaining amount
-              array_push( $amounts, ( $amount % $room_rate ) );
-            }
-          } else {
-
-            // Only 1 month
-            array_push( $amounts, $room_rate );
-          }
-
-          // Insert payment
-          for ( $i=0; $i < $months; $i++ ) { 
+            $p_date = $date[ $i ] . date( ' H:i:s' );
 
             // Values to insert
             $data = array(
-              'pay_amount'   => $amounts[ $i ],
-              'pay_date'     => date( 'Y-m-d H:i:s' ),
+              'pay_amount'   => $amount[ $i ],
+              'pay_date'     => $p_date,
               'pay_reciever' => $this->session->userdata( 'user_id' ),
               'user_id'      => $this->input->post( 'user_id' ),
               'book_id'      => $this->input->post( 'book_id' ),
             );
 
             if ( $this->Model_Payment->add_payment( $data ) ) {
-              $flag = true;
+              $flag++;
             }
           }
-
-          if ( $flag ) {
-            $this->_response( array( 'msg' => 'added' ) );
-          } else {
-            $this->_response( array( 'msg' => 'error' ) );
-          }
+        } 
+        
+        if ( $flag == $count ) {
+          $this->_response( array( 'msg' => 'added' ) );
+        } else {
+          $this->_response( array( 'msg' => 'error' ) );
         }
       }
     } else {

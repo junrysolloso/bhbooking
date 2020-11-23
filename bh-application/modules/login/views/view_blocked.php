@@ -5,7 +5,7 @@
         <div class="col-lg-7 mx-auto text-white">
           <div class="row align-items-center d-flex flex-row">
             <div class="col-lg-6 text-lg-right pr-lg-4">
-              <h2 class="display-1 mb-0">DENIED</h2>
+              <h2 class="display-1 mb-0">DENIED!</h2>
             </div>
             <div class="col-lg-6 error-page-divider text-lg-left pl-lg-4">
               <h3 class="font-weight-light">ACCESS BLOCKED.</h3>
@@ -13,7 +13,7 @@
           </div>
           <div class="row mt-5">
             <div class="col-12 mt-xl-2">
-              <p class="text-white font-weight-medium text-center">CONTACT YOUR SYSTEM ADMINISTRATOR<br /><?php credits( 'co' ); ?><br /><?php credits( 'cr' ); ?></p>
+              <p class="text-white font-weight-medium text-center"><span class="text-warning"><?php echo strtoupper( "-- Contact Your System Administrator --" ); ?></span><br /><?php credits( 'co' ); ?><br /><?php credits( 'cr' ); ?></p>
             </div>
           </div>
         </div>
