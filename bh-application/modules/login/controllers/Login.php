@@ -26,14 +26,14 @@ class Login extends MY_Controller
 		}
 
 		// Add attempts if someone trying to login without a valid session
-		if ( $this->session->userdata( 'user_rule' ) != 'administrator' || $this->session->userdata( 'user_rule' ) != 'booker' ) {
+		if ( $this->session->userdata( 'user_rule' ) != 'administrator' || $this->session->userdata( 'user_rule' ) != 'booker' || $this->session->userdata( 'user_rule' ) == 'user') {
 
 			// Record login attempts
 			$this->Model_Authattempts->_attempt_insert( $this->session->userdata( 'user_id' ) );
 		}
 
 		// Check if there is existing session.
-		if ( $this->session->userdata( 'user_rule' ) == 'administrator' ) {
+		if ( $this->session->userdata( 'user_rule' ) == 'administrator' || $this->session->userdata( 'user_rule' ) == 'user' ) {
 			
 			// Redirect to dashboard page
       redirect( base_url( 'dashboard' ) );
@@ -60,7 +60,7 @@ class Login extends MY_Controller
 		$this->form_validation->set_rules( $fields );
 
 		// Check request method
-		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {  
+		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			
 			// Run form validation
 			if ( $this->form_validation->run() ) { 
@@ -131,6 +131,17 @@ class Login extends MY_Controller
 			} 
 		}
 	}
+
+	/**
+   * SERVER RESPONSE
+   * @param array $data
+   */
+  private function _response( $data ) {
+    
+    // Response with JSON format data
+    header( 'content-type: application/json' );
+    exit( json_encode( $data ) );
+  }
 
 }
 

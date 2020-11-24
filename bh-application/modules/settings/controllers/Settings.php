@@ -4,29 +4,32 @@ class Settings extends MY_Controller
 {
 
   function __construct() {
-    parent:: __construct(); 
+    parent:: __construct();
 
     $this->load->model( 'Model_Room' );
     $this->load->model( 'Model_User_Meta' );
+    $this->load->model( 'Model_Payment' );
     $this->load->model( 'Model_User_Login' );
+    $this->load->model( 'booking/Model_Booking' );
   }
 
   /**
    * INDEX PAGE
    */
   public function index() {
-    
-    // Check session
-		if ( ! sesscheck() ) {
-			redirect( base_url( 'login' ) );
-		}
+
+    Sess::admin();
 
     // Data to pass to view
-    $data['title'] = 'Settings';
-    $data['class'] = 'settings';
-    $data['rooms'] = $this->Model_Room->room_get();
-    $data['users'] = $this->Model_User_Login->user_get();
-    $data['logs']  = $this->Model_Log->get_logs();
+    $data['title']  = 'Settings';
+    $data['class']  = 'settings';
+    $data['rooms']  = $this->Model_Room->room_get();
+    $data['users']  = $this->Model_User_Login->user_get();
+    $data['logs']   = $this->Model_Log->get_logs();
+    $data['recent'] = $this->Model_Booking->get_bookings( NULL, 'active' );
+    $data['list']   = $this->Model_Booking->get_bookings( NULL, 'list' );
+    $data['years']  = $this->Model_Payment->get_years();
+    $data['months'] = $this->Model_Payment->get_months();
   
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );
@@ -42,6 +45,8 @@ class Settings extends MY_Controller
     // Modals
     $this->template->write_view( 'content', 'modals/modal_room' );
     $this->template->write_view( 'content', 'modals/modal_user' );
+    $this->template->write_view( 'content', 'modals/modal_payment' );
+    $this->template->write_view( 'content', 'modals/modal_date' );
 
     // Additional JS
     $this->template->add_js( 'bh-assets/js/pages/page_room.js' );
@@ -64,6 +69,7 @@ class Settings extends MY_Controller
           'room_equiv'      => $this->input->post( 'room_equiv' ),
           'room_name'       => strtolower( $this->input->post( 'room_name' ) ),
           'room_desc'       => strtolower( $this->input->post( 'room_desc' ) ),
+          'room_rate'       => $this->input->post( 'room_rate' ),
           'room_photo'      => 'room.jpg',
           'room_status'     => strtolower( 'empty' ),
           'room_available'  => $this->input->post( 'room_equiv' ),
@@ -89,6 +95,7 @@ class Settings extends MY_Controller
           'room_equiv'  => $this->input->post( 'room_equiv' ),
           'room_status' => $this->input->post( 'room_status' ),
           'room_desc'   => $this->input->post( 'room_desc' ),
+          'room_rate'   => $this->input->post( 'room_rate' ),
         );
 
         // Clean empty array  
@@ -141,7 +148,7 @@ class Settings extends MY_Controller
         }
       }
     } else {
-      $this->_redirect_user();
+      $this->_response( array( 'message' => 'Unknown request.' ) );
     }
   }
 
@@ -263,22 +270,150 @@ class Settings extends MY_Controller
         $data = array (
           'value' => strtolower( $this->input->post( 'value' ) ),
         );
-
+        
         // Clean empty array
         $data = clean_array( $data );
 
-        // Check username if already exist
-        if ( ! $this->Model_User_Login->user_check( $data ) ) {
-          $data = array(
-            'msg' => 'none',
-          );
+        // If user
+        if ( strtolower( $this->input->post( 'user_check' ) == 'user' ) ) {
+          
+          // Check username if already exist
+          if ( ! $this->Model_User_Login->user_check( $data ) ) {
+            $data = array(
+              'msg' => 'none',
+            );
 
-          // Send response
-          $this->_response( $data );
+            // Send response
+            $this->_response( $data );
+          }
+        } else {
+
+          // Check email if already exist
+          if ( ! $this->Model_User_Meta->email_check( $data ) ) {
+            $data = array(
+              'msg' => 'none',
+            );
+
+            // Send response
+            $this->_response( $data );
+          }
+        }
+      }
+
+      // Update user status
+      if ( $this->input->post( 'mark_uid' ) ) {
+        if ( ! empty( $this->input->post( 'mark_uid' ) ) ) {
+
+          // Update user status
+          $this->Model_User_Meta->update_status( $this->input->post( 'mark_uid' ), 'complete' );
+          if ( ! empty( $this->input->post( 'mark_bid' ) ) ) {
+
+            // Update booking status
+            if ( $this->Model_Booking->update_status( $this->input->post( 'mark_bid' ), 'complete' ) ) {
+              $this->_response( array( 'msg' => 'success' ) );
+            }
+          }
         }
       }
     } else {
-      $this->_redirect_user();
+      $this->_response( array( 'message' => 'Unknown request.' ) );
+    }
+  }
+
+  /**
+   * ADD PAYMENT
+   */
+  public function add_payment() {
+
+    // Check Server Request
+    if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+
+      if ( $this->input->post( 'amount' ) ) {
+        
+        $flag = 0;
+
+        // Get post values
+        $room_id = $this->input->post( 'room_id' );
+        $user_id = $this->input->post( 'user_id' );
+        $amount  = $this->input->post( 'amount' );
+        $date    = $this->input->post( 'date' );
+        $count   = count( $amount );
+
+        $amount = clean_array( $amount );
+        $date   = clean_array( $date );
+
+        if ( ! empty( $amount ) && ! empty( $date ) ) {
+          for ( $i=0; $i < $count; $i++ ) { 
+            
+            $p_date = $date[ $i ] . date( ' H:i:s' );
+
+            // Values to insert
+            $data = array(
+              'pay_amount'   => $amount[ $i ],
+              'pay_date'     => $p_date,
+              'pay_reciever' => $this->session->userdata( 'user_id' ),
+              'user_id'      => $this->input->post( 'user_id' ),
+              'book_id'      => $this->input->post( 'book_id' ),
+            );
+
+            if ( $this->Model_Payment->add_payment( $data ) ) {
+              $flag++;
+            }
+          }
+        } 
+        
+        if ( $flag == $count ) {
+          $this->_response( array( 'msg' => 'added' ) );
+        } else {
+          $this->_response( array( 'msg' => 'error' ) );
+        }
+      }
+    } else {
+      $this->_response( array( 'message' => 'Unknown request.' ) );
+    }
+  }
+
+  /**
+   * GET PAYMENTS
+   */
+  public function list_payments() {
+
+    // Check Server Request
+    if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+
+      // User Add
+      if ( $this->input->post( 'user_id' ) ) {
+
+        $payments = $this->Model_Payment->get_payments( $this->input->post( 'user_id' ), 'booker' );
+        if( ! empty( $payments ) ) {
+          $this->_response( $payments );
+        }
+      }
+    } else {
+      $this->_response( array( 'message' => 'Unknown request.' ) );
+    }
+  }
+
+  /**
+   * NOTIFIER
+   */
+  public function notifier() {
+    if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+      if ( $this->input->post( 'n_status' ) && ! empty( $this->input->post( 'n_status' ) ) ) {
+        $count = $this->Model_Booking->notify( $this->input->post( 'n_status' ) );
+        
+        // Interval between today and the booking date
+        $t_date = date_create( date( 'Y-m-d H:i:s' ) );
+        $b_date = date_create( $this->Model_Booking->last_booking_date( $this->input->post( 'n_status' ) ) );
+        $i_date = date_diff( $t_date, $b_date );
+        
+        // Return response
+        if ( isset( $count ) ) {
+          $this->_response( array( 'count' => $count, 'time' => $i_date ) );
+        }
+      }
+    } else {
+      $this->_response( array( 'message' => 'Unknown request.' ) );
     }
   }
 
@@ -286,20 +421,11 @@ class Settings extends MY_Controller
    * SERVER RESPONSE
    * @param array $data
    */
-  public function _response( $data ) {
+  private function _response( $data ) {
     
     // Response with JSON format data
     header( 'content-type: application/json' );
     exit( json_encode( $data ) );
-  }
-
-  /**
-   * REDIRECT VISITOR
-   */
-  private function _redirect_user() {
-
-    // Redirect visitor if request is not specified
-    redirect( base_url( 'login' ) );
   }
 
 }

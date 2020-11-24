@@ -6,13 +6,24 @@
     var chartFontcolor = '#6c757d';
     var chartGridLineColor = 'rgba(0,0,0,0.08)';
 
+    var labels = [];
+    var totals = [];
+
+    $('.g-labels').each(function(i){
+      labels[i] = $(this).val();
+    });
+
+    $('.g-totals').each(function(i){
+      totals[i] = $(this).val();
+    });
+
     if ($("#mixed-chart").length) {
       var chartData = {
-        labels: ['2014', '2015', '2016', '2017', '2018', '2019', '2020'],
+        labels: labels,
         datasets: [{
           type: 'bar',
           label: 'Payment Recieved',
-          data: ["20000", "40000", "75000", "62000", "55000", "81000", "43000"],
+          data: totals,
           backgroundColor: ChartColor[0],
           borderColor: ChartColor[0],
           borderWidth: 2

@@ -22,6 +22,7 @@
         room_equiv : $('input[name="room_equiv"]').val(),
         room_desc  : $('input[name="room_desc"]').val(),
         room_add   : $('input[name="room_submit"]').val(),
+        room_rate  : $('input[name="room_rate"]').val(),
       }
 
         // Parameter to check
@@ -78,6 +79,7 @@
         room_equiv : $('input[name="edit_room_equiv"]').val(),
         room_status: $('select[name="edit_room_status"]').val(),
         room_desc  : $('input[name="edit_room_desc"]').val(),
+        room_rate  : $('input[name="edit_room_rate"]').val(),
         room_update: $('input[name="edit_room_submit"]').val(),
       }
 
@@ -146,8 +148,8 @@
                 // Re-populate table
                 if ( room_table_draw( data ) ) {
 
-                   // Show success message       
-                   swal("Room successfully deleted.", {
+                  // Show success message       
+                  swal("Room successfully deleted.", {
                     icon: "success",
                   });
                 }
@@ -179,9 +181,23 @@
         // Push data to the array
         tdata.push( count );
         tdata.push( capitalize( val.room_name + ' ( '+ val.room_status +' )' ) );
-        tdata.push( parseInt( val.room_equiv ) + ' Bedroom(s)' );
-        tdata.push( val.room_available + ' Bed(s) Available' );
-        tdata.push( '<span class="room-details" r-id="'+ val.room_id +'" r-name="'+ capitalize( val.room_name ) +'" r-desc="'+ capitalize( val.room_desc ) +'" r-equiv="'+ val.room_equiv +'" r-status="'+ capitalize( val.room_status ) +'" ><i class="mdi mdi-eye mdi-18px"></i> View</span>' );
+        tdata.push( '<span class="text-info">' + parseInt( val.room_equiv ) + ' Bedroom(s)</span>' );
+
+        if (  val.room_available == 0 ) {
+
+          // Full
+          tdata.push( '<span class="text-danger">'+ val.room_available +' Bed(s) Availabe </span>' );
+        } else if ( val.room_available == val.room_equiv ) {
+
+          // Empty
+          tdata.push( '<span class="text-success">'+ val.room_available +' Bed(s) Availabe </span>' );
+        } else {
+
+          // Occupied
+          tdata.push( '<span class="text-warning">'+ val.room_available +' Bed(s) Availabe </span>' );
+        }
+
+        tdata.push( '<span class="room-details" r-id="'+ val.room_id +'" r-name="'+ capitalize( val.room_name ) +'" r-rate="'+ val.room_rate +'" r-desc="'+ capitalize( val.room_desc ) +'" r-equiv="'+ val.room_equiv +'" r-status="'+ capitalize( val.room_status ) +'" ><i class="mdi mdi-eye mdi-18px"></i> View</span>' );
         
         count++;
         return tdata;
@@ -216,6 +232,7 @@
       $('input[name="edit_room_equiv"]').val( obj.attr('r-equiv') );
       $('input[name="edit_room_desc"]').val( obj.attr('r-desc') );
       $('input[name="edit_room_delete"]').attr( 'id', obj.attr('r-id') );
+      $('input[name="edit_room_rate"]').val( obj.attr('r-rate') );
 
       if ( obj.attr('r-status') == 'Full' ) {
 
@@ -223,11 +240,18 @@
         $('select[name="edit_room_status"]:first').val('Full');
         $('select[name="edit_room_status"]').attr('disabled', 'true');
 
+      } else if ( obj.attr('r-status') == 'Occupied'  ) {
+
+        // Disabled and set select default value
+        $('select[name="edit_room_status"]:first').val('Occupied');
+        $('select[name="edit_room_status"]').attr('disabled', 'true');
+
       } else {
         
         // Disabled and set select default value
         $('select[name="edit_room_status"]').removeAttr('disabled', 'false');
         $('select[name="edit_room_status"]:first').val( obj.attr('r-status') );
+        
       }
 
       // Show modal

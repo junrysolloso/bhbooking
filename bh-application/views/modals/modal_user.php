@@ -14,7 +14,7 @@
                     <label for="edit_user_fname">Full Name</label>
                     <div class="input-group">
                       <input type="hidden" name="edit_user_id">
-                      <input type="text" name="edit_user_fname" class="form-control" id="edit_user_fname" required="">
+                      <input type="text" name="edit_user_fname" class="form-control" id="edit_user_fname" required />
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -25,7 +25,7 @@
                   <div class="form-group">
                     <label for="edit_user_email">Email Address</label>
                     <div class="input-group">
-                      <input type="text" name="edit_user_email" class="form-control" id="edit_user_email" required="">
+                      <input type="text" name="edit_user_email" class="form-control" id="edit_user_email" required />
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -36,7 +36,7 @@
                   <div class="form-group">
                     <label for="edit_user_phone">Phone Number</label>
                     <div class="input-group">
-                      <input type="text" name="edit_user_phone" class="form-control" id="edit_user_phone" required="">
+                      <input type="text" name="edit_user_phone" class="form-control" id="edit_user_phone" required />
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -49,7 +49,7 @@
                   <div class="form-group">
                     <label for="edit_user_name">User Name</label>
                     <div class="input-group">
-                      <input type="text" name="edit_user_name" class="form-control" id="edit_user_name" readonly required="">
+                      <input type="text" name="edit_user_name" class="form-control" id="edit_user_name" disabled required />
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -60,7 +60,7 @@
                   <div class="form-group">
                     <label for="edit_user_pass">Password</label>
                     <div class="input-group">
-                      <input type="password" name="edit_user_pass" class="form-control" id="edit_user_pass" required="">
+                      <input type="password" name="edit_user_pass" class="form-control" id="edit_user_pass" required />
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -71,7 +71,7 @@
                   <div class="form-group">
                     <label for="edit_user_pcon">Confirm Password</label>
                     <div class="input-group">
-                      <input type="password" name="edit_user_pcon" class="form-control" id="edit_user_pcon" required="">
+                      <input type="password" name="edit_user_pcon" class="form-control" id="edit_user_pcon" required />
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="mdi mdi-check-circle-outline mdi-18px"></i>

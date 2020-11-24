@@ -1,5 +1,5 @@
 /**
- * Toast notifications
+ * TOAST NOTIFICATIONS
  */
 
 // Success

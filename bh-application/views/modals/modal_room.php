@@ -22,6 +22,22 @@
                       </div>
                     </div>
                   </div>
+                  <div class="form-group" id="room-status">
+                    <label for="edit_room_status">Room Status</label>
+                    <div class="input-group">
+                      <select type="text" name="edit_room_status" class="form-control select2" id="edit_room_status" data-room-select-id="0" tabindex="-1" aria-hidden="true">
+                        <option value="Empty" data-room-select-id="0">Empty</option>
+                        <option value="Occupied" data-room-select-id="1">Occupied</option>
+                        <option value="Full" data-room-select-id="1">Full</option>
+                        <option value="Reserved" data-room-select-id="2">Reserved</option>
+                      </select>
+                      <div class="input-group-append">
+                        <span class="input-group-text text-success">
+                          <i class="mdi mdi-check-circle-outline mdi-18px"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
@@ -35,24 +51,20 @@
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <div class="col-12">
-                  <div class="form-group" id="room-status">
-                    <label for="edit_room_status">Room Status</label>
+                  <div class="form-group">
+                    <label for="edit_room_rate">Room Monthly Rate</label>
                     <div class="input-group">
-                      <select type="text" name="edit_room_status" class="form-control select2" id="edit_room_status" data-room-select-id="0" tabindex="-1" aria-hidden="true">
-                        <option value="Empty" data-room-select-id="0">Empty</option>
-                        <option value="Full" data-room-select-id="1">Full</option>
-                        <option value="Reserved" data-room-select-id="2">Reserved</option>
-                      </select>
+                      <input type="number" step="0.01" name="edit_room_rate" class="form-control" id="edit_room_rate" required />
                       <div class="input-group-append">
-                        <span class="input-group-text text-success">
+                        <span class="input-group-text">
                           <i class="mdi mdi-check-circle-outline mdi-18px"></i>
                         </span>
                       </div>
                     </div>
                   </div>
+                </div>
+
+                <div class="col-12">
                   <div class="form-group" id="select_ref_width">
                     <label for="edit_room_desc">Room Description</label>
                     <div class="input-group">

@@ -24,6 +24,11 @@
                 <li class="nav-item">
                   <a class="nav-link" data-toggle="tab" href="#profile" aria-selected="false">Profile Details</a>
                 </li>
+                <?php if ( ! $status  ): ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-success" href="#" id="add-booking"><i class="mdi mdi-plus-circle-outline mdi-24px"></i></a>
+                  </li>
+                <?php endif; ?>
               </ul>
 
               <div class="tab-content tab-content-solid">
@@ -37,6 +42,7 @@
                           <th>ARRIVAL DATE</th>
                           <th>BOOKING STATUS</th>
                           <th>ROOM</th>
+                          <th>ACTION</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -45,10 +51,33 @@
                           foreach ( $bookings as $row ) {
                             echo '<tr>';
                             echo '<td>'. $count .'</td>';
-                            echo '<td>'. $row->book_date .'</td>';
-                            echo '<td>'. $row->book_arrival .'</td>';
-                            echo '<td>'. ucwords( $row->book_status ) .'</td>';
+                            echo '<td class="text-success"><div class="d-flex flex-column"><span class="mb-2 font-weight-medium">'. date_format ( date_create ( $row->book_date ), 'j M, Y' ) .'</span><small class="text-muted">'. date_format ( date_create ( $row->book_date ), 'H:i:s A' ) .'</small></div></td>';
+                            echo '<td class="text-info">'. date_format ( date_create ( $row->book_arrival ), 'j M, Y' ) .'</td>';
+                            
+                            // Show date if cancelled
+                            if ( $row->book_status == 'cancelled' ) {
+                              echo '<td><div class="d-flex flex-column"><span class="mb-2 font-weight-medium text-danger">'. ucfirst( $row->book_status ) .'</span><small class="text-muted">'. date_format ( date_create ( $row->book_cancel ), 'j M, Y @ H:i:s A' ) .'</small></div></td>';
+                            } else {
+
+                              // Add text class
+                              if ( $row->book_status == 'pending' ) { 
+                                $text_class = 'text-warning'; 
+                              } else { 
+                                $text_class = 'text-success'; 
+                              }
+
+                              echo '<td class="'. $text_class .'">'. ucwords( $row->book_status ) .'</td>';
+                            }
+                            
                             echo '<td>'. ucwords( $row->room_name ) .'</td>';
+
+                            // Show cancel button otherwise hide
+                            if ( $row->book_status == 'pending' ) {
+                              echo '<td><span class="text-danger cancel-booking" r-id="'. $row->room_id .'" b-id="'. $row->book_id .'" u-id="'. $row->user_id .'"><i class="mdi mdi-minus-circle-outline"></i> Cancel</span></td>';
+                            } else {
+                              echo '<td class="text-warning"><i class="mdi mdi-information-outline"></i> Nothing</td>';
+                            }
+
                             echo '</tr>';
                             $count++;
                           }
@@ -76,7 +105,7 @@
                             echo '<tr>';
                             echo '<td>'. $count .'</td>';
                             echo '<td>'. date_format(  date_create( $row->pay_date ), 'Y-m-d @ H:i:s A' ) .'</td>';
-                            echo '<td>'. number_format( $row->pay_amount, 2 ) .' Pesos</td>';
+                            echo '<td class="text-success">'. number_format( $row->pay_amount, 2 ) .' Pesos</td>';
                             echo '<td>'. ucwords( $row->user_fname ) .'</td>';
                             echo '</tr>';
                             $count++;
@@ -96,7 +125,7 @@
                             <label for="user_fname">Full Name</label>
                             <div class="input-group">
                               <input type="hidden" name="userinfo_id">
-                              <input type="text" name="user_fname" value="<?php echo ucwords( $row->user_fname ); ?>" class="form-control" id="user_fname" readonly />
+                              <input type="text" name="user_fname" value="<?php echo ucwords( $row->user_fname ); ?>" class="form-control" id="user_fname" disabled />
                               <div class="input-group-append">
                                 <span class="input-group-text">
                                   <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -107,7 +136,7 @@
                           <div class="form-group">
                             <label for="user_email">Email Address</label>
                             <div class="input-group">
-                              <input type="text" name="user_email" value="<?php echo $row->user_email; ?>" class="form-control" id="user_email" readonly />
+                              <input type="text" name="user_email" value="<?php echo $row->user_email; ?>" class="form-control" id="user_email" disabled />
                               <div class="input-group-append">
                                 <span class="input-group-text">
                                   <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -120,7 +149,7 @@
                           <div class="form-group">
                             <label for="user_name">User Name</label>
                             <div class="input-group">
-                              <input type="text" name="user_name" value="<?php echo ucwords( $row->login_name ); ?>" class="form-control" id="user_name" readonly />
+                              <input type="text" name="user_name" value="<?php echo ucwords( $row->login_name ); ?>" class="form-control" id="user_name" disabled />
                               <div class="input-group-append">
                                 <span class="input-group-text">
                                   <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -131,7 +160,7 @@
                           <div class="form-group">
                             <label for="user_pass">Password</label>
                             <div class="input-group">
-                              <input type="password" name="user_pass" value="<?php echo $row->login_pass; ?>" class="form-control" id="user_pass" readonly />
+                              <input type="password" name="user_pass" value="<?php echo $row->login_pass; ?>" class="form-control" id="user_pass" disabled />
                               <div class="input-group-append">
                                 <span class="input-group-text">
                                   <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -144,7 +173,7 @@
                           <div class="form-group">
                             <label for="user_phone">Phone Number</label>
                             <div class="input-group">
-                              <input type="text" name="user_phone" value="<?php echo $row->user_phone; ?>" class="form-control" id="user_phone" readonly />
+                              <input type="text" name="user_phone" value="<?php echo $row->user_phone; ?>" class="form-control" id="user_phone" disabled />
                               <div class="input-group-append">
                                 <span class="input-group-text">
                                   <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -155,7 +184,7 @@
                           <div class="form-group">
                             <label for="user_add">Permanent Address</label>
                             <div class="input-group">
-                              <input type="text" name="user_add" value="<?php echo ucwords( $row->user_add ); ?>" class="form-control" id="user_add" readonly />
+                              <input type="text" name="user_add" value="<?php echo ucwords( $row->user_add ); ?>" class="form-control" id="user_add" disabled />
                               <div class="input-group-append">
                                 <span class="input-group-text">
                                   <i class="mdi mdi-check-circle-outline mdi-18px"></i>
@@ -172,7 +201,6 @@
                   <?php endforeach; ?>
                 </div>
               </div>
-
               <!-- end content -->
             </div>
           </div>

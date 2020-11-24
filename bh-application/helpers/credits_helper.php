@@ -2,7 +2,7 @@
 
 if( ! function_exists( 'credits' ) ) {
   /**
-   * Credits to the creators
+   * CREDIT TO PROGRAMMER(S)
    */
   function credits( $request ) {
     switch ( $request ) {
@@ -10,7 +10,7 @@ if( ! function_exists( 'credits' ) ) {
         echo '© Alex Boarding House';
         break;
       case 'cr':
-        echo 'Created with ❤ by Dinagat Coders';
+        echo 'Created with ❤ by Junry Solloso';
         break;
       default:
         return false;

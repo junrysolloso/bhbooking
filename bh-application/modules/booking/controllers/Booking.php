@@ -8,7 +8,7 @@ class Booking extends MY_Controller
 
     // Load models
     $this->load->model( 'Model_Booking' );
-    $this->load->model( 'account/Model_Payment' );
+    $this->load->model( 'settings/Model_Payment' );
     $this->load->model( 'settings/Model_Room' );
     $this->load->model( 'settings/Model_User_Meta' );
     $this->load->model( 'settings/Model_User_Login' );
@@ -35,14 +35,15 @@ class Booking extends MY_Controller
 	 */
   public function pendings() {
 
-    // Check session
-    if ( ! sesscheck() ) {
-      redirect( base_url( 'login' ) );
-    }
+    Sess::admin();
 
     $data['title']    = 'Pending Bookings';
     $data['class']    = 'pending';
     $data['pendings'] = $this->Model_Booking->get_bookings( NULL, 'pending' );
+    $data['recent']   = $this->Model_Booking->get_bookings( NULL, 'active' );
+    $data['list']     = $this->Model_Booking->get_bookings( NULL, 'list' );
+    $data['years']    = $this->Model_Payment->get_years();
+    $data['months']   = $this->Model_Payment->get_months();
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );
@@ -55,6 +56,10 @@ class Booking extends MY_Controller
     $this->template->write_view( 'content', 'templates/template_right_side' );
     $this->template->write_view( 'content', 'templates/template_footer' );
 
+    // Modals
+    $this->template->write_view( 'content', 'modals/modal_payment' );
+    $this->template->write_view( 'content', 'modals/modal_date' );
+
     // Add JS 
     $this->template->add_js( 'bh-assets/js/pages/page_booking.js' );
 		$this->template->render();
@@ -65,13 +70,13 @@ class Booking extends MY_Controller
    */
   public function cancelled() {
 
-    // Check session
-    if ( ! sesscheck() ) {
-      redirect( base_url( 'login' ) );
-    }
+    Sess::admin();
 
-    $data['title']  = 'Cancelled Bookings';
-    $data['class']  = 'cancelled';
+    $data['title']     = 'Cancelled Bookings';
+    $data['class']     = 'cancelled';
+    $data['cancelled'] = $this->Model_Booking->get_bookings( NULL, 'cancelled' );
+    $data['recent']    = $this->Model_Booking->get_bookings( NULL, 'active' );
+    $data['list']      = $this->Model_Booking->get_bookings( NULL, 'list' );
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );
@@ -83,6 +88,11 @@ class Booking extends MY_Controller
     $this->template->write_view( 'content', 'view_cancelled' );
     $this->template->write_view( 'content', 'templates/template_right_side' );
     $this->template->write_view( 'content', 'templates/template_footer' );
+
+    // Modals
+    $this->template->write_view( 'content', 'modals/modal_payment' );
+    $this->template->write_view( 'content', 'modals/modal_date' );
+
 		$this->template->render();
   }
 
@@ -105,11 +115,73 @@ class Booking extends MY_Controller
           $this->_response( array( 'beds' => 0 ) );
         }
       }
+    } else {
+      $this->_response( array( 'message' => 'Unknown request.' ) );
     }
-
   }
 
+  /**
+   * CONFIRM BOOKING
+   */
+  public function update_status() {
+
+    // Check server request method
+    if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
   
+      // Check which request
+      if ( $this->input->post( 'p_book_id' ) ) {
+        
+        // Get values from post
+        $room_id = $this->input->post( 'p_room_id' );
+        $book_id = $this->input->post( 'p_book_id' );
+        $user_id = $this->input->post( 'p_user_id' );
+
+        // Peroform updates
+        if ( $this->Model_Booking->update_status( $book_id, 'pending' ) ) {
+          if ( $this->Model_User_Meta->update_status( $user_id, 'pending' ) ) {
+
+            // Log
+            $this->Model_Log->add_log( log_lang( 'booking' )['confirm'] );
+
+            // response
+            $this->_response( $this->Model_Booking->get_bookings( NULL, 'pending' ) );
+          }
+        }
+      }
+
+      // Check which request
+      if ( $this->input->post( 'c_book_id' ) ) {
+  
+        // Get values from post
+        $room_id = $this->input->post( 'c_room_id' );
+        $book_id = $this->input->post( 'c_book_id' );
+        $user_id = $this->input->post( 'c_user_id' );
+
+        // Peroform updates
+        if ( $this->Model_Booking->update_status( $book_id, 'cancelled' ) ) {
+          if ( $this->Model_User_Meta->update_status( $user_id, 'cancelled' ) ) {
+
+            // Add back the bedroom in room available
+            if ( $this->Model_Room->room_update_available( $room_id, 'cancelled' ) ) {
+
+              // Update room status
+              if ( $this->Model_Room->room_update_status( $room_id ) ) {
+
+                // Log
+                $this->Model_Log->add_log( log_lang( 'booking' )['cancel'] );
+
+                // Response
+                $this->_response( $this->Model_Booking->get_bookings( NULL, 'pending' ) );
+              }
+            }
+          }
+        }
+      }
+    } else {
+      $this->_response( array( 'message' => 'Unknown request.' ) );
+    }
+  }
+
   /**
    * ADD BOOKING
    */
@@ -172,7 +244,7 @@ class Booking extends MY_Controller
 
               // Booking data
               $booking = array(
-                'book_date'     => date( 'Y-m-d' ),
+                'book_date'     => date( 'Y-m-d H:i:s' ),
                 'book_arrival'  => $user_arrival,
                 'book_status'   => 'pending',
                 'room_id'       => $room_id,
@@ -182,9 +254,11 @@ class Booking extends MY_Controller
               // Insert booking
               if ( $this->Model_Booking->booking_add( $booking ) ) {
 
-                // Update available room
-                if ( $this->Model_Room->room_update_available( $room_id ) ) {
-                  if ( $this->Model_Room->room_update_status() ) {
+                // Update room available
+                if ( $this->Model_Room->room_update_available( $room_id, 'minus' ) ) {
+
+                  // Update room status
+                  if ( $this->Model_Room->room_update_status( $room_id ) ) {
                     $flag = true;
                   }
                 }
@@ -198,6 +272,49 @@ class Booking extends MY_Controller
           $this->_response( array( 'msg' => 'Booking successful.' ) );
         }
       } 
+    } else {
+      $this->_response( array( 'message' => 'Unknown request.' ) );
+    }
+  }
+
+  /**
+   * INDIVIDUAL BOOKING
+   */
+  public function book_me() {
+
+     // Check Server Request
+     if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+      if ( $this->input->post( 'user_id' ) ) {
+
+        // Get room id
+        $room_id = $this->Model_Room->room_id_get();
+
+        // Get post values
+        $data = array(
+          'book_date'     => date( 'Y-m-d H:i:s' ),
+          'book_arrival'  => $this->input->post( 'arrival' ),
+          'book_status'   => 'pending',
+          'room_id'       => $room_id,
+          'user_id'       => $this->input->post( 'user_id' ),
+        );
+
+        // Insert booking
+        if ( $this->Model_Booking->booking_add( $data ) ) {
+
+          // Update room available
+          if ( $this->Model_Room->room_update_available( $room_id, 'minus' ) ) {
+
+            // Update room status
+            if ( $this->Model_Room->room_update_status( $room_id ) ) {
+
+              // Send response
+              $this->_response( array( 'msg' => 'Booking successful.' ) );
+            }
+          }
+        }
+      }
+    } else {
+      $this->_response( array( 'message' => 'Unknown request.' ) );
     }
   }
 
@@ -205,20 +322,11 @@ class Booking extends MY_Controller
    * SERVER RESPONSE
    * @param array $data
    */
-  public function _response( $data ) {
+  private function _response( $data ) {
     
     // Response with JSON format data
     header( 'content-type: application/json' );
     exit( json_encode( $data ) );
-  }
-
-  /**
-   * TEST
-   */
-  public function test() {
-    $res = $this->Model_User_Meta->get_user_details( 8 );
-
-    var_dump($res);
   }
 
 }

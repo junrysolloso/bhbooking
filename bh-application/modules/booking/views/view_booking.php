@@ -2,7 +2,7 @@
   <div class="container-fluid page-body-wrapper full-page-wrapper">
     <div class="content-wrapper d-flex align-items-center auth multi-step-login theme-one" style="background-image: linear-gradient(140deg, #FDDBE2, #fff);">
       <div class="row w-100">
-        <div class="col-md-5 mx-auto">
+        <div class="col-md-6 mx-auto">
           <h3 class="text-center pt-5"><?php echo strtoupper( 'Alex Boarding House Booking' ); ?></h3>
           <p class="text-center text-muted">Please provide correct details below for your booking.</p>
           <form class="step-form auto-form-wrapper" id="msform">
@@ -46,8 +46,11 @@
               <p class="mb-0 text-muted">We will get intouch with you soon after booking is confirm.</p>
             </fieldset>
 
-            <div class="text-gray">
-              <p class="mt-4 text-center"><a href="#" style="color: gray;">Privacy Policy</a> &bull; <a href="#" style="color: gray;">Terms & Conditions</a></p>
+            <div class="text-center mt-4">
+              <p>
+                <?php credits( 'co' ); ?><br />
+                <a href="#" style="color: gray;">Privacy Policy</a> &bull; <a href="#" style="color: gray;">Terms & Conditions</a>
+              </p>
             </div>
           </form>
         </div>

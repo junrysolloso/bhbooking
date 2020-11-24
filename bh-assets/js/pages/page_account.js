@@ -1,4 +1,4 @@
-(function(){
+(function($){
   'use strict';
 
   $(function(){
@@ -46,7 +46,9 @@
           $.post( url, data ).done( function( data ) {
 
             // Show success message
-            showSuccessToast( 'User successfully added.' );
+            swal("User successfully added.", {
+              icon: "success",
+            });
 
             // Reset form
             $('#form-account-update').trigger('reset');
@@ -69,6 +71,112 @@
         }, 500 );
       }
     });
+
+    /**
+     * CANCEL BOOKING EVENT
+     */
+    $('.cancel-booking').on('click', function(){
+      cancel_booking( $(this) );
+    });
+
+    /**
+     * CANCEL BOOKING
+     * 
+     * @param {object} obj 
+     */
+    function cancel_booking( obj ) {
+       // Get ids
+       var data = {
+        c_book_id: obj.attr('b-id'),
+        c_room_id: obj.attr('r-id'),
+        c_user_id: obj.attr('u-id'),
+      }
+
+      // Confirmation
+      swal({
+        title: "Are you sure?",
+        text: "Booking cancellation message.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        closeOnClickOutside: false,
+      })
+      .then((callback) => {
+        if (callback) {
+          
+          // Send request to the server
+          $.post( $('input#base_url').val() + 'booking/update-status', data ).done(function( data ) {
+
+            // Populate table
+            if ( data ) {
+
+              // Show success message
+              swal("Booking successfully cancelled.", {
+                icon: "warning",
+              });
+
+              // Reload page
+              setTimeout( function() {
+                window.location.reload();
+              }, 2000 );
+            }
+          });
+        } else {
+          swal.close();
+        }
+      });
+    }
+
+    /**
+     * SHOW BOOKING MODAL
+     */
+    $('#add-booking').on('click', function() {
+
+      // Show modal
+      $('#add_new_booking').modal('show');
+    });
+
+    /**
+     * ADD BOOKING SUBMIT
+     */
+    $('#form-add-booking').submit( function(event) {
+      
+      // Prevent form from submision
+      event.preventDefault();
+
+      // Get data
+      var data = {
+        user_id: $('input[name="edit_user_id"]').val(),
+        arrival: $('input[name="add_booking"]').val(),
+      }
+
+      // Post data
+      $.post( $('input#base_url').val() + 'booking/book-me', data ).done( function() {
+        
+        // Show success message
+        swal("Booking successfully added.", {
+          icon: "warning",
+        });
+
+        // Reload page
+        setTimeout( function() {
+          window.location.reload();
+        }, 2000 );
+
+      });
+    });
+
+    /**
+     * CHANGE INPUT ICON ON KEYUP EVENT
+     */
+    $( 'input' ).on( 'keyup', function() {
+      input_icon( $(this) );
+    });
+
+     /**
+      * INITIALIZE INPUT MASK
+      */
+     $( ":input" ).inputmask();
 
   });
 
@@ -105,7 +213,7 @@
       ],
       bFilter: true,
       bInfo: false,
-      "iDisplayLength": 20,
+      "iDisplayLength": 10,
       "bLengthChange": false,
     });
   });

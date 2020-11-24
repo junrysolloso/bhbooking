@@ -48,6 +48,17 @@
 
         <div class="col-12">
           <div class="form-group">
+            <label for="room_rate">Room Monthly Rate</label>
+            <div class="input-group">
+              <input type="number" step="0.01" name="room_rate" class="form-control" id="room_rate" required />
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <i class="mdi mdi-check-circle-outline mdi-18px"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
             <label for="room_desc">Room Description</label>
             <div class="input-group">
               <input type="text" name="room_desc" class="form-control" id="room_desc" required />
@@ -60,7 +71,7 @@
           </div>
         </div>
         <div class="col-12 pt-2">
-          <input type="submit" name="room_submit" value="Add Room" class="btn btn-success submit-btn float-right">
+          <input type="submit" name="room_submit" value="Add Room" class="btn btn-danger submit-btn float-right">
         </div>
       </div>
     </form>
@@ -83,9 +94,23 @@
               echo '<tr>';
               echo '<td>'. $count .'</td>';
               echo '<td>'. ucwords( $row->room_name .' ( '. $row->room_status .' )') .'</td>';
-              echo '<td>'. $row->room_equiv . ' Bedroom(s)' .'</td>';
-              echo '<td>'. $row->room_available .' Bed(s) Availabe' .'</td>';
-              echo '<td><span class="room-details" r-id="'. $row->room_id .'" r-name="'. ucwords( $row->room_name ) .'" r-desc="'. ucwords( $row->room_desc ) .'" r-equiv="'. $row->room_equiv .'" r-status="'. ucwords( $row->room_status ) .'" ><i class="mdi mdi-eye mdi-18px"></i> View</span></td>';
+              echo '<td class="text-info">'. $row->room_equiv . ' Bedroom(s)' .'</td>';
+
+              if (  $row->room_available == 0 ) {
+
+                // Full
+                echo '<td class="text-danger">'. $row->room_available .' Bed(s) Availabe' .'</td>';
+              } elseif ( $row->room_available == $row->room_equiv ) {
+
+                // Empty
+                echo '<td class="text-success">'. $row->room_available .' Bed(s) Availabe' .'</td>';
+              } else {
+
+                // Occupied
+                echo '<td class="text-warning">'. $row->room_available .' Bed(s) Availabe' .'</td>';
+              }
+              
+              echo '<td><span class="room-details" r-id="'. $row->room_id .'" r-rate="'. $row->room_rate .'" r-name="'. ucwords( $row->room_name ) .'" r-desc="'. ucwords( $row->room_desc ) .'" r-equiv="'. $row->room_equiv .'" r-status="'. ucwords( $row->room_status ) .'" ><i class="mdi mdi-eye mdi-18px"></i> View</span></td>';
               echo '</tr>';
               $count++;
             }
@@ -212,8 +237,8 @@
                 echo '<tr>';
                 echo '<td><img class="profile-image rounded-circle img-sm" src="'. base_url() .'bh-uploads/'. $row->user_photo .'"> '. ucwords( $row->user_fname ) .'</td>';
                 echo '<td>'. $row->user_phone .'</td>';
-                echo '<td>'. $row->login_level .'</td>';
-                echo '<td>'. ucwords( $row->login_name ) .'</td>';
+                echo '<td class="text-warning">'. $row->login_level .'</td>';
+                echo '<td class="text-info">'. ucwords( $row->login_name ) .'</td>';
                 echo '<td><span class="user-details" u-id="'. $row->user_id .'" u-fname="'. ucwords( $row->user_fname ) .'" u-phone="'. $row->user_phone .'" u-email="'. $row->user_email .'" u-name="'. ucfirst( $row->login_name ) .'" u-status="'. ucwords( $row->user_status ) .'" u-level="'. ucwords( $row->login_level ) .'" ><i class="mdi mdi-eye mdi-18px"></i> View</span></td>';
                 echo '</tr>';
               }
@@ -226,6 +251,16 @@
 
   <!-- start of log tab -->
   <div class="tab-pane fade" id="logs" role="tabpanel">
+    <div class="form-group">
+      <div class="input-group">
+        <input type="text" name="data_search" class="form-control" id="logs" placeholder="Search anything from the table...">
+        <div class="input-group-append">
+          <span class="input-group-text">
+            <i class="mdi mdi-magnify-plus mdi-18px"></i>
+          </span>
+        </div>
+      </div>
+    </div>
     <div class="table-responsive">
       <table class="table table-striped table-borderless" id="logs-table">
         <thead>
@@ -243,8 +278,8 @@
                 echo '<tr>';
                 echo '<td>'. $count .'</td>';
                 echo '<td>'. ucwords( $row->login_name ) .'</td>';
-                echo '<td>'. date_format( date_create ( $row->log_date ), 'Y-m-d @ H:i:s A' ) .'</td>';
-                echo '<td>'. ucwords ( $row->log_task ) .'</td>';
+                echo '<td class="text-info">'. date_format( date_create ( $row->log_date ), 'Y-m-d @ H:i:s A' ) .'</td>';
+                echo '<td class="text-success">'. ucwords ( $row->log_task ) .'</td>';
                 echo '</tr>';
                 $count++;
               }

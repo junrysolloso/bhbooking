@@ -73,6 +73,35 @@ class Model_User_Meta extends MY_Model
   } 
 
   /**
+   * UPDATE USER STATUS
+   */
+  public function update_status( $id = 0, $arg ) {
+    if ( ! empty( $id ) && ! empty( $arg ) ) {
+      
+      // Data to update
+      if ( $arg == 'pending' ) {
+        $data = array(
+          $this->user_status => 'active',
+        );
+      } elseif ( $arg == 'complete' ) {
+        $data = array(
+          $this->user_status => 'complete',
+        );
+      } else {
+        $data = array(
+          $this->user_status => 'cancelled',
+        );
+      }
+
+      // Query
+      $this->db->where( $this->user_id, $id );
+      if ( $this->db->update( $this->table, $data ) ) {
+        return true;
+      }
+    }
+  }
+
+  /**
    * DELETE USER META
    * @param array $data
    */
@@ -93,6 +122,20 @@ class Model_User_Meta extends MY_Model
     $query = $this->db->get( $this->table );
     if ( $query->num_rows() > 0 ) {
       return $query->row()->id;
+    }
+  }
+
+  /**
+   * EMAIL CHECK
+   * @param array $data
+   */
+  public function email_check( $data = [] ) {
+    if ( is_array( $data ) && count( $data ) > 0 ) {
+      $this->select( '*' )->where( $this->user_email, $data['value'] );
+      $query = $this->db->get( $this->table );
+      if ( $query->num_rows() > 0 ) {
+        return true;
+      }
     }
   }
 

@@ -11,6 +11,7 @@ class Model_Booking extends MY_Model
   protected $book_date             = 'book_date';
   protected $book_arrival          = 'book_arrival';
   protected $book_status           = 'book_status';
+  protected $book_cancel           = 'book_cancel';
 
   protected $relate_rooms          = 'tbl_rooms';
   protected $relate_room_id        = 'room_id';
@@ -33,6 +34,38 @@ class Model_Booking extends MY_Model
   public function booking_add( $data = [] ) {
     if ( is_array( $data ) && count( $data ) > 0 ) {
       if ( $this->db->insert( $this->table, $data ) ) {
+        $this->Model_Log->add_log( log_lang( 'booking' )['add'] );
+        return true;
+      }
+    }
+  }
+
+  /**
+   * UPDATE BOOKING STATUS
+   */
+  public function update_status( $id, $arg ) {
+    if ( ! empty( $id ) && ! empty( $arg ) ) {
+      
+      // Data to update
+      if ( $arg == 'pending' ) {
+        $data = array(
+          $this->book_status => 'active',
+        );
+      } elseif ( $arg == 'complete' ) {
+        $data = array(
+          $this->book_status => 'complete',
+        );
+      } else {
+        $data = array(
+          $this->book_status => 'cancelled',
+          $this->book_cancel => date( 'Y-m-d H:i:s' ),
+        );
+      }
+
+      // Query
+      $this->db->where( $this->book_id, $id );
+      if ( $this->db->update( $this->table, $data ) ) {
+        $this->Model_Log->add_log( log_lang( 'booking' )['update'] );
         return true;
       }
     }
@@ -42,7 +75,7 @@ class Model_Booking extends MY_Model
    * GET BOOKING
    * @param string $arg
    */
-  public function get_bookings( $id, $arg ) {
+  public function get_bookings( $id, $arg, $date = NULL ) {
     if ( ! empty( $arg ) ) {
 
       $this->db->select( '*' );
@@ -58,6 +91,20 @@ class Model_Booking extends MY_Model
         case 'cancelled':
           $this->db->where( $this->book_status, 'cancelled' );
           break;
+        case 'active':
+          $this->db->where( $this->book_status, 'active' )->limit( 10 );
+          break;
+        case 'list':
+          $this->db->where( '`book_status` !=', 'pending' );
+          $this->db->where( '`book_status` !=', 'cancelled' );
+          break;
+        case 'year':
+          if ( $date ) {
+            $this->db->where( '`book_status` !=', 'pending' );
+            $this->db->where( '`book_status` !=', 'cancelled' );
+            $this->db->where( 'DATE_FORMAT(`book_arrival`, "%Y") =', $date );
+          }
+          break;
         default:
           break;
       }
@@ -65,16 +112,73 @@ class Model_Booking extends MY_Model
       // Join related rable
       $this->join( $this->relate_rooms, '`tbl_bookings`.`room_id`=`tbl_rooms`.`room_id`' );
       $this->join( $this->relate_user_meta, '`tbl_bookings`.`user_id`=`tbl_user_meta`.`user_id`' );
-      $this->order_by( $this->book_date, 'ASC' );
+      $this->order_by( $this->book_date, 'DESC' );
       $query = $this->db->get( $this->table );
       
       // Check query
       if ( $query ) {
+        $this->Model_Log->add_log( log_lang( 'booking' )['view'] );
         return $query->result();
       }
     }
   }
 
+  /**
+   * GET IF THEIR IS NEW BOOKING 
+   * OR CANCELLED BOOKING
+   */
+  public function notify( $arg ) {
+    if ( ! empty( $arg ) ) {
+
+      // Count id
+      $this->db->select('COUNT(`book_id`) AS `count`');
+
+      if ( $arg == 'pending' ) {
+        $this->db->where( $this->book_status, 'pending' );
+      } else {
+        $this->db->where( $this->book_status, 'cancelled' );
+      }
+
+      $count = $this->db->get( $this->table )->row()->count;
+
+      if ( isset( $count ) ) {
+        return $count;
+      }
+    }
+  }
+
+  /**
+   * GET LAST BOOK TIME
+   */
+  public function last_booking_date( $arg ) {
+    if ( ! empty( $arg ) ) {
+
+      $this->db->select('MAX(`book_date`) AS `date`');
+      if ( $arg == 'pending' ) {
+        $this->db->where( $this->book_status, 'pending' );
+      } else {
+        $this->db->where( $this->book_status, 'cancelled' );
+      }
+
+      $date = $this->db->get( $this->table )->row()->date;
+
+      if ( isset( $date ) ) {
+        return $date;
+      }
+    }
+  }
+
+  /**
+   * CHECK BOOKING STATUS
+   */
+  public function check_status( $user_id ) {
+    if ( ! empty( $user_id ) ) {
+      $query = $this->db->select( '*' )->where( $this->relate_user_id, $user_id )->where( $this->book_status, 'active' )->get( $this->table );
+      if ( $query->num_rows() > 0 ) {
+        return true;
+      }
+    }
+  }
 
 }
 

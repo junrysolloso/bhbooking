@@ -68,6 +68,7 @@ class Model_Room extends MY_Model
       $updates = array (
         'room_name'       => strtolower( $data['room_name'] ),
         'room_desc'       => strtolower( $data['room_desc'] ),
+        'room_rate'       => strtolower( $data['room_rate'] ),
         'room_status'     => strtolower( $data['room_status'] ),
         'room_equiv'      => $data['room_equiv'],
         'room_available'  => $avail,
@@ -122,13 +123,26 @@ class Model_Room extends MY_Model
     }
   } 
 
-    /**
+  /**
+   * GET RROM RATE
+   * @return id $room_rate
+   */
+  public function get_room_rate( $room_id ) {
+    if ( ! empty( $room_id ) && is_numeric( $room_id ) ) {
+      $room_rate = $this->db->select( '`room_rate`' )->where( $this->room_id, $room_id )->get( $this->table )->row()->room_rate;
+      if ( $room_rate >  0 ) {
+        return $room_rate;
+      }
+    }
+  } 
+
+  /**
    * GET ROOM ID
    */
   public function room_id_get() {
 
     // Get room id
-    $this->db->select( '`room_id` AS `id`' )->where( '`room_available` != ', 0 )->limit( 1 )->order_by( $this->room_available, 'ASC' );
+    $this->db->select( '`room_id` AS `id`' )->where( '`room_available` != ', 0 )->limit( 1 )->order_by( $this->room_id, 'ASC' );
     $this->db->where( '`room_status` !=', 'reserved' );
     $query = $this->db->get( $this->table );
     if ( $query->num_rows() > 0 ) {
@@ -139,12 +153,26 @@ class Model_Room extends MY_Model
   /**
    * UPDATE ROOM AVAILABLE
    */
-  public function room_update_available( $room_id )  {
-    if ( ! empty( $room_id ) ) {
+  public function room_update_available( $room_id, $arg )  {
+    if ( ! empty( $room_id )  && ! empty( $arg ) ) {
 
-      // Minus available room
-      if ( $this->db->simple_query( 'UPDATE `tbl_rooms` SET `room_available`=(SELECT `room_available` FROM `tbl_rooms` WHERE `room_id`='.$room_id.')-1 WHERE `room_id`='.$room_id.'' ) ) {
-        return true;
+      // Especific query
+      if ( $arg == 'cancelled' ) {
+
+        // Get the number of bedrooms
+        $beds = $this->db->select( '`room_equiv` AS `equiv`' )->where( $this->room_id, $room_id )->get( $this->table )->row()->equiv;
+        
+        // Add available room
+        if ( $this->db->simple_query( 'UPDATE `tbl_rooms` SET `room_available`=(SELECT `room_available` FROM `tbl_rooms` WHERE `room_id`='.$room_id.')+1 WHERE `room_id`='.$room_id.' && `room_available` < '.$beds.'' ) ) {
+          return true;
+        }
+      } else {
+        
+        // Minus available room
+        if ( $this->db->simple_query( 'UPDATE `tbl_rooms` SET `room_available`=(SELECT `room_available` FROM `tbl_rooms` WHERE `room_id`='.$room_id.')-1 WHERE `room_id`='.$room_id.'' ) ) {
+          $this->Model_Log->add_log( log_lang( 'room' )['update'] );
+          return true;
+        }
       }
     }
   }
@@ -152,16 +180,34 @@ class Model_Room extends MY_Model
   /**
    * UPDATE ROOM STATUS
    */
-  public function room_update_status() {
+  public function room_update_status( $room_id ) {
 
-    // Data to update
-    $data = array(
-      $this->room_status => 'full',
-    );
+    if ( ! empty( $room_id ) ) {
 
-    $this->db->where( $this->room_available, 0 );
-    if ( $this->db->update( $this->table, $data ) ) {
-      return true;
+      // Get available beds
+      $equiv = $this->db->select( '`room_equiv` AS `equiv`' )->where( $this->room_id, $room_id )->get( $this->table )->row()->equiv;
+      $avail = $this->db->select( '`room_available` AS `avail`' )->where( $this->room_id, $room_id )->get( $this->table )->row()->avail;
+
+      // Data to update
+      if ( $avail == 0 ) {
+        $data = array(
+          $this->room_status => 'full',
+        );
+      } elseif ( $avail == $equiv ) {
+        $data = array(
+          $this->room_status => 'empty',
+        );
+      } else {
+        $data = array(
+          $this->room_status => 'occupied',
+        );
+      }
+      
+      $this->db->where( $this->room_id, $room_id );
+      if ( $this->db->update( $this->table, $data ) ) {
+        $this->Model_Log->add_log( log_lang( 'room' )['update'] );
+        return true;
+      }
     }
   }
 

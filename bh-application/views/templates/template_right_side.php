@@ -8,90 +8,21 @@
         <!-- end of content inner -->
 
         <!-- start of right sidebar -->
-        <div class="content-aside-right" style="max-height: calc(100vh - 95px);">
-          <h4 class="card-title">Current Boarders</h4>
+        <div class="content-aside-right">
+          <h4 class="card-title text-muted">Recent Boarders</h4>
           <ul class="activity-lists">
-            <li class="activity-list">
-              <img class="profile-image rounded-circle img-sm" src="<?php echo base_url(); ?>bh-uploads/avatar.jpg"
-                alt="profile image">
-              <div class="activity-content">
-                <p class="profile-image-name">Lucas Pacheco</p>
-                <p class="activity-text">Nice work, good design!</p>
-                <p class="activity-time">30 mins ago</p>
-              </div>
-            </li>
-            <li class="activity-list">
-              <img class="profile-image rounded-circle img-sm" src="<?php echo base_url(); ?>bh-uploads/avatar.jpg"
-                alt="profile image">
-              <div class="activity-content">
-                <p class="profile-image-name">Miriam de Jesús</p>
-                <p class="activity-text">Nice work, good design!</p>
-                <p class="activity-time">45 mins ago</p>
-              </div>
-            </li>
-            <li class="activity-list">
-              <img class="profile-image rounded-circle img-sm" src="<?php echo base_url(); ?>bh-uploads/avatar.jpg"
-                alt="profile image">
-              <div class="activity-content">
-                <p class="profile-image-name">Fukuyo Kazutoshi</p>
-                <p class="activity-text">Nice work, good design!</p>
-                <p class="activity-time">53 mins ago</p>
-              </div>
-            </li>
-            <li class="activity-list">
-              <img class="profile-image rounded-circle img-sm" src="<?php echo base_url(); ?>bh-uploads/avatar.jpg"
-                alt="profile image">
-              <div class="activity-content">
-                <p class="profile-image-name">Huo Shu</p>
-                <p class="activity-text">Nice work, good design!</p>
-                <p class="activity-time">24 mins ago</p>
-              </div>
-            </li>
-            <li class="activity-list">
-              <img class="profile-image rounded-circle img-sm" src="<?php echo base_url(); ?>bh-uploads/avatar.jpg"
-                alt="profile image">
-              <div class="activity-content">
-                <p class="profile-image-name">Stina Gunnarsdottir</p>
-                <p class="activity-text">Nice work, good design!</p>
-                <p class="activity-time">26 mins ago</p>
-              </div>
-            </li>
-            <li class="activity-list">
-              <img class="profile-image rounded-circle img-sm" src="<?php echo base_url(); ?>bh-uploads/avatar.jpg"
-                alt="profile image">
-              <div class="activity-content">
-                <p class="profile-image-name">Labeeba Al Amer</p>
-                <p class="activity-text">Nice work, good design!</p>
-                <p class="activity-time">24 mins ago</p>
-              </div>
-            </li>
-            <li class="activity-list">
-              <img class="profile-image rounded-circle img-sm" src="<?php echo base_url(); ?>bh-uploads/avatar.jpg"
-                alt="profile image">
-              <div class="activity-content">
-                <p class="profile-image-name">Emlen Beaver</p>
-                <p class="activity-text">Nice work, good design!</p>
-                <p class="activity-time">19 mins ago</p>
-              </div>
-            </li>
-            <li class="activity-list">
-              <img class="profile-image rounded-circle img-sm" src="<?php echo base_url(); ?>bh-uploads/avatar.jpg"
-                alt="profile image">
-              <div class="activity-content">
-                <p class="profile-image-name">Cayla Brister</p>
-                <p class="activity-text">Nice work, good design!</p>
-                <p class="activity-time">23 mins ago</p>
-              </div>
-            </li>
-            <li class="activity-list">
-              <img class="profile-image rounded-circle img-sm" src="<?php echo base_url(); ?>bh-uploads/avatar.jpg"
-                alt="profile image">
-              <div class="activity-content">
-                <p class="profile-image-name">Chikanso Chima</p>
-                <p class="activity-text">Nice work, good design!</p>
-                <p class="activity-time">52 mins ago</p>
-              </div>
-            </li>
+            <?php
+              foreach ( $recent as $row ) {
+                echo '<li class="activity-list">';
+                echo '<img class="profile-image rounded-circle img-sm" src="'. base_url() .'bh-uploads/'. $row->user_photo .'" />';
+                echo '<div class="activity-content">';
+                echo '<p class="profile-image-name">'. ucwords( $row->user_fname ) .'</p>';
+                echo '<p class="activity-text">'. $row->book_arrival .'</p>';
+                echo '<p class="activity-time">'. $row->book_date .'</p>';
+                echo '</div>';
+                echo '</li>';
+              }
+            ?>
           </ul>
         </div>
         <!-- end of right sidebar -->

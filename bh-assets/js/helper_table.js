@@ -1,92 +1,75 @@
 (function ($) {
   'use strict';
-  // Initialize tables
-  // Settings Table
-  $(function () {
-    $('#pendings, #cancelled').DataTable({
-      "aLengthMenu": [
-        [5, 10, 15, -1],
-        [5, 10, 15, "All"]
-      ],
-      paging: false,
-      bFilter: true,
-      bInfo: false,
-      "iDisplayLength": 20,
-      "bLengthChange": false,
-    });
-  });
 
-  $(function () {
-    $('#logs-table').DataTable({
-      "aLengthMenu": [
-        [5, 10, 15, -1],
-        [5, 10, 15, "All"]
-      ],
-      paging: true,
-      bSort: true,
-      bFilter: false,
-      bInfo: false,
-      "iDisplayLength": 14,
-      "bLengthChange": false,
-    });
-  });
+  var p_paging = false, c_paging = false, i;
 
-  $(function () {
-    $('#room-table, #user-table').DataTable({
-      "aLengthMenu": [
-        [5, 10, 15, -1],
-        [5, 10, 15, "All"]
-      ],
-      paging: true,
-      bSort: true,
-      bFilter: false,
-      bInfo: false,
-      "iDisplayLength": 10,
-      "bLengthChange": false,
-    });
-  });
+  $(document).ready(function(){
 
-  // Use DataTable in searching tables
-  $('input[name="data_search"]').on('keyup', function () {
-    var s_value = $(this).attr('id');
-    switch (s_value) {
-      // Inventory
-      case 'inv-grocery':
-        $('#inv-grocs-table').DataTable().search($(this).val()).draw();
-        break;
-      case 'inv-pharmacy':
-        $('#inv-pharm-table').DataTable().search($(this).val()).draw();
-        break;
-      case 'inv-damage':
-        $('#inv-damag-table').DataTable().search($(this).val()).draw();
-        break;
-      case 'inv-beauty':
-        $('#inv-beaut-table').DataTable().search($(this).val()).draw();
-        break;
+    // Check if row count is greater that 14 
+    // then set paging to true
+    if ( $('.pending-count').length ) {
+      var p_count = $('.pending-count').val();
+      if ( p_count > 14 ) {
+        p_paging = true;
+      }
+    }
 
-      // Orders
-      case 'ord-history':
-        $('#ord-histo-table').DataTable().search($(this).val()).draw();
-        break;
-      case 'ord-items':
-        $('#ord-items-table').DataTable().search($(this).val()).draw();
-        break;
+    if ( $('.cancelled-count').length ) {
+      var c_count = $('.cancelled-count').val();
+      if ( c_count > 14 ) {
+        c_paging = true;
+      }
+    }
+    
+    // Table values
+    var ar_tables = ['#pendings-table', '#cancelled-table', '#logs-table', '#room-table', '#user-table', '#list-table', '#booker-payments-table', '#recent-pays-table'];
+    var ar_paging = [p_paging, c_paging, true, true, false, true, true, true];
+    var ar_filter = [true, true, true, true, true, true, true, true];
+    var ar_sort   = [true, true, true, true, true, true, true, true];
+    var ar_info   = [false, false, false, false, false, false, false, false];
+    var ar_dlen   = [14, 14, 12, 8, 8, 14, 5, 8];
 
-      // Settings
-      case 'set-users':
-        $('#set-users-table').DataTable().search($(this).val()).draw();
-        break;
-      case 'set-logss':
-        $('#set-logss-table').DataTable().search($(this).val()).draw();
-        break;
+    // Populate DataTable if table id is present
+    for (i = 0; i < ar_tables.length; i++) {
+      if ( $( ar_tables[i] ).length ) {
+        $( ar_tables[i] ).DataTable({
+          "aLengthMenu": [
+            [5, 10, 15, -1],
+            [5, 10, 15, "All"]
+          ],
+          paging  : ar_paging[i],
+          bFilter : ar_filter[i],
+          bSort   : ar_sort[i],
+          bInfo   : ar_info[i],
+          "iDisplayLength": ar_dlen[i],
+          "bLengthChange" : false,
+        });
+      }
+    }
 
-      // View Products
-      case 'view-products':
-        $('#view-prod-table').DataTable().search($(this).val()).draw();
-        break;
-      default:
-        console.log('Error seaching data!');
-        break;
+    // Search input
+    if ( $('input[name="data_search"]').length ) {
+      $('input[name="data_search"]').on('keyup', function () {
+        var s_value = $(this).attr('id');
+    
+        // Switch element id
+        switch (s_value) {
+          case 'pendings':
+            $('#pendings-table').DataTable().search($(this).val()).draw();
+            break;
+          case 'cancelled':
+            $('#cancelled-table').DataTable().search($(this).val()).draw();
+            break;
+          case 'list':
+            $('#list-table').DataTable().search($(this).val()).draw();
+            break;
+          case 'logs':
+            $('#logs-table').DataTable().search($(this).val()).draw();
+            break;
+          default:
+            break;
+        }
+      });
     }
   });
 })(jQuery);
