@@ -28,6 +28,8 @@ class Settings extends MY_Controller
     $data['logs']   = $this->Model_Log->get_logs();
     $data['recent'] = $this->Model_Booking->get_bookings( NULL, 'active' );
     $data['list']   = $this->Model_Booking->get_bookings( NULL, 'list' );
+    $data['years']  = $this->Model_Payment->get_years();
+    $data['months'] = $this->Model_Payment->get_months();
   
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );
@@ -44,6 +46,7 @@ class Settings extends MY_Controller
     $this->template->write_view( 'content', 'modals/modal_room' );
     $this->template->write_view( 'content', 'modals/modal_user' );
     $this->template->write_view( 'content', 'modals/modal_payment' );
+    $this->template->write_view( 'content', 'modals/modal_date' );
 
     // Additional JS
     $this->template->add_js( 'bh-assets/js/pages/page_room.js' );

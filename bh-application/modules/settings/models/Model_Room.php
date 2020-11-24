@@ -170,6 +170,7 @@ class Model_Room extends MY_Model
         
         // Minus available room
         if ( $this->db->simple_query( 'UPDATE `tbl_rooms` SET `room_available`=(SELECT `room_available` FROM `tbl_rooms` WHERE `room_id`='.$room_id.')-1 WHERE `room_id`='.$room_id.'' ) ) {
+          $this->Model_Log->add_log( log_lang( 'room' )['update'] );
           return true;
         }
       }
@@ -204,6 +205,7 @@ class Model_Room extends MY_Model
       
       $this->db->where( $this->room_id, $room_id );
       if ( $this->db->update( $this->table, $data ) ) {
+        $this->Model_Log->add_log( log_lang( 'room' )['update'] );
         return true;
       }
     }

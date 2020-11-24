@@ -8,6 +8,7 @@ class Boarder extends MY_Controller
 
     // Load models
     $this->load->model( 'booking/Model_Booking' );
+    $this->load->model( 'settings/Model_Payment' );
   }
 
 	/**
@@ -21,6 +22,8 @@ class Boarder extends MY_Controller
     $data['class']  = 'boarder';
     $data['recent'] = $this->Model_Booking->get_bookings( NULL, 'active' );
     $data['list']   = $this->Model_Booking->get_bookings( NULL, 'list' );
+    $data['years']  = $this->Model_Payment->get_years();
+    $data['months'] = $this->Model_Payment->get_months();
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );
@@ -36,6 +39,7 @@ class Boarder extends MY_Controller
     // Modal
     $this->template->write_view( 'content', 'modals/modal_boarder_details' );
     $this->template->write_view( 'content', 'modals/modal_payment' );
+    $this->template->write_view( 'content', 'modals/modal_date' );
 
     // Add JS 
     $this->template->add_js( 'bh-assets/js/pages/page_list.js' );

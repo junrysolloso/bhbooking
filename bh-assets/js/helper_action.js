@@ -20,6 +20,39 @@ $(document).ready(function () {
   //Initialize Select2 Elements
   $('.select2').select2({width: 'calc(100% - 65px)'});
 
+  /**
+   * VIEW REPORT
+   */
+  $('#form-report-month').submit(function(event){
+    event.preventDefault();
+    var month = $('select[name="report_month"]').val();
+    open( $('input#base_url').val() + 'report/payment?s=month&d=' + month );
+  });
+
+  $('#form-report-year').submit(function(event){
+    event.preventDefault();
+    var year = $('select[name="report_year"]').val();
+    if ( $('input[name="report_data"]').val() == 'year' ) {
+      open( $('input#base_url').val() + 'report/payment?s=year&d=' + year );
+    } else {
+      open( $('input#base_url').val() + 'report/boarder?d=' + year );
+    }
+  });
+
+  $('#report-boarder-list').on('click', function() {
+    $('input[name="report_data"]').val('boarder');
+    $('#report_year_modal').modal('show');
+  });
+
+  $('#report-month-btn').on('click', function() {
+    $('#report_month_modal').modal('show');
+  });
+
+  $('#report-year-btn').on('click', function() {
+    $('input[name="report_data"]').val('year');
+    $('#report_year_modal').modal('show');
+  });
+
   // No access
   $('.no-access').on('click', function(){
     swal({
@@ -29,7 +62,7 @@ $(document).ready(function () {
       dangerMode: true,
     })
   });
-  
+
   /**
    * DATABASE BACKUP
    */

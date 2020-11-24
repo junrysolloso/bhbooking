@@ -30,7 +30,7 @@
           if ( $row->user_status == 'active' ) {
             echo '<td><div class="d-flex align-items-center"><div class="border-indicator border-success mr-2"></div>'. ucfirst( $row->user_status ) .'</div></td>';
           } else {
-            echo '<td><div class="d-flex align-items-center"><div class="border-indicator border-danger mr-2"></div>'. ucfirst( $row->user_status ) .'</div></td>';
+            echo '<td><div class="d-flex align-items-center"><div class="border-indicator border-warning mr-2"></div>'. ucfirst( $row->user_status ) .'</div></td>';
           }
 
           echo '<td class="text-success"><div class="d-flex flex-column"><span class="mb-2 font-weight-medium">'. date_format ( date_create ( $row->book_date ), 'j M, Y' ) .'</span><small class="text-muted">'. date_format ( date_create ( $row->book_date ), 'H:i:s A' ) .'</small></div></td>';

@@ -70,7 +70,7 @@
                   </div>
                 </div>
                 <div class="col-12 pt-2">
-                  <input type="submit" name="pay_submit" value="Save Payment" class="btn btn-success submit-btn float-left">
+                  <input type="submit" name="pay_submit" value="Save Payment" class="btn btn-danger submit-btn float-left">
                 </div>
               </div>
             </form>

@@ -25,6 +25,7 @@ if( ! function_exists( 'log_lang' ) ) {
         'delete'  => 'Deleted Booking',
         'update'  => 'Updated Booking',
         'add'     => 'Added Booking',
+        'view'    => 'Viewed Booking',
         'confirm' => 'Confirmed Booking',
         'cancel'  => 'Cancelled Booking',
       ),

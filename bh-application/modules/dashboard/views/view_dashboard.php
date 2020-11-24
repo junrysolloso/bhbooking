@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" id="dashboard-print-data">
   <div class="col-12 border-bottom pb-4">
 
     <?php

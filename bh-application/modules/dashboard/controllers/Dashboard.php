@@ -24,6 +24,8 @@ class Dashboard extends MY_Controller
     $data['payments'] = $this->Model_Payment->get_payments( NULL, 'all' );
     $data['labels']   = $this->Model_Payment->get_yearly_total()[0];
     $data['totals']   = $this->Model_Payment->get_yearly_total()[1];
+    $data['years']    = $this->Model_Payment->get_years();
+    $data['months']   = $this->Model_Payment->get_months();
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );
@@ -38,6 +40,7 @@ class Dashboard extends MY_Controller
 
     // Modals
     $this->template->write_view( 'content', 'modals/modal_payment' );
+    $this->template->write_view( 'content', 'modals/modal_date' );
 
     // Add additional assests for this page
     $this->template->add_css( 'bh-assets/vendors/nouislider/nouislider.min.css' );

@@ -36,7 +36,7 @@ class Model_Payment extends MY_Model
   /**
    * GET PAYMENT
    */
-  public function get_payments( $id, $arg ) {
+  public function get_payments( $id, $arg, $date = NULL ) {
     if ( ! empty( $arg ) ) {
 
       switch ( $arg ) {
@@ -50,9 +50,27 @@ class Model_Payment extends MY_Model
         case 'all':
 
           // All
-          $this->db->select( '*' )->limit( 40 );
+          $this->db->select( '*' )->limit( 16 );
           $this->db->join( $this->relate_user_meta, '`tbl_payments`.`user_id`=`tbl_user_meta`.`user_id`' );
           $this->db->order_by( $this->pay_id, 'DESC' );
+          break;
+        case 'month':
+
+          // Monthly
+          if ( $date ) {
+            $this->db->select( '*' )->where( 'DATE_FORMAT(`pay_date`, "%M") =', $date );
+            $this->db->join( $this->relate_user_meta, '`tbl_payments`.`user_id`=`tbl_user_meta`.`user_id`' );
+            $this->db->order_by( $this->pay_date, 'DESC' );
+          }
+          break;
+        case 'year':
+
+          // Yearly
+          if ( $date ) {
+            $this->db->select( '*' )->where( 'DATE_FORMAT(`pay_date`, "%Y") =', $date );
+            $this->db->join( $this->relate_user_meta, '`tbl_payments`.`user_id`=`tbl_user_meta`.`user_id`' );
+            $this->db->order_by( $this->pay_date, 'DESC' );
+          }
           break;
         default:
           break;
@@ -60,6 +78,7 @@ class Model_Payment extends MY_Model
       
       $query = $this->db->get( $this->table );
       if( $query ) {
+        $this->Model_Log->add_log( log_lang( 'payment' )['view'] );
         return $query->result();
       }
     }
@@ -112,6 +131,32 @@ class Model_Payment extends MY_Model
       if ( $query ) {
         return $query->result();
       }
+    }
+  }
+
+  /**
+   * GET YEARS
+   */
+  public function get_years() {
+    $this->db->select( 'DATE_FORMAT(`pay_date`, "%Y") AS `year`' )->distinct();
+    $this->db->order_by( $this->pay_date, 'ASC' );
+    $query = $this->db->get( $this->table );
+
+    if ( $query ) {
+      return $query->result();
+    }
+  }
+
+  /**
+   * GET MONTHS
+   */
+  public function get_months() {
+    $this->db->select( 'DATE_FORMAT(`pay_date`, "%M") AS `month`' )->distinct( '`month`' );
+    $this->db->order_by( $this->pay_date, 'ASC' );
+    $query = $this->db->get( $this->table );
+
+    if ( $query ) {
+      return $query->result();
     }
   }
 

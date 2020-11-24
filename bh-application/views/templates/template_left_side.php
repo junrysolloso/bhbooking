@@ -32,34 +32,32 @@
                 <i class="menu-icons mdi mdi-subtitles-outline"></i><span class="menu-title">Pay</span>
               </a>
             </div>
-            <!-- <div class="nav-item nav-category">REPORTS</div>
+            <div class="nav-item nav-category">REPORTS</div>
             <div class="nav-item">
-              <a href="<?php echo base_url(); ?>reports/boarders" class="nav-link">
-                <i class="menu-icons mdi mdi-account-circle-outline"></i><span class="menu-title">Boarders</span>
-              </a>
-            </div>
-            <div class="nav-item">
-              <a href="<?php echo base_url(); ?>reports/dues" class="nav-link">
-                <i class="menu-icons mdi mdi-briefcase-account-outline"></i><span class="menu-title">Dues</span>
+              <a href="#" class="nav-link no-access">
+                <i class="menu-icons mdi mdi-account-circle-outline"></i><span class="menu-title">Boarder</span>
               </a>
             </div>
             <div class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#resources-dropdown" aria-expanded="false" aria-controls="dashboard-dropdown">
                 <i class="menu-icons mdi mdi-content-duplicate"></i>
-                <span class="menu-title">Resources</span>
+                <span class="menu-title">Payments</span>
                 <i class="menu-arrow"></i>
               </a>
               <div class="collapse" id="resources-dropdown">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>reports/revenue">Revenue Reports</a>
+                    <a class="nav-link no-access" href="#">Recent</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>reports/annual">Annual Reports</a>
+                    <a class="nav-link no-access" href="#">Monthly</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link no-access" href="#">Yearly</a>
                   </li>
                 </ul>
               </div>
-            </div> -->
+            </div>
             <div class="nav-item nav-category">GLOBAL</div>
             <div class="nav-item">
               <a href="#" class="nav-link no-access">
@@ -85,8 +83,8 @@
             </div>
             <div class="nav-item nav-category">REPORTS</div>
             <div class="nav-item">
-              <a href="<?php echo base_url(); ?>reports/boarders" class="nav-link">
-                <i class="menu-icons mdi mdi-account-circle-outline"></i><span class="menu-title">Boarders</span>
+              <a href="#" class="nav-link" id="report-boarder-list">
+                <i class="menu-icons mdi mdi-account-circle-outline"></i><span class="menu-title">Boarder</span>
               </a>
             </div>
             <div class="nav-item">
@@ -98,10 +96,13 @@
               <div class="collapse" id="resources-dropdown">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>reports/revenue">Monthly Reports</a>
+                    <a class="nav-link" href="<?php echo base_url(); ?>report/payment?s=recent" target="_blank">Recent</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url(); ?>reports/annual">Yearly Reports</a>
+                    <a class="nav-link" href="#" id="report-month-btn">Monthly</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" id="report-year-btn">Yearly</a>
                   </li>
                 </ul>
               </div>

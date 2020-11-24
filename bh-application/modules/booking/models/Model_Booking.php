@@ -34,6 +34,7 @@ class Model_Booking extends MY_Model
   public function booking_add( $data = [] ) {
     if ( is_array( $data ) && count( $data ) > 0 ) {
       if ( $this->db->insert( $this->table, $data ) ) {
+        $this->Model_Log->add_log( log_lang( 'booking' )['add'] );
         return true;
       }
     }
@@ -64,6 +65,7 @@ class Model_Booking extends MY_Model
       // Query
       $this->db->where( $this->book_id, $id );
       if ( $this->db->update( $this->table, $data ) ) {
+        $this->Model_Log->add_log( log_lang( 'booking' )['update'] );
         return true;
       }
     }
@@ -73,7 +75,7 @@ class Model_Booking extends MY_Model
    * GET BOOKING
    * @param string $arg
    */
-  public function get_bookings( $id, $arg ) {
+  public function get_bookings( $id, $arg, $date = NULL ) {
     if ( ! empty( $arg ) ) {
 
       $this->db->select( '*' );
@@ -96,6 +98,13 @@ class Model_Booking extends MY_Model
           $this->db->where( '`book_status` !=', 'pending' );
           $this->db->where( '`book_status` !=', 'cancelled' );
           break;
+        case 'year':
+          if ( $date ) {
+            $this->db->where( '`book_status` !=', 'pending' );
+            $this->db->where( '`book_status` !=', 'cancelled' );
+            $this->db->where( 'DATE_FORMAT(`book_arrival`, "%Y") =', $date );
+          }
+          break;
         default:
           break;
       }
@@ -108,6 +117,7 @@ class Model_Booking extends MY_Model
       
       // Check query
       if ( $query ) {
+        $this->Model_Log->add_log( log_lang( 'booking' )['view'] );
         return $query->result();
       }
     }

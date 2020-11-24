@@ -42,6 +42,8 @@ class Booking extends MY_Controller
     $data['pendings'] = $this->Model_Booking->get_bookings( NULL, 'pending' );
     $data['recent']   = $this->Model_Booking->get_bookings( NULL, 'active' );
     $data['list']     = $this->Model_Booking->get_bookings( NULL, 'list' );
+    $data['years']    = $this->Model_Payment->get_years();
+    $data['months']   = $this->Model_Payment->get_months();
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );
@@ -56,6 +58,7 @@ class Booking extends MY_Controller
 
     // Modals
     $this->template->write_view( 'content', 'modals/modal_payment' );
+    $this->template->write_view( 'content', 'modals/modal_date' );
 
     // Add JS 
     $this->template->add_js( 'bh-assets/js/pages/page_booking.js' );
@@ -88,6 +91,7 @@ class Booking extends MY_Controller
 
     // Modals
     $this->template->write_view( 'content', 'modals/modal_payment' );
+    $this->template->write_view( 'content', 'modals/modal_date' );
 
 		$this->template->render();
   }
