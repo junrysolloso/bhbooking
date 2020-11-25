@@ -1,8 +1,6 @@
 (function ($) {
   'use strict';
   $(function () {
-
-    var base_url = $('input#base_url').val();
     
     /**
      * CONFIRM BOOKING EVENT

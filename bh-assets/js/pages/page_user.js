@@ -6,7 +6,7 @@
     /**
      * LOCAL VARIABLES
      */
-    var url = $('input#base_url').val() + 'settings/user';
+    var url = base_url + 'settings/user';
 
     /**
      * ADD USER
@@ -205,7 +205,7 @@
         var tdata  = [];
 
         // Push data to the array
-        tdata.push( '<img class="profile-image rounded-circle img-sm" src="'+ $('input#base_url').val() +'bh-uploads/'+ val.user_photo +'"> '+ capitalize( val.user_fname ) );
+        tdata.push( '<img class="profile-image rounded-circle img-sm" src="'+ base_url +'bh-uploads/'+ val.user_photo +'"> '+ capitalize( val.user_fname ) );
         tdata.push( val.user_phone );
         tdata.push( '<span class="text-warning">' + capitalize( val.login_level ) + '</span>' );
         tdata.push( '<span class="text-info">' + capitalize( val.login_name ) + '</span>' );

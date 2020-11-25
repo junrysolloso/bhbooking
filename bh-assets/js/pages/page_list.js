@@ -17,7 +17,7 @@
       })
       .then(( value ) => {
         if ( value ) { 
-          $.post( $('input#base_url').val() + 'settings/user', { mark_uid: $(this).attr('u-id'), mark_bid: $(this).attr('b-id') } ).done(function(data){
+          $.post( base_url + 'settings/user', { mark_uid: $(this).attr('u-id'), mark_bid: $(this).attr('b-id') } ).done(function(data){
             if ( data.msg == 'success' ) {
               // Hide modal
               $('#boarder_details').modal('hide');
@@ -63,7 +63,7 @@
     $('input[name="mark_complete"]').attr('u-id', obj.attr('u-id') );
     $('input[name="mark_complete"]').attr('b-id', obj.attr('b-id') );
 
-    $('#booker-photo').attr('src', $('input#base_url').val() + '/bh-uploads/' + obj.attr('b-photo') );
+    $('#booker-photo').attr('src', base_url + '/bh-uploads/' + obj.attr('b-photo') );
     $('#boarder-status').text( obj.attr('b-status') );
     $('#boarder-active').text( obj.attr('b-arrival') );
 
@@ -77,7 +77,7 @@
     }
 
     // Send request to the server
-    $.post( $('input#base_url').val() + 'settings/list-payments', { user_id:  obj.attr('u-id') } ).done(function( data ) {
+    $.post( base_url + 'settings/list-payments', { user_id:  obj.attr('u-id') } ).done(function( data ) {
         
       // Show modal
       $('#boarder_details').modal('show');

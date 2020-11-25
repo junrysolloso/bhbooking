@@ -155,3 +155,8 @@ const capitalize = (str, lower = false) => (lower ? str.toLowerCase() : str).rep
  * @param {string} str 
  */
 const trim_whitespace = (str) => str.replace(/\s/g,'');
+
+/**
+ * BASE URL
+ */
+const base_url = $('input#base_url').val();

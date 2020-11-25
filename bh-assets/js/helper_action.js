@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  
+
   // Reset icon size
   $('input').closest('.input-group').find('.mdi').addClass('mdi-18px');
   $('select').closest('.input-group').find('.mdi').addClass('mdi-18px');
@@ -26,16 +26,16 @@ $(document).ready(function () {
   $('#form-report-month').submit(function(event){
     event.preventDefault();
     var month = $('select[name="report_month"]').val();
-    open( $('input#base_url').val() + 'report/payment?s=month&d=' + month );
+    open( base_url + 'report/payment/?s=month&d=' + month );
   });
 
   $('#form-report-year').submit(function(event){
     event.preventDefault();
     var year = $('select[name="report_year"]').val();
     if ( $('input[name="report_data"]').val() == 'year' ) {
-      open( $('input#base_url').val() + 'report/payment?s=year&d=' + year );
+      open( base_url + 'report/payment/?s=year&d=' + year );
     } else {
-      open( $('input#base_url').val() + 'report/boarder?d=' + year );
+      open( base_url + 'report/boarder/?d=' + year );
     }
   });
 
@@ -67,7 +67,7 @@ $(document).ready(function () {
    * DATABASE BACKUP
    */
   $('#db-backup').on('click', function() {
-    $.post( $('input#base_url').val() + 'backup', { backup: 'Db Backup' } ).done( function( data ) {
+    $.post( base_url + 'backup', { backup: 'Db Backup' } ).done( function( data ) {
 
       // Get server response
       if ( data.msg == 'success' ) {
@@ -89,7 +89,7 @@ $(document).ready(function () {
   
           // Fire the callback
           if ( value ) {
-            open( $('input#base_url').val() + 'bh-backup/' + data.file );
+            open( base_url + 'bh-backup/' + data.file );
           } else {
             swal.close();
           }
@@ -170,7 +170,7 @@ $(document).ready(function () {
     }
 
     if ( data_checker(data) ) {
-      $.post( $('input#base_url').val() + 'settings/add-payment', data ).done(function(data) {
+      $.post( base_url + 'settings/add-payment', data ).done(function(data) {
 
         // Show message
         switch (data.msg) {
