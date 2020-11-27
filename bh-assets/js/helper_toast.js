@@ -127,7 +127,7 @@ input_icon = function (obj) {
 
   // loop through all the input fields
   obj.each(function () {
-    if (obj.val().length > 0) {
+    if ((obj.val()).length > 0) {
       obj.closest('.input-group').find('.mdi').removeClass('mdi-close-circle-outline');
       obj.closest('.input-group').find('.input-group-text').removeClass('text-danger');
 
