@@ -163,13 +163,13 @@ class Model_Room extends MY_Model
         $beds = $this->db->select( '`room_equiv` AS `equiv`' )->where( $this->room_id, $room_id )->get( $this->table )->row()->equiv;
         
         // Add available room
-        if ( $this->db->simple_query( 'UPDATE `tbl_rooms` SET `room_available`=(SELECT `room_available` FROM `tbl_rooms` WHERE `room_id`='.$room_id.')+1 WHERE `room_id`='.$room_id.' && `room_available` < '.$beds.'' ) ) {
+        if ( $this->db->simple_query( 'UPDATE `tbl_rooms` SET `room_available`=(`room_available` + 1) WHERE `room_id`='.$room_id.' && `room_available` < '.$beds.'' ) ) {
           return true;
         }
       } else {
         
         // Minus available room
-        if ( $this->db->simple_query( 'UPDATE `tbl_rooms` SET `room_available`=(SELECT `room_available` FROM `tbl_rooms` WHERE `room_id`='.$room_id.')-1 WHERE `room_id`='.$room_id.'' ) ) {
+        if ( $this->db->simple_query( 'UPDATE `tbl_rooms` SET `room_available`=(`room_available` - 1) WHERE `room_id`='.$room_id.'' ) ) {
           $this->Model_Log->add_log( log_lang( 'room' )['update'] );
           return true;
         }
