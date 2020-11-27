@@ -6,7 +6,7 @@
      /**
      * LOCAL VARIABLES
      */
-    var url = $('input#base_url').val() + 'settings/user';
+    var url = base_url + 'settings/user';
 
     $('#account-edit').on('click', function(){
       $('#account_modal').modal('show');
@@ -105,7 +105,7 @@
         if (callback) {
           
           // Send request to the server
-          $.post( $('input#base_url').val() + 'booking/update-status', data ).done(function( data ) {
+          $.post( base_url + 'booking/update-status', data ).done(function( data ) {
 
             // Populate table
             if ( data ) {
@@ -151,7 +151,7 @@
       }
 
       // Post data
-      $.post( $('input#base_url').val() + 'booking/book-me', data ).done( function() {
+      $.post( base_url + 'booking/book-me', data ).done( function() {
         
         // Show success message
         swal("Booking successfully added.", {

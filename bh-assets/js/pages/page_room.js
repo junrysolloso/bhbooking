@@ -6,7 +6,7 @@
     /**
      * LOCAL VARIABLES
      */
-    var url = $('input#base_url').val() + 'settings/room';
+    var url = base_url + 'settings/room';
 
     /**
      * ADD ROOM

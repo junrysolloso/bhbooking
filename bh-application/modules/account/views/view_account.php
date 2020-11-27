@@ -93,7 +93,7 @@
                       <thead>
                         <tr>
                           <th>NO.</th>
-                          <th>PAYMENT DATE</th>
+                          <th>MONTH PAID</th>
                           <th>PAYMENT AMOUNT</th>
                           <th>RECIEVED BY</th>
                         </tr>

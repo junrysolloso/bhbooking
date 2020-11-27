@@ -139,7 +139,7 @@ class Model_Payment extends MY_Model
    */
   public function get_years() {
     $this->db->select( 'DATE_FORMAT(`pay_date`, "%Y") AS `year`' )->distinct();
-    $this->db->order_by( $this->pay_date, 'ASC' );
+    $this->db->order_by( '`year`', 'ASC' );
     $query = $this->db->get( $this->table );
 
     if ( $query ) {
@@ -152,7 +152,7 @@ class Model_Payment extends MY_Model
    */
   public function get_months() {
     $this->db->select( 'DATE_FORMAT(`pay_date`, "%M") AS `month`' )->distinct( '`month`' );
-    $this->db->order_by( $this->pay_date, 'ASC' );
+    $this->db->order_by( '`month`', 'ASC' );
     $query = $this->db->get( $this->table );
 
     if ( $query ) {

@@ -23,18 +23,18 @@
           <?php if ( $this->session->userdata( 'user_rule' ) == 'user' ): ?>
             <div class="nav-item nav-category">BOARDERS</div>
               <div class="nav-item">
-              <a href="#" class="nav-link no-access">
+              <a href="javascript:void(0);" class="nav-link no-access">
                 <i class="menu-icons mdi mdi-view-list"></i><span class="menu-title">List</span>
               </a>
             </div>
             <div class="nav-item">
-              <a href="#" class="nav-link no-access">
+              <a href="javascript:void(0);" class="nav-link no-access">
                 <i class="menu-icons mdi mdi-subtitles-outline"></i><span class="menu-title">Pay</span>
               </a>
             </div>
             <div class="nav-item nav-category">REPORTS</div>
             <div class="nav-item">
-              <a href="#" class="nav-link no-access">
+              <a href="javascript:void(0);" class="nav-link no-access">
                 <i class="menu-icons mdi mdi-account-circle-outline"></i><span class="menu-title">Boarder</span>
               </a>
             </div>
@@ -47,25 +47,25 @@
               <div class="collapse" id="resources-dropdown">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <a class="nav-link no-access" href="#">Recent</a>
+                    <a class="nav-link no-access" href="javascript:void(0);">Recent</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link no-access" href="#">Monthly</a>
+                    <a class="nav-link no-access" href="javascript:void(0);">Monthly</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link no-access" href="#">Yearly</a>
+                    <a class="nav-link no-access" href="javascript:void(0);">Yearly</a>
                   </li>
                 </ul>
               </div>
             </div>
             <div class="nav-item nav-category">GLOBAL</div>
             <div class="nav-item">
-              <a href="#" class="nav-link no-access">
+              <a href="javascript:void(0);" class="nav-link no-access">
                 <i class="menu-icons mdi mdi-settings-outline"></i><span class="menu-title">Settings</span>
               </a>
             </div>
             <div class="nav-item">
-              <a href="#" class="nav-link no-access">
+              <a href="javascript:void(0);" class="nav-link no-access">
                 <i class="menu-icons mdi mdi-database-export"></i><span class="menu-title">Backup</span>
               </a>
             </div>
@@ -77,13 +77,13 @@
               </a>
             </div>
             <div class="nav-item">
-              <a href="#" id="payment" class="nav-link">
+              <a href="javascript:void(0);" id="payment" class="nav-link">
                 <i class="menu-icons mdi mdi-subtitles-outline"></i><span class="menu-title">Pay</span>
               </a>
             </div>
             <div class="nav-item nav-category">REPORTS</div>
             <div class="nav-item">
-              <a href="#" class="nav-link" id="report-boarder-list">
+              <a href="javascript:void(0);" class="nav-link" id="report-boarder-list">
                 <i class="menu-icons mdi mdi-account-circle-outline"></i><span class="menu-title">Boarder</span>
               </a>
             </div>
@@ -99,10 +99,10 @@
                     <a class="nav-link" href="<?php echo base_url(); ?>report/payment?s=recent" target="_blank">Recent</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" id="report-month-btn">Monthly</a>
+                    <a class="nav-link" href="javascript:void(0);" id="report-month-btn">Monthly</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" id="report-year-btn">Yearly</a>
+                    <a class="nav-link" href="javascript:void(0);" id="report-year-btn">Yearly</a>
                   </li>
                 </ul>
               </div>
@@ -114,7 +114,7 @@
               </a>
             </div>
             <div class="nav-item">
-              <a href="#" id="db-backup" class="nav-link">
+              <a href="javascript:void(0);" id="db-backup" class="nav-link">
                 <i class="menu-icons mdi mdi-database-export"></i><span class="menu-title">Backup</span>
               </a>
             </div>
@@ -142,7 +142,7 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item text-muted">
-                    <a class="text-muted" href="#"><i class="mdi mdi-home mr-2"></i>Home</a>
+                    <a class="text-muted" href="javascript:void(0);"><i class="mdi mdi-home mr-2"></i>Home</a>
                   </li>
                   <li class="breadcrumb-item active text-muted" aria-current="page"><?php echo ucfirst( strtolower( $title ) ); ?>
                   </li>

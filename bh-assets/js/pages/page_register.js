@@ -5,7 +5,7 @@
     /**
      * LOCAL VARIABLES
      */
-    var url     = $('input#base_url').val() + 'booking/add-booking';
+    var url     = base_url + 'booking/add-booking';
     var nav     = $( '.step-progress li' );
     var persons = 0;
     var datas   = [];
@@ -22,7 +22,7 @@
         }
 
         // Send request to the server
-        $.post( $('input#base_url').val() + 'booking/room', check).done( function( res ) {
+        $.post( base_url + 'booking/room', check).done( function( res ) {
 
           // If number of persons is less than the available beds
           if ( parseInt( res.beds ) >= parseInt( $( 'input[name="persons"]' ).val() ) ) {
@@ -49,7 +49,7 @@
               });
 
               $('body').delegate('.email', 'mouseleave', function() { 
-                exist_checker( $(this), $('input#base_url').val() + 'settings/user', 'email' );
+                exist_checker( $(this), base_url + 'settings/user', 'email' );
               });
             }
           } 
@@ -129,7 +129,7 @@
           });
 
           $('body').delegate('.username', 'mouseleave', function() { 
-            exist_checker( $(this), $('input#base_url').val() + 'settings/user', 'user' );
+            exist_checker( $(this), base_url + 'settings/user', 'user' );
           });
         }
       }

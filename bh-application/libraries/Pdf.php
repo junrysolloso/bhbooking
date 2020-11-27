@@ -7,7 +7,7 @@ class Pdf
 {
   function create_pdf( $html, $filename = '', $download = false, $paper = 'A4', $orientation = 'portrait' ) {
     
-    $dompdf = new Dompdf\DOMPDF();
+    $dompdf = new Dompdf\Dompdf();
     $dompdf->load_html( $html );
     $dompdf->set_paper( $paper, $orientation );
     $dompdf->render();
