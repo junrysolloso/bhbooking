@@ -77,6 +77,8 @@ class Booking extends MY_Controller
     $data['cancelled'] = $this->Model_Booking->get_bookings( NULL, 'cancelled' );
     $data['recent']    = $this->Model_Booking->get_bookings( NULL, 'active' );
     $data['list']      = $this->Model_Booking->get_bookings( NULL, 'list' );
+    $data['years']     = $this->Model_Payment->get_years();
+    $data['months']    = $this->Model_Payment->get_months();
 
     // Load template parts
     $this->template->set_master_template( 'layouts/layout_admin' );

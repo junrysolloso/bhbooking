@@ -46,11 +46,11 @@
                       </a>
                     </div>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a class="nav-link" href="#" data-toggle="dropdown" aria-expanded="false">
                       <i class="mdi mdi-chat-processing"></i>
                     </a>
-                  </li>
+                  </li> -->
                   <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
                     <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown"
                       aria-expanded="false">

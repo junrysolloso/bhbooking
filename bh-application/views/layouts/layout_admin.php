@@ -34,9 +34,6 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/vendors/js/vendor.bundle.base.min.js"></script>
 
     <!-- Plugins JS -->
-    <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/js/helper_nav.js"></script>
-
-
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/vendors/datatables.net/jquery.dataTables.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/vendors/inputmask/jquery.inputmask.bundle.min.js"></script>
@@ -44,6 +41,7 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/vendors/sweetalert/sweetalert.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/vendors/jquery-toast-plugin/jquery.toast.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/js/helper_dateformat.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/js/helper_nav.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/js/helper_toast.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>bh-assets/js/helper_notify.js"></script>
 
