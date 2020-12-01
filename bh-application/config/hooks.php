@@ -12,8 +12,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-$hook['pre_system'] = array(
-	'function' => 'load_whoops',
-	'filename' => 'whoops.php',
-	'filepath' => 'hooks'
+$hook['display_override'][] = array(
+  'class' => '',
+  'function' => 'minifier',
+  'filename' => 'minifier.php',
+  'filepath' => 'hooks'
 );
