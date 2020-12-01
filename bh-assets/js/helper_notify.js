@@ -105,7 +105,7 @@
     if ( c_count > 0 ) {
       desktop_notify("You have " + c_count + " cancelled booking(s).");
     }
-  }, 18000);
+  }, 43200);
 
   setInterval(() => {
     if ( b_count > 0 ) {

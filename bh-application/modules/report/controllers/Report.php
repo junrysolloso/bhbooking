@@ -48,6 +48,7 @@ class Report extends MY_Controller
       
       $request = $this->input->get( 's' );
       $date    = $this->input->get( 'd' );
+      $year    = $this->input->get( 'y' );
 
       if ( ! empty( $this->input->get( 's' ) ) || ! empty( $this->input->get( 'd' ) ) ) {
         $data['title'] = 'Payments Report';
@@ -58,8 +59,8 @@ class Report extends MY_Controller
             $data['payments'] = $this->Model_Payment->get_payments( NULL, 'all' );
             break;
           case 'month':
-            $data['page_title'] = $date .' '. date( 'Y' ) .' Payment Report';
-            $data['payments'] = $this->Model_Payment->get_payments( NULL, 'month', $date );
+            $data['page_title'] = $date .' '. $year .' Payment Report';
+            $data['payments'] = $this->Model_Payment->get_payments( NULL, 'month', $date, $year );
             break;
           case 'year':
             $data['page_title'] = 'Year '. $date .' Payment Report';

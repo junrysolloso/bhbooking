@@ -13,9 +13,29 @@
                     <label for="report_month">Choose Month</label>
                     <div class="input-group">
                       <select type="text" name="report_month" class="form-control select2" id="report_month" data-room-select-id="0" tabindex="-1" aria-hidden="true">
+                        <option value="">Select</option>
                         <?php $c = 0; foreach ( $months as $row ) {
                           if ( $row->month != '' ) {
                             echo '<option value="'. strtolower( $row->month ) .'" data-room-select-id="'. $c .'">'. ucwords( $row->month ) .'</option>';
+                          }
+                          $c++;
+                        }?>
+                      </select>
+                      <div class="input-group-append">
+                        <span class="input-group-text text-success">
+                          <i class="mdi mdi-check-circle-outline mdi-18px"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="report_month_year">Choose Year</label>
+                    <div class="input-group">
+                      <select type="text" name="report_month_year" class="form-control select2" id="report_month_year" data-room-select-id="0" tabindex="-1" aria-hidden="true">
+                        <option value="">Select</option>
+                        <?php $c = 0; foreach ( $years as $row ) {
+                          if ( intval( $row->year ) != 0 ) {
+                            echo '<option value="'. $row->year .'" data-room-select-id="'. $c .'">'. $row->year .'</option>';
                           }
                           $c++;
                         }?>
@@ -57,6 +77,7 @@
                     <div class="input-group">
                       <input type="hidden" name="report_data">
                       <select type="text" name="report_year" class="form-control select2" id="report_year" data-room-select-id="0" tabindex="-1" aria-hidden="true">
+                        <option value="">Select</option>
                         <?php $c = 0; foreach ( $years as $row ) {
                           if ( intval( $row->year ) != 0 ) {
                             echo '<option value="'. $row->year .'" data-room-select-id="'. $c .'">'. $row->year .'</option>';

@@ -22,7 +22,7 @@ date_default_timezone_set( 'Asia/Manila' );
 | environments.
 |
 */
-$config['base_url'] = 'http://localhost/bhbooking/';
+$config['base_url'] = '//localhost/bhbooking/';
 
 /*
 |--------------------------------------------------------------------------
@@ -100,7 +100,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------

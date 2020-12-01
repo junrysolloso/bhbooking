@@ -26,7 +26,8 @@ $(document).ready(function () {
   $('#form-report-month').submit(function(event){
     event.preventDefault();
     var month = $('select[name="report_month"]').val();
-    open( base_url + 'report/payment/?s=month&d=' + month );
+    var year  = $('select[name="report_month_year"]').val();
+    open( base_url + 'report/payment/?s=month&d=' + month + '&y=' + year);
   });
 
   $('#form-report-year').submit(function(event){

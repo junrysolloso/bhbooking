@@ -36,7 +36,7 @@ class Model_Payment extends MY_Model
   /**
    * GET PAYMENT
    */
-  public function get_payments( $id, $arg, $date = NULL ) {
+  public function get_payments( $id, $arg, $date = NULL, $year = NULL ) {
     if ( ! empty( $arg ) ) {
 
       switch ( $arg ) {
@@ -58,7 +58,7 @@ class Model_Payment extends MY_Model
 
           // Monthly
           if ( $date ) {
-            $this->db->select( '*' )->where( 'DATE_FORMAT(`pay_date`, "%M") =', $date );
+            $this->db->select( '*' )->where( 'DATE_FORMAT(`pay_date`, "%M") =', $date )->where( 'DATE_FORMAT(`pay_date`, "%Y") =', $year );
             $this->db->join( $this->relate_user_meta, '`tbl_payments`.`user_id`=`tbl_user_meta`.`user_id`' );
             $this->db->order_by( $this->pay_date, 'DESC' );
           }
@@ -151,7 +151,7 @@ class Model_Payment extends MY_Model
    * GET MONTHS
    */
   public function get_months() {
-    $this->db->select( 'DATE_FORMAT(`pay_date`, "%M") AS `month`' )->distinct( '`month`' );
+    $this->db->select( 'DATE_FORMAT(`pay_date`, "%M") AS `month`' )->distinct();
     $this->db->order_by( '`month`', 'ASC' );
     $query = $this->db->get( $this->table );
 
