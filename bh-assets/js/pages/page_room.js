@@ -16,52 +16,70 @@
       // Prevent form from submition
       event.preventDefault();
 
-      // Get field values
-      var data  = {
-        room_name  : $('input[name="room_name"]').val(),
-        room_equiv : $('input[name="room_equiv"]').val(),
-        room_desc  : $('input[name="room_desc"]').val(),
-        room_add   : $('input[name="room_submit"]').val(),
-        room_rate  : $('input[name="room_rate"]').val(),
-      }
+      var fd = new FormData( document.getElementById('form-room') );
+      fd.append("photo", "WEBUPLOAD");
+      $.ajax({
+        url: base_url + "settings/upload_photo",
+        type: "POST",
+        data: fd,
+        processData: false,  
+        contentType: false
+      }).done(function( data ) {
 
-        // Parameter to check
-        var check = {
-          value      : $('input[name="room_name"]').val(),
-          room_check : 'Check',
-        }
-  
-        // Check data
-        $.post( url, check ).done( function( res ) {
-          if ( res.msg == 'none' ) {
-            if ( data_checker( data ) ) {
-        
-              // Send data to the server
-              $.post( url, data ).fail( function() {
+        if (data.msg == 'failed') {
+          showErrorToast( 'Error uploading photo. Please upload only less than 1MB.' );
+        } else {
 
-                // Show error message
-                showErrorToast( 'Error executing command.' );
-
-              } ).done( function( data ) {
-
-                // Show success message
-                showSuccessToast( 'Room successfully added.' );
-      
-                // Re-populate table
-                room_table_draw( data );
-      
-                // Reset form
-                $('#form-room').trigger('reset');
-      
-                // Reset input icons
-                input_icon_reset();
-      
-              } );
-            }
-          } else {
-            showWarningToast( 'Room already exist.' );
+          // Get field values
+          var data  = {
+            room_name  : $('input[name="room_name"]').val(),
+            room_equiv : $('input[name="room_equiv"]').val(),
+            room_desc  : $('input[name="room_desc"]').val(),
+            room_add   : $('input[name="room_submit"]').val(),
+            room_rate  : $('input[name="room_rate"]').val(),
+            room_photo : data.msg,
           }
-        });
+
+          // Parameter to check
+          var check = {
+            value      : $('input[name="room_name"]').val(),
+            room_check : 'Check',
+          }
+
+          // Check data
+          $.post( url, check ).done( function( res ) {
+            if ( res.msg == 'none' ) {
+              if ( data_checker( data ) ) {
+          
+                // Send data to the server
+                $.post( url, data ).fail( function() {
+
+                  // Show error message
+                  showErrorToast( 'Error executing command.' );
+                  console.log(data);
+
+                } ).done( function( data ) {
+
+                  // Show success message
+                  showSuccessToast( 'Room successfully added.' );
+        
+                  // Re-populate table
+                  room_table_draw( data );
+        
+                  // Reset form
+                  $('#form-room').trigger('reset');
+        
+                  // Reset input icons
+                  input_icon_reset();
+        
+                } );
+              }
+            } else {
+              showWarningToast( 'Room already exist.' );
+            }
+          });
+        }
+      });
     });
 
     /**
@@ -72,44 +90,61 @@
       // Prevent form from submition
       event.preventDefault();
 
-      // Get field values
-      var data  = {
-        room_id    : $('input[name="edit_room_id"]').val(),
-        room_name  : $('input[name="edit_room_name"]').val(),
-        room_equiv : $('input[name="edit_room_equiv"]').val(),
-        room_status: $('select[name="edit_room_status"]').val(),
-        room_desc  : $('input[name="edit_room_desc"]').val(),
-        room_rate  : $('input[name="edit_room_rate"]').val(),
-        room_update: $('input[name="edit_room_submit"]').val(),
-      }
+      var fd = new FormData( document.getElementById('room-update') );
+      fd.append("photo", "WEBUPLOAD");
+      $.ajax({
+        url: base_url + "settings/upload_photo",
+        type: "POST",
+        data: fd,
+        processData: false,  
+        contentType: false
+      }).done(function( data ) {
 
-      if ( data_checker( data ) ) {
+        if (data.msg == 'failed') {
+          showErrorToast( 'Error uploading photo. Please upload only less than 1MB.' );
+        } else {
 
-        // Send data to the server
-        $.post( url, data ).fail( function() {
-          
-          // Show error message
-          showErrorToast( 'Error executing command.' );
+          // Get field values
+          var data  = {
+            room_id    : $('input[name="edit_room_id"]').val(),
+            room_name  : $('input[name="edit_room_name"]').val(),
+            room_equiv : $('input[name="edit_room_equiv"]').val(),
+            room_status: $('select[name="edit_room_status"]').val(),
+            room_desc  : $('input[name="edit_room_desc"]').val(),
+            room_rate  : $('input[name="edit_room_rate"]').val(),
+            room_photo : data.msg,
+            room_update: $('input[name="edit_room_submit"]').val(),
+          }
 
-        } ).done( function( data ) {
-          
-          // Show success message
-          showSuccessToast( 'Room successfully updated.' );
+          if ( data_checker( data ) ) {
 
-          // Re-populate table
-          room_table_draw( data );
+            // Send data to the server
+            $.post( url, data ).fail( function() {
+              
+              // Show error message
+              showErrorToast( 'Error executing command.' );
 
-          // Hide modal
-          $( '#room_modal' ).modal( 'hide' );
+            } ).done( function( data ) {
+              
+              // Show success message
+              showSuccessToast( 'Room successfully updated.' );
 
-          // Reset form
-          $('#room-update').trigger('reset');
+              // Re-populate table
+              room_table_draw( data );
 
-          // Reset input icons
-          input_icon_reset();
+              // Hide modal
+              $( '#room_modal' ).modal( 'hide' );
 
-        } );
-      }
+              // Reset form
+              $('#room-update').trigger('reset');
+
+              // Reset input icons
+              input_icon_reset();
+
+            } );
+          }
+        }
+      });
     });
 
     /**
@@ -197,7 +232,7 @@
           tdata.push( '<span class="text-warning">'+ val.room_available +' Bed(s) Availabe </span>' );
         }
 
-        tdata.push( '<span class="room-details" r-id="'+ val.room_id +'" r-name="'+ capitalize( val.room_name ) +'" r-rate="'+ val.room_rate +'" r-desc="'+ capitalize( val.room_desc ) +'" r-equiv="'+ val.room_equiv +'" r-status="'+ capitalize( val.room_status ) +'" ><i class="mdi mdi-eye mdi-18px"></i> View</span>' );
+        tdata.push( '<span class="room-details" r-id="'+ val.room_id +'" r-img="'+ val.room_photo +'" r-name="'+ capitalize( val.room_name ) +'" r-rate="'+ val.room_rate +'" r-desc="'+ capitalize( val.room_desc ) +'" r-equiv="'+ val.room_equiv +'" r-status="'+ capitalize( val.room_status ) +'" ><i class="mdi mdi-eye mdi-18px"></i> View</span>' );
         
         count++;
         return tdata;
@@ -233,6 +268,9 @@
       $('input[name="edit_room_desc"]').val( obj.attr('r-desc') );
       $('input[name="edit_room_delete"]').attr( 'id', obj.attr('r-id') );
       $('input[name="edit_room_rate"]').val( obj.attr('r-rate') );
+
+      var img = base_url + 'bh-uploads/' + obj.attr('r-img');
+      $('#room_img').attr('src', img );
 
       if ( obj.attr('r-status') == 'Full' ) {
 

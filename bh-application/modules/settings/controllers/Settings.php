@@ -70,7 +70,7 @@ class Settings extends MY_Controller
           'room_name'       => strtolower( $this->input->post( 'room_name' ) ),
           'room_desc'       => strtolower( $this->input->post( 'room_desc' ) ),
           'room_rate'       => $this->input->post( 'room_rate' ),
-          'room_photo'      => 'room.jpg',
+          'room_photo'      => $this->input->post( 'room_photo' ),
           'room_status'     => strtolower( 'empty' ),
           'room_available'  => $this->input->post( 'room_equiv' ),
         );
@@ -83,7 +83,7 @@ class Settings extends MY_Controller
         if ( $response ) {
           
           // Send Response and exit
-          $this->_response( $response );
+          $this->_response( $response ); 
         }
       }
 
@@ -95,6 +95,7 @@ class Settings extends MY_Controller
           'room_equiv'  => $this->input->post( 'room_equiv' ),
           'room_status' => $this->input->post( 'room_status' ),
           'room_desc'   => $this->input->post( 'room_desc' ),
+          'room_photo'  => $this->input->post( 'room_photo' ),
           'room_rate'   => $this->input->post( 'room_rate' ),
         );
 
@@ -414,6 +415,39 @@ class Settings extends MY_Controller
       }
     } else {
       $this->_response( array( 'message' => 'Unknown request.' ) );
+    }
+  }
+
+  /**
+   * FILE UPLOAD
+   */
+  public function upload_photo() {
+
+    if ( $this->input->post('photo') ) {
+
+      $allowedExts = array("gif", "jpeg", "jpg", "png");
+      $temp = explode(".", $_FILES["photo"]["name"]);
+      $extension = end($temp);
+      
+      $name = md5(mt_rand(1000, 9999).date('h:m:s')) .'.'. $extension;
+
+      if ((($_FILES["photo"]["type"] == "image/gif")
+        || ($_FILES["photo"]["type"] == "image/jpeg")
+        || ($_FILES["photo"]["type"] == "image/jpg")
+        || ($_FILES["photo"]["type"] == "image/pjpeg")
+        || ($_FILES["photo"]["type"] == "image/x-png")
+        || ($_FILES["photo"]["type"] == "image/png"))
+        && ($_FILES["photo"]["size"] < 1000000)
+        && in_array($extension, $allowedExts)) {
+        if ($_FILES["photo"]["error"] > 0) {
+          $this->_response( array( 'msg' => 'failed' ) );
+        } else {
+          move_uploaded_file($_FILES["photo"]["tmp_name"],
+          "bh-uploads/" . $name);
+
+          $this->_response( array( 'msg' => $name ) );
+        }
+      } 
     }
   }
 

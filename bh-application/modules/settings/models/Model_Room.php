@@ -69,6 +69,7 @@ class Model_Room extends MY_Model
         'room_name'       => strtolower( $data['room_name'] ),
         'room_desc'       => strtolower( $data['room_desc'] ),
         'room_rate'       => strtolower( $data['room_rate'] ),
+        'room_photo'      => $data['room_photo'],
         'room_status'     => strtolower( $data['room_status'] ),
         'room_equiv'      => $data['room_equiv'],
         'room_available'  => $avail,

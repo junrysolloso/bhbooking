@@ -7,8 +7,11 @@
         <div class="card auto-form-wrapper rounded">
           <div class="card-body">
             <h4 class="card-title">ROOM DETAILS</h4>
-            <form action="#" method="post" id="room-update">
+            <form action="#" method="post" id="room-update" enctype="multipart/form-data">
               <div class="row">
+                <div class="col-12 text-center pb-4">
+                  <img id="room_img" style="height: 400px; width: 100%; object-fit: cover; border: 1px solid #cfd5db; border-radius: 6px;" />
+                </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label for="edit_room_name">Room Name</label>
@@ -74,6 +77,12 @@
                           <i class="mdi mdi-check-circle-outline mdi-18px"></i>
                         </span>
                       </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="edit_room_photo">Room Photo</label>
+                    <div class="input-group">
+                      <input type="file" name="photo" class="" id="edit_room_photo" required />
                     </div>
                   </div>
                 </div>

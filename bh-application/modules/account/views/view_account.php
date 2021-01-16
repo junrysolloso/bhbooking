@@ -24,6 +24,9 @@
                 <li class="nav-item">
                   <a class="nav-link" data-toggle="tab" href="#profile" aria-selected="false">Profile Details</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link badge badge-warning" data-toggle="tab" id="n-monhtly" aria-selected="false">Montly Payment ₱0.00</a>
+                </li>
                 <?php if ( ! $status  ): ?>
                   <li class="nav-item">
                     <a class="nav-link text-success" href="#" id="add-booking"><i class="mdi mdi-plus-circle-outline mdi-24px"></i></a>
@@ -40,8 +43,9 @@
                           <th>NO.</th>
                           <th>BOOKING DATE</th>
                           <th>ARRIVAL DATE</th>
-                          <th>BOOKING STATUS</th>
-                          <th>ROOM</th>
+                          <th>STATUS</th>
+                          <th>ROOM NAME</th>
+                          <th>PHOTO</th>
                           <th>ACTION</th>
                         </tr>
                       </thead>
@@ -53,7 +57,7 @@
                             echo '<td>'. $count .'</td>';
                             echo '<td class="text-success"><div class="d-flex flex-column"><span class="mb-2 font-weight-medium">'. date_format ( date_create ( $row->book_date ), 'j M, Y' ) .'</span><small class="text-muted">'. date_format ( date_create ( $row->book_date ), 'H:i:s A' ) .'</small></div></td>';
                             echo '<td class="text-info">'. date_format ( date_create ( $row->book_arrival ), 'j M, Y' ) .'</td>';
-                            
+
                             // Show date if cancelled
                             if ( $row->book_status == 'cancelled' ) {
                               echo '<td><div class="d-flex flex-column"><span class="mb-2 font-weight-medium text-danger">'. ucfirst( $row->book_status ) .'</span><small class="text-muted">'. date_format ( date_create ( $row->book_cancel ), 'j M, Y @ H:i:s A' ) .'</small></div></td>';
@@ -61,15 +65,18 @@
 
                               // Add text class
                               if ( $row->book_status == 'pending' ) { 
-                                $text_class = 'text-warning'; 
+                                $text_class = 'text-warning';
+                                $monhtly = 0;
                               } else { 
                                 $text_class = 'text-success'; 
+                                $monhtly = $row->room_rate;
                               }
 
-                              echo '<td class="'. $text_class .'">'. ucwords( $row->book_status ) .'</td>';
+                              echo '<td class="'. $text_class .'" id="booking-status" r-monthly="'. $monhtly .'">'. ucwords( $row->book_status ) .'</td>';
                             }
                             
                             echo '<td>'. ucwords( $row->room_name ) .'</td>';
+                            echo '<td><span class="room-photo-view" r-img="'. $row->room_photo .'"><i class="mdi mdi-eye mdi-18px"></i> View</span></td>';
 
                             // Show cancel button otherwise hide
                             if ( $row->book_status == 'pending' ) {

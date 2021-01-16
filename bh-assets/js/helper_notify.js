@@ -97,20 +97,20 @@
   }
 
   // Set interval
-  setInterval(() => {
-    post_n();
-  }, 18000);
+  // setInterval(() => {
+  //   post_n();
+  // }, 18000);
 
-  setInterval(() => {
-    if ( c_count > 0 ) {
-      desktop_notify("You have " + c_count + " cancelled booking(s).");
-    }
-  }, 43200);
+  // setInterval(() => {
+  //   if ( c_count > 0 ) {
+  //     desktop_notify("You have " + c_count + " cancelled booking(s).");
+  //   }
+  // }, 43200);
 
-  setInterval(() => {
-    if ( b_count > 0 ) {
-      desktop_notify("You have " + b_count + " new booking(s).");
-    }
-  }, 18000);
+  // setInterval(() => {
+  //   if ( b_count > 0 ) {
+  //     desktop_notify("You have " + b_count + " new booking(s).");
+  //   }
+  // }, 18000);
 
 })(jQuery);

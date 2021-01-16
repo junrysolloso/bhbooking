@@ -59,7 +59,7 @@ class Report extends MY_Controller
             $data['payments'] = $this->Model_Payment->get_payments( NULL, 'all' );
             break;
           case 'month':
-            $data['page_title'] = $date .' '. $year .' Payment Report';
+            $data['page_title'] = $date .' '. date( 'Y' ) .' Payment Report';
             $data['payments'] = $this->Model_Payment->get_payments( NULL, 'month', $date, $year );
             break;
           case 'year':

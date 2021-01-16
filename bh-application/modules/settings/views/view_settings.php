@@ -16,7 +16,7 @@
 <div class="tab-content tab-content-solid">
   <!-- start of room tab -->
   <div class="tab-pane fade show active" id="room" role="tabpanel">
-    <form action="#" method="post" id="form-room">
+    <form action="#" method="post" id="form-room" enctype="multipart/form-data">
       <div class="row">
         <div class="col-6">
           <div class="form-group">
@@ -45,8 +45,7 @@
             </div>
           </div>
         </div>
-
-        <div class="col-12">
+        <div class="col-6">
           <div class="form-group">
             <label for="room_rate">Room Monthly Rate</label>
             <div class="input-group">
@@ -58,6 +57,17 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="room_photo">Room Photo</label>
+            <div class="input-group">
+              <input type="file" name="photo" class="" id="room_photo" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
           <div class="form-group">
             <label for="room_desc">Room Description</label>
             <div class="input-group">
@@ -110,7 +120,7 @@
                 echo '<td class="text-warning">'. $row->room_available .' Bed(s) Availabe' .'</td>';
               }
               
-              echo '<td><span class="room-details" r-id="'. $row->room_id .'" r-rate="'. $row->room_rate .'" r-name="'. ucwords( $row->room_name ) .'" r-desc="'. ucwords( $row->room_desc ) .'" r-equiv="'. $row->room_equiv .'" r-status="'. ucwords( $row->room_status ) .'" ><i class="mdi mdi-eye mdi-18px"></i> View</span></td>';
+              echo '<td><span class="room-details" r-id="'. $row->room_id .'" r-img="'. $row->room_photo .'" r-rate="'. $row->room_rate .'" r-name="'. ucwords( $row->room_name ) .'" r-desc="'. ucwords( $row->room_desc ) .'" r-equiv="'. $row->room_equiv .'" r-status="'. ucwords( $row->room_status ) .'" ><i class="mdi mdi-eye mdi-18px"></i> View</span></td>';
               echo '</tr>';
               $count++;
             }

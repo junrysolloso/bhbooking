@@ -3,7 +3,7 @@
 
   $(function(){
 
-     /**
+     /** 
      * LOCAL VARIABLES
      */
     var url = base_url + 'settings/user';
@@ -166,6 +166,14 @@
       });
     });
 
+    $('.room-photo-view').on('click', function(){
+      var img = base_url + 'bh-uploads/' + $(this).attr('r-img');
+
+      $('#room_img').attr('src', img);
+      $('#room_photo_modal').modal('show');
+    });
+
+    $('#n-monhtly').text('Montly Payment ₱' + $('#booking-status').attr('r-monthly'));
     /**
      * CHANGE INPUT ICON ON KEYUP EVENT
      */

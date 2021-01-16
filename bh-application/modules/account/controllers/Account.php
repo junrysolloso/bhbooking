@@ -31,6 +31,7 @@ class Account extends MY_Controller
 
 		// Modals
 		$this->template->write_view( 'content', 'modals/modal_account_edit' );
+		$this->template->write_view( 'content', 'modals/modal_photo' );
 
 		$this->template->add_js( 'bh-assets/js/pages/page_account.js' );
 		$this->template->render();

@@ -49,7 +49,8 @@
   height: 100% !important;
 }
 
-.submit-btn {
+.submit-btn,
+.room-photo-view {
   cursor: pointer !important;
 }
 
