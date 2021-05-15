@@ -10,7 +10,7 @@ if( ! function_exists( 'credits' ) ) {
         echo '© Alex Boarding House';
         break;
       case 'cr':
-        echo 'Created with ❤ by Jessa Gonzaga';
+        echo 'Created with ❤ by Junry Solloso';
         break;
       default:
         return false;

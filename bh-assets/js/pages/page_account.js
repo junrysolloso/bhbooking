@@ -173,7 +173,7 @@
       $('#room_photo_modal').modal('show');
     });
 
-    $('#n-monhtly').text('Montly Payment ₱' + $('#booking-status').attr('r-monthly'));
+    $('#n-monhtly').text('Monthly Payment ₱' + $('#booking-status').attr('r-monthly'));
     /**
      * CHANGE INPUT ICON ON KEYUP EVENT
      */

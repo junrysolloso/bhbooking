@@ -11,6 +11,7 @@
     <canvas id="mixed-chart" height="800" style="display: block; height: 800px; width: 1732px;" width="1558"
       class="chartjs-render-monitor"></canvas>
     <div class="mr-5" id="mixed-chart-legend"></div>
+    
   </div>
   <div class="col-12 pt-4">
     <div class="d-flex justify-content-between align-items-center pb-4">
